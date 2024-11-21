@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="UnitStats" load_steps=2 format=3 uid="uid://cbxvjr65mkrlc"]
+
+[ext_resource type="Script" path="res://Scripts/UnitStats.gd" id="1_2by7g"]
+
+[resource]
+script = ExtResource("1_2by7g")
+unit_name = "Designer"
+unit_type = "worker_advanced"
+health = 40
+health_max = 40
+mana = 0
+mana_max = 0
+movement = 8
+damage_min = 3
+damage_max = 10
+rate_of_fire = 3
+hit_mod = 1
+hit_range = 0
+visibility = 1
+sight_range = 0
+special = "worker:expert, sapper:6"
+carry_item = 2
+armour = 0
+faction = "Shama'Li"

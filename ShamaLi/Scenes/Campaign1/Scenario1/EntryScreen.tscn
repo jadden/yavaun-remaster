@@ -1,0 +1,71 @@
+[gd_scene load_steps=2 format=3 uid="uid://ci4dh5kkqs2rn"]
+
+[ext_resource type="Script" path="res://ShamaLi/Scripts/Campaign1/Scenario1/EntryScreen.gd" id="1_i8hat"]
+
+[node name="EntryScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_i8hat")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -32.0
+offset_top = -31.0
+offset_right = 27.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(23, 23)
+color = Color(0.572549, 0.403922, 0.152941, 1)
+
+[node name="ViewScenarioGoal" type="Button" parent="."]
+layout_mode = 0
+offset_left = 809.0
+offset_top = 664.0
+offset_right = 964.0
+offset_bottom = 695.0
+text = "View Scenario Goal"
+
+[node name="PreviousRaceScreen" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1095.0
+offset_top = 621.0
+offset_right = 1264.0
+offset_bottom = 693.0
+text = "Previous screen"
+
+[node name="BontasPlainTitle" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_right = 740.0
+offset_bottom = 67.0
+text = "Bonta's Plain"
+
+[node name="BontasPlainLore" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 62.0
+offset_right = 1228.0
+offset_bottom = 212.0
+text = "Bonta's Plain stretches across vast lands where the gentle herds of bontas roam freely, basking in peace and harmony. This serene landscape is more than just grazing ground; it holds deep spiritual significance for the Shama'Li. Here, the finest mounts are nurtured, embodying both strength and grace. For the Shama'Li mercenaries, Bonta’s Plain is a sacred expanse where riders form profound bonds with their bontas, forging a connection that transcends mere ownership and reaches into the realms of kinship and trust."
+
+[node name="OhamaTitle" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = -2.0
+offset_top = 227.0
+offset_right = 738.0
+offset_bottom = 294.0
+text = "Ohama"
+
+[node name="OhamaLore" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 289.0
+offset_right = 1226.0
+offset_bottom = 439.0
+text = "Ohama, a quaint Shama'Li village, stands as a welcoming haven for travelers seeking rest and refuge. Nestled amidst the remnants of ancient ruins, it whispers tales of a bygone era long before the Rise of the Empire. The village derives its name from the once-great city that preceded it, lending an air of mystique and history. Scattered stone roads, remnants of the old world, weave through the plains, guiding those who traverse them with the echoes of forgotten paths and the enduring spirit of the Shama'Li people."
+
+[connection signal="pressed" from="ViewScenarioGoal" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="PreviousRaceScreen" to="." method="_on_previous_race_screen_pressed"]

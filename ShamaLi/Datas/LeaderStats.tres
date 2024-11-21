@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="UnitStats" load_steps=2 format=3 uid="uid://cojssbfq7teeu"]
+
+[ext_resource type="Script" path="res://Scripts/UnitStats.gd" id="1_xs1x4"]
+
+[resource]
+script = ExtResource("1_xs1x4")
+unit_name = "Shadow Dancer"
+unit_type = "leader"
+health = 115
+health_max = 115
+mana = 20
+mana_max = 50
+movement = 9
+damage_min = 5
+damage_max = 18
+rate_of_fire = 1
+hit_mod = 0
+hit_range = 0
+visibility = 4
+sight_range = 0
+special = "leader,must_not_die,spells"
+carry_item = 1
+armour = 1
+faction = "Shama'Li"

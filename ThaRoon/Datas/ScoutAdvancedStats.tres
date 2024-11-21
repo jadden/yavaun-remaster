@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="UnitStats" load_steps=2 format=3 uid="uid://c1glano3p5oby"]
+
+[ext_resource type="Script" path="res://Scripts/UnitStats.gd" id="1_t5l56"]
+
+[resource]
+script = ExtResource("1_t5l56")
+unit_name = "Assassin"
+unit_type = "scout_advanced"
+health = 50
+health_max = 50
+mana = 0
+mana_max = 0
+movement = 9
+damage_min = 4
+damage_max = 22
+rate_of_fire = 4
+hit_mod = 15
+hit_range = 8
+visibility = 3
+sight_range = 9
+special = ""
+carry_item = 1
+armour = 0
+faction = "Tha'Roon"

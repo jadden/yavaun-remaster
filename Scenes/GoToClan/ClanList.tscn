@@ -1,0 +1,33 @@
+[gd_scene load_steps=2 format=3 uid="uid://diqv11a5uyuo0"]
+
+[ext_resource type="Script" path="res://Scripts/GoToClan/ClanList.gd" id="1_i8gs1"]
+
+[node name="ClanList" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_i8gs1")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TitleLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Liste des clans"
+horizontal_alignment = 1
+
+[node name="ClanListScroll" type="ScrollContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(1280, 600)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/ClanListScroll"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(1280, 60)
+layout_mode = 2
+text = "Retour au menu"

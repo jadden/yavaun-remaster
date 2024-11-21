@@ -1,0 +1,96 @@
+[gd_scene load_steps=2 format=3 uid="uid://cur4iso82iysq"]
+
+[sub_resource type="GDScript" id="GDScript_pj8io"]
+script/source = "extends Control
+
+# Références aux éléments UI
+# Unit
+@onready var unit_name_label = $InfoContainer/UnitNameLabel
+@onready var unit_health_bar = $InfoContainer/UnitHealthBar
+@onready var unit_mana_bar = $InfoContainer/UnitManaBar
+@onready var leader_icon = $InfoContainer/LeaderIcon
+@onready var custom_container = $InfoContainer/CustomContainer  # Conteneur pour les éléments spécifiques
+
+# Fonction pour mettre à jour l'UI avec une unité
+func update_unit_info(unit_instance):
+	if unit_instance:
+		# Mettre à jour les éléments de base
+		unit_name_label.text = unit_instance.unit_name
+		unit_health_bar.max_value = unit_instance.health_max
+		unit_health_bar.value = unit_instance.health
+		unit_mana_bar.max_value = unit_instance.mana_max
+		unit_mana_bar.value = unit_instance.mana
+		
+		# Mettre à jour l'icône de la race
+		leader_icon.texture = unit_instance.leader_icon  # Assurez-vous que l'unité a une variable race_icon
+		
+		# Charger des éléments spécifiques à la race
+		load_race_specific_ui(unit_instance.race)
+		
+		show()
+	else:
+		clear_info()
+		hide()
+
+# Fonction pour charger l'UI spécifique à la race
+func load_race_specific_ui(race_name):
+	# Nettoyer le conteneur avant d'ajouter de nouveaux éléments
+	custom_container.clear_children()
+	
+	# Charger la scène spécifique à la race
+	var race_ui_path = \"res://UI/Races/\" + race_name + \"UI.tscn\"
+	var race_ui = preload(race_ui_path).instance()
+	
+	# Ajouter la scène spécifique au conteneur
+	if race_ui:
+		custom_container.add_child(race_ui)
+		print(\"UI spécifique pour la race\", race_name, \"chargée.\")
+	else:
+		print(\"Erreur : UI spécifique pour la race\", race_name, \"introuvable.\")
+
+# Fonction pour effacer l'UI
+func clear_info():
+# Unit infos
+	unit_name_label.text = \"\"
+	unit_health_bar.value = 0
+	unit_mana_bar.value = 0
+	leader_icon.texture = null
+	custom_container.clear_children()
+"
+
+[node name="UnitInfoUI" type="CanvasLayer"]
+script = SubResource("GDScript_pj8io")
+
+[node name="UnitHealthBar" type="ProgressBar" parent="."]
+offset_left = 1075.0
+offset_top = 596.0
+offset_right = 1252.0
+offset_bottom = 623.0
+scale = Vector2(1, 0.4)
+
+[node name="LeaderIcon" type="TextureRect" parent="."]
+offset_left = 1057.0
+offset_top = 1.0
+offset_right = 1282.0
+offset_bottom = 1.0
+
+[node name="UnitNameLabel" type="Label" parent="."]
+offset_left = 1078.0
+offset_top = 446.0
+offset_right = 1252.0
+offset_bottom = 469.0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="UnitManaBar" type="ProgressBar" parent="."]
+offset_left = 1078.0
+offset_top = 612.0
+offset_right = 1254.0
+offset_bottom = 639.0
+scale = Vector2(1, 0.4)
+
+[node name="BackgroundContainer" type="VBoxContainer" parent="."]
+offset_left = 1057.0
+offset_top = 1.0
+offset_right = 1282.0
+offset_bottom = 721.0

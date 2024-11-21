@@ -1,0 +1,29 @@
+# Godot 4+ specific ignores
+.godot/
+
+# Godot-specific
+.import/
+export.cfg
+export_presets.cfg
+*.import
+
+# System files
+.DS_Store
+Thumbs.db
+*.bak
+*.tmp
+
+# Build folders
+bin/
+build/
+
+# IDE-specific
+.idea/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Logs and temporary files
+*.log

@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="UnitStats" load_steps=2 format=3 uid="uid://b26rwghd5a5qc"]
+
+[ext_resource type="Script" path="res://Scripts/UnitStats.gd" id="1_4vqi3"]
+
+[resource]
+script = ExtResource("1_4vqi3")
+unit_name = "Architect"
+unit_type = "worker_advanced"
+health = 35
+health_max = 35
+mana = 0
+mana_max = 0
+movement = 8
+damage_min = 2
+damage_max = 9
+rate_of_fire = 3
+hit_mod = 0
+hit_range = 0
+visibility = 1
+sight_range = 3
+special = "worker:expert,sapper:6"
+carry_item = 2
+armour = 0
+faction = "Tha'Roon"

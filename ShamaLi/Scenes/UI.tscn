@@ -1,0 +1,55 @@
+[gd_scene load_steps=4 format=3 uid="uid://b6uqfi7rkr1c2"]
+
+[ext_resource type="Script" path="res://ShamaLi/Scripts/UI.gd" id="1_5y4jw"]
+[ext_resource type="Texture2D" uid="uid://d2ppx1hijpq1m" path="res://ShamaLi/Assets/UI/main_ui.png" id="1_n3aid"]
+[ext_resource type="Texture2D" uid="uid://sl1mk1j0nnsf" path="res://ShamaLi/Assets/UI/bottom_bar.png" id="2_eflqi"]
+
+[node name="UI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_5y4jw")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RightUI" type="TextureRect" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 3
+texture = ExtResource("1_n3aid")
+
+[node name="BottomBar" type="TextureRect" parent="VBoxContainer"]
+z_index = 1
+layout_mode = 2
+texture = ExtResource("2_eflqi")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="UnitName" type="Label" parent="Panel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="HealthBar" type="ProgressBar" parent="Panel"]
+layout_mode = 0
+offset_right = 4.0
+offset_bottom = 27.0
+
+[node name="ManaBar" type="ProgressBar" parent="Panel"]
+layout_mode = 0
+offset_right = 4.0
+offset_bottom = 27.0

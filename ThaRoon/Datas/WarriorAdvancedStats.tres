@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="UnitStats" load_steps=2 format=3 uid="uid://d37xtkqrxh4qn"]
+
+[ext_resource type="Script" path="res://Scripts/UnitStats.gd" id="1_o2mjk"]
+
+[resource]
+script = ExtResource("1_o2mjk")
+unit_name = "Destroyer"
+unit_type = "warrior_advanced"
+health = 75
+health_max = 75
+mana = 0
+mana_max = 0
+movement = 7
+damage_min = 4
+damage_max = 18
+rate_of_fire = 4
+hit_mod = 15
+hit_range = 6
+visibility = 1
+sight_range = 7
+special = ""
+carry_item = 1
+armour = 0
+faction = "Tha'Roon"

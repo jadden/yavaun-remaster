@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="UnitStats" load_steps=2 format=3 uid="uid://c8rjkvrmnj1l5"]
+
+[ext_resource type="Script" path="res://Scripts/UnitStats.gd" id="1_a0eht"]
+
+[resource]
+script = ExtResource("1_a0eht")
+unit_name = "Rogue"
+unit_type = "scout"
+health = 40
+health_max = 40
+mana = 0
+mana_max = 0
+movement = 8
+damage_min = 2
+damage_max = 20
+rate_of_fire = 0
+hit_mod = 10
+hit_range = 7
+visibility = 2
+sight_range = 8
+special = ""
+carry_item = 1
+armour = 0
+faction = "Tha'Roon"

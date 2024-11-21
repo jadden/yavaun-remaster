@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="UnitStats" load_steps=2 format=3 uid="uid://dbss4tmb3d3cm"]
+
+[ext_resource type="Script" path="res://Scripts/UnitStats.gd" id="1_080cw"]
+
+[resource]
+script = ExtResource("1_080cw")
+unit_name = "Grand Master"
+unit_type = "scout_advanced"
+health = 60
+health_max = 60
+mana = 25
+mana_max = 50
+movement = 10
+damage_min = 6
+damage_max = 16
+rate_of_fire = 3
+hit_mod = 15
+hit_range = 5
+visibility = 5
+sight_range = 6
+special = "spells"
+carry_item = 1
+armour = 1
+faction = ""

@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="UnitStats" load_steps=2 format=3 uid="uid://rcr3fdau65ei"]
+
+[ext_resource type="Script" path="res://Scripts/UnitStats.gd" id="1_iiugn"]
+
+[resource]
+script = ExtResource("1_iiugn")
+unit_name = "Defender"
+unit_type = "warrior"
+health = 60
+health_max = 60
+mana = 0
+mana_max = 0
+movement = 7
+damage_min = 6
+damage_max = 20
+rate_of_fire = 3
+hit_mod = 5
+hit_range = 3
+visibility = 1
+sight_range = 5
+special = ""
+carry_item = 1
+armour = 1
+faction = ""

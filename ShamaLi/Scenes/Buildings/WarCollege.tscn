@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://bap5pic6ngpc8"]
+
+[ext_resource type="PackedScene" uid="uid://dmsm60gp1u406" path="res://Scenes/Buildings/BaseBuilding.tscn" id="1_fb6of"]
+[ext_resource type="Script" path="res://ShamaLi/Scripts/Buildings/WarCollege.gd" id="2_hs2fb"]
+
+[node name="BaseBuilding" instance=ExtResource("1_fb6of")]
+script = ExtResource("2_hs2fb")

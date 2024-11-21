@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="UnitStats" load_steps=2 format=3 uid="uid://dbqbtqfjvpvfq"]
+
+[ext_resource type="Script" path="res://Scripts/UnitStats.gd" id="1_octpd"]
+
+[resource]
+script = ExtResource("1_octpd")
+unit_name = "Cavalier"
+unit_type = "mercenary"
+health = 55
+health_max = 55
+mana = 0
+mana_max = 0
+movement = 10
+damage_min = 3
+damage_max = 18
+rate_of_fire = 3
+hit_mod = 0
+hit_range = 0
+visibility = 1
+sight_range = 5
+special = ""
+carry_item = 1
+armour = 1
+faction = "Shama'Li"

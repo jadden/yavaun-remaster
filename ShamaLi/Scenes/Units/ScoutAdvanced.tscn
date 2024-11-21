@@ -1,0 +1,9 @@
+[gd_scene load_steps=4 format=3 uid="uid://ymcvhibnhlbk"]
+
+[ext_resource type="PackedScene" uid="uid://887341wdcjj0" path="res://Scenes/Units/BaseUnit.tscn" id="1_6y8n8"]
+[ext_resource type="Script" path="res://ShamaLi/Scripts/Units/ScoutAdvanced.gd" id="2_rldmd"]
+[ext_resource type="Resource" uid="uid://dbss4tmb3d3cm" path="res://ShamaLi/Datas/ScoutAdvancedStats.tres" id="3_rib2q"]
+
+[node name="BaseUnit" instance=ExtResource("1_6y8n8")]
+script = ExtResource("2_rldmd")
+stats = ExtResource("3_rib2q")

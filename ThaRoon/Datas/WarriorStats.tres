@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="UnitStats" load_steps=2 format=3 uid="uid://biuhpl667m2pr"]
+
+[ext_resource type="Script" path="res://Scripts/UnitStats.gd" id="1_xdyfu"]
+
+[resource]
+script = ExtResource("1_xdyfu")
+unit_name = "Executioner"
+unit_type = "warrior"
+health = 70
+health_max = 70
+mana = 0
+mana_max = 0
+movement = 8
+damage_min = 2
+damage_max = 16
+rate_of_fire = 3
+hit_mod = 15
+hit_range = 5
+visibility = 1
+sight_range = 6
+special = ""
+carry_item = 1
+armour = 0
+faction = "Tha'Roon"

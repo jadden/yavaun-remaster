@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://cw6tsq1sgb35s"]
+
+[ext_resource type="PackedScene" uid="uid://dq5n27v278dnv" path="res://ShamaLi/Scenes/Units/Leader.tscn" id="1_0a0n6"]
+[ext_resource type="Script" path="res://ShamaLi/Scripts/Campaign1/Scenario1/Map.gd" id="1_k254y"]
+[ext_resource type="PackedScene" uid="uid://bhlh8x8nd33s8" path="res://Scenes/UIManager.tscn" id="2_yeavn"]
+
+[node name="Map" type="Node2D"]
+script = ExtResource("1_k254y")
+
+[node name="UIManager" parent="." instance=ExtResource("2_yeavn")]
+
+[node name="UnitsContainer" type="Node2D" parent="."]
+
+[node name="Leader" parent="UnitsContainer" instance=ExtResource("1_0a0n6")]

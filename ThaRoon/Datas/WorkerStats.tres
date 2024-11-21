@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="UnitStats" load_steps=2 format=3 uid="uid://2h2pwxv4ugd4"]
+
+[ext_resource type="Script" path="res://Scripts/UnitStats.gd" id="1_5poly"]
+
+[resource]
+script = ExtResource("1_5poly")
+unit_name = "Servant"
+unit_type = "worker"
+health = 35
+health_max = 35
+mana = 0
+mana_max = 0
+movement = 7
+damage_min = 1
+damage_max = 8
+rate_of_fire = 3
+hit_mod = 0
+hit_range = 0
+visibility = 1
+sight_range = 3
+special = "worker:basic,sapper:5"
+carry_item = 1
+armour = 0
+faction = ""

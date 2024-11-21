@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="UnitStats" load_steps=2 format=3 uid="uid://chwgnwdfr3r62"]
+
+[ext_resource type="Script" path="res://Scripts/UnitStats.gd" id="1_xe6wj"]
+
+[resource]
+script = ExtResource("1_xe6wj")
+unit_name = "Rover"
+unit_type = "mercenary"
+health = 60
+health_max = 60
+mana = 0
+mana_max = 0
+movement = 10
+damage_min = 5
+damage_max = 10
+rate_of_fire = 4
+hit_mod = 0
+hit_range = 0
+visibility = 1
+sight_range = 5
+special = "e-unit"
+carry_item = 1
+armour = 0
+faction = "Tha'Roon"

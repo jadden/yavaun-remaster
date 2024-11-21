@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=3 uid="uid://ddkd16rrrochx"]
+
+[ext_resource type="Script" path="res://Scripts/Managers/SoundManager.gd" id="1_i7mdc"]
+[ext_resource type="AudioStream" uid="uid://cbss31bqhup6i" path="res://Assets/Sounds/click.wav" id="2_kjnxs"]
+[ext_resource type="AudioStream" uid="uid://daed6nw6i1e8u" path="res://Assets/Sounds/menu_race.wav" id="3_r67xk"]
+[ext_resource type="AudioStream" uid="uid://c6me830pyl3ym" path="res://Assets/Sounds/menu_choice.wav" id="4_d85yp"]
+
+[node name="Node" type="Node"]
+script = ExtResource("1_i7mdc")
+
+[node name="ClickSoundPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_kjnxs")
+
+[node name="ConfirmRacePlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_r67xk")
+
+[node name="MenuChoicePlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_d85yp")

@@ -1,0 +1,22 @@
+[gd_scene load_steps=6 format=3 uid="uid://dq5n27v278dnv"]
+
+[ext_resource type="PackedScene" uid="uid://887341wdcjj0" path="res://Scenes/Units/BaseUnit.tscn" id="1_yanbx"]
+[ext_resource type="Script" path="res://ShamaLi/Scripts/Units/Leader.gd" id="2_f8qk0"]
+[ext_resource type="Resource" uid="uid://cojssbfq7teeu" path="res://ShamaLi/Datas/LeaderStats.tres" id="3_p6xux"]
+[ext_resource type="Texture2D" uid="uid://d3voaue7m2prg" path="res://ShamaLi/Assets/Actors/Leader1/walk_down_1.png" id="3_tjpsk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yhw61"]
+size = Vector2(29, 28)
+
+[node name="BaseUnit" instance=ExtResource("1_yanbx")]
+script = ExtResource("2_f8qk0")
+stats = ExtResource("3_p6xux")
+
+[node name="Control" parent="." index="0"]
+texture = ExtResource("3_tjpsk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="1"]
+position = Vector2(73.5, 42)
+shape = SubResource("RectangleShape2D_yhw61")
+
+[node name="Visuals" type="Node2D" parent="." index="2"]

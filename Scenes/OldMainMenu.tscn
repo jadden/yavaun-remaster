@@ -1,0 +1,88 @@
+[gd_scene load_steps=3 format=3 uid="uid://q4s36qjxxl0d"]
+
+[ext_resource type="Script" path="res://Scripts/Menus/OldMainMenu.gd" id="1_n5eeu"]
+[ext_resource type="Texture2D" uid="uid://dxyyix3ccv1n7" path="res://Assets/Backgrounds/Yavaun2.webp" id="3_vyg60"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_n5eeu")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Button_NewGameButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Button_LoadGameButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Button_Options" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Button_Quit" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = -104.0
+offset_top = -259.0
+offset_right = 1902.0
+offset_bottom = 1769.0
+texture = ExtResource("3_vyg60")
+expand_mode = 1
+
+[node name="ThaRoon" type="Button" parent="."]
+layout_mode = 0
+offset_left = 734.0
+offset_top = -5.0
+offset_right = 954.0
+offset_bottom = 215.0
+tooltip_text = "Campagne Tha'Roon"
+text = "Campagne Tha'Roon"
+
+[node name="Obblinox" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1009.0
+offset_top = 363.0
+offset_right = 1229.0
+offset_bottom = 583.0
+tooltip_text = "Campagne Obblinox"
+text = "Campagne Obblinox"
+
+[node name="Eaggra" type="Button" parent="."]
+layout_mode = 0
+offset_left = 752.0
+offset_top = 244.0
+offset_right = 972.0
+offset_bottom = 464.0
+tooltip_text = "Campagne Eaggra"
+text = "Campagne Eaggra"
+
+[node name="ShamaLi" type="Button" parent="."]
+layout_mode = 0
+offset_left = 472.0
+offset_top = 259.0
+offset_right = 692.0
+offset_bottom = 479.0
+tooltip_text = "Campagne Shama'Li"
+text = "Campagne Shama'Li"
+
+[node name="CustomGame" type="Button" parent="."]
+layout_mode = 0
+offset_left = 186.0
+offset_top = 294.0
+offset_right = 406.0
+offset_bottom = 514.0
+tooltip_text = "Campagne Shama'Li"
+text = "Carte Aléatoire"
+
+[connection signal="pressed" from="ThaRoon" to="." method="_on_tha_roon_pressed"]
+[connection signal="pressed" from="Obblinox" to="." method="_on_obblinox_pressed"]
+[connection signal="pressed" from="Eaggra" to="." method="_on_eaggra_pressed"]
+[connection signal="pressed" from="ShamaLi" to="." method="_on_shama_li_pressed"]
+[connection signal="pressed" from="CustomGame" to="." method="_on_custom_game_pressed"]

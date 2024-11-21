@@ -1,0 +1,61 @@
+[gd_scene load_steps=2 format=3 uid="uid://c7n7v1wwurrmt"]
+
+[ext_resource type="Script" path="res://ShamaLi/Scripts/Campaign1/Scenario1/ScenarioGoal.gd" id="1_2wmf8"]
+
+[node name="ScenarioGoal" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_2wmf8")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -32.0
+offset_top = -31.0
+offset_right = 27.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(23, 23)
+color = Color(0.572549, 0.403922, 0.152941, 1)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_right = 1203.0
+offset_bottom = 636.0
+text = "Bide you well these days of trial and hearken unto the spirit of the learned Shama'Li, for this we require of the devout clan :
+
+{clan_name}
+
+The long night of Tha'Roon rule nears its end. Yet before a new sun may rise, the darkest hours have yet to come. A Tha'Roon war party approaches the town of Ohama. The blindness they suffer allows them to see only enemies. Block their way, for the Tha'Roon are bent to destroy innocent and enemy alike. With neither a Guild House nor an Outpost, your task shall take grat resolve. It is rumored that a great Tha'Roon, sympathetic to our ways, is in the area.
+
+Hints :
+- Press F1 for help
+- Protect your Clan Leader. If your Clan Leader dies, the game is over.
+- Terrain, Road and Bio-Upgrades affect unit speed. Some units are faster than others.
+- Read the Scenario Goal. All buildings and units may not available in every scenario.
+- Presss the Escape Key to bring up the Options screen and/or Quit the game.
+
+Objective : Intercept and destroy the Tha'Roon forces to the north and northwest before they destroy the town. No technical facility (Guild House) or wal college (Outpost) in this scenario."
+
+[node name="PreviousRaceScreen" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1095.0
+offset_top = 621.0
+offset_right = 1264.0
+offset_bottom = 693.0
+text = "Previous screen"
+
+[node name="LaunchGame" type="Button" parent="."]
+layout_mode = 0
+offset_left = 37.0
+offset_top = 674.0
+offset_right = 162.0
+offset_bottom = 705.0
+text = "Start the Game
+"
+
+[connection signal="pressed" from="PreviousRaceScreen" to="." method="_on_previous_race_screen_pressed"]
+[connection signal="pressed" from="LaunchGame" to="." method="_on_launch_game_pressed"]

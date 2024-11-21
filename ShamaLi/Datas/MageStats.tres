@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="UnitStats" load_steps=2 format=3 uid="uid://counmcfra57qp"]
+
+[ext_resource type="Script" path="res://Scripts/UnitStats.gd" id="1_c02uw"]
+
+[resource]
+script = ExtResource("1_c02uw")
+unit_name = "Shaman"
+unit_type = "mage"
+health = 35
+health_max = 35
+mana = 30
+mana_max = 85
+movement = 5
+damage_min = 1
+damage_max = 8
+rate_of_fire = 3
+hit_mod = 0
+hit_range = 0
+visibility = 1
+sight_range = 7
+special = "spells"
+carry_item = 1
+armour = 0
+faction = "Shama'Li"

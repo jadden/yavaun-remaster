@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="UnitStats" load_steps=2 format=3 uid="uid://dvpfhf5xd3l81"]
+
+[ext_resource type="Script" path="res://Scripts/UnitStats.gd" id="1_o2cft"]
+
+[resource]
+script = ExtResource("1_o2cft")
+unit_name = "Disciple"
+unit_type = "scout"
+health = 55
+health_max = 55
+mana = 0
+mana_max = 0
+movement = 9
+damage_min = 4
+damage_max = 14
+rate_of_fire = 2
+hit_mod = 10
+hit_range = 4
+visibility = 3
+sight_range = 6
+special = ""
+carry_item = 1
+armour = 0
+faction = "Shama'Li"

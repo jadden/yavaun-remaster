@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="UnitStats" load_steps=2 format=3 uid="uid://cu0jpuaf1evbf"]
+
+[ext_resource type="Script" path="res://Scripts/UnitStats.gd" id="1_82e67"]
+
+[resource]
+script = ExtResource("1_82e67")
+unit_name = "Templar"
+unit_type = "warrior_advanced"
+health = 70
+health_max = 70
+mana = 0
+mana_max = 0
+movement = 7
+damage_min = 7
+damage_max = 25
+rate_of_fire = 4
+hit_mod = 10
+hit_range = 4
+visibility = 1
+sight_range = 5
+special = ""
+carry_item = 1
+armour = 2
+faction = "Shama'Li"

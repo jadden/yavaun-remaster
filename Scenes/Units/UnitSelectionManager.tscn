@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3 uid="uid://swnjxqb6jy6v"]
+
+[ext_resource type="Script" path="res://Scripts/Managers/UnitSelectionManager.gd" id="1_n5yaj"]
+
+[node name="UnitSelectionManager" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_n5yaj")
+
+[node name="SelectionRectangle" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Rectangle" type="ColorRect" parent="SelectionRectangle"]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(1, 1, 0.227451, 0.345098)

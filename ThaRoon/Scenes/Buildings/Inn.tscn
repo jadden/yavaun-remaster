@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://byftik2ks2mpx"]
+
+[ext_resource type="PackedScene" uid="uid://dmsm60gp1u406" path="res://Scenes/Buildings/BaseBuilding.tscn" id="1_o3qli"]
+[ext_resource type="Script" path="res://ThaRoon/Scripts/Buildings/Inn.gd" id="2_4khi1"]
+
+[node name="BaseBuilding" instance=ExtResource("1_o3qli")]
+script = ExtResource("2_4khi1")
