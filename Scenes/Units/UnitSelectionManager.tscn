@@ -1,6 +1,24 @@
-[gd_scene load_steps=2 format=3 uid="uid://swnjxqb6jy6v"]
+[gd_scene load_steps=5 format=3 uid="uid://swnjxqb6jy6v"]
 
 [ext_resource type="Script" path="res://Scripts/Managers/UnitSelectionManager.gd" id="1_n5yaj"]
+
+[sub_resource type="Animation" id="Animation_qwerj"]
+resource_name = "Pulse"
+loop_mode = 1
+step = 1.0
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_b0s02"]
+_data = {
+"Pulse": SubResource("Animation_qwerj")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uaid3"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.768627, 0, 1)
 
 [node name="UnitSelectionManager" type="Control"]
 layout_mode = 3
@@ -13,9 +31,15 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Rectangle" type="ColorRect" parent="SelectionRectangle"]
+[node name="SelectionAnimationPlayer" type="AnimationPlayer" parent="SelectionRectangle"]
+root_node = NodePath("")
+libraries = {
+"": SubResource("AnimationLibrary_b0s02")
+}
+
+[node name="Rectangle" type="Panel" parent="SelectionRectangle"]
 visible = false
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
-color = Color(1, 1, 0.227451, 0.345098)
+theme_override_styles/panel = SubResource("StyleBoxFlat_uaid3")

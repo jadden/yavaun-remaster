@@ -10,7 +10,7 @@ var selection_end: Vector2 = Vector2.ZERO
 var is_selecting: bool = false
 
 # Références aux nœuds de l'interface pour le rectangle de sélection
-@onready var selection_rectangle: ColorRect = $SelectionRectangle/Rectangle
+@onready var selection_rectangle: Panel = $SelectionRectangle/Rectangle
 
 func _ready():
 	# Assurez-vous que le rectangle de sélection est masqué au départ
