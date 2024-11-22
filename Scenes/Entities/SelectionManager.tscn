@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://swnjxqb6jy6v"]
 
-[ext_resource type="Script" path="res://Scripts/Managers/UnitSelectionManager.gd" id="1_n5yaj"]
-[ext_resource type="StyleBox" uid="uid://dms08w82u312n" path="res://RectangleSelection.tres" id="2_66m0q"]
+[ext_resource type="Script" path="res://Scripts/Managers/SelectionManager.gd" id="1_og3wa"]
+[ext_resource type="StyleBox" uid="uid://dms08w82u312n" path="res://RectangleSelection.tres" id="2_ydrxx"]
 
 [sub_resource type="Animation" id="Animation_qwerj"]
 resource_name = "Pulse"
@@ -25,10 +25,10 @@ _data = {
 "Pulse": SubResource("Animation_qwerj")
 }
 
-[node name="UnitSelectionManager" type="Control"]
+[node name="SelectionManager" type="Control"]
 layout_mode = 3
 anchors_preset = 0
-script = ExtResource("1_n5yaj")
+script = ExtResource("1_og3wa")
 
 [node name="SelectionRectangle" type="Control" parent="."]
 layout_mode = 3
@@ -46,6 +46,7 @@ libraries = {
 [node name="Rectangle" type="Panel" parent="SelectionRectangle"]
 visible = false
 self_modulate = Color(0.509804, 0.388235, 0, 1)
+layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
-theme_override_styles/panel = ExtResource("2_66m0q")
+theme_override_styles/panel = ExtResource("2_ydrxx")

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bpqpbf0fieofy"]
 
-[ext_resource type="PackedScene" uid="uid://887341wdcjj0" path="res://Scenes/Units/BaseUnit.tscn" id="1_h0jcc"]
+[ext_resource type="PackedScene" uid="uid://887341wdcjj0" path="res://Scenes/Entities/BaseUnit.tscn" id="1_h0jcc"]
 [ext_resource type="Script" path="res://ThaRoon/Scripts/Units/Leader.gd" id="2_w3r3o"]
 
 [node name="BaseUnit" instance=ExtResource("1_h0jcc")]

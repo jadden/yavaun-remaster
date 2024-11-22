@@ -1,4 +1,5 @@
 extends Node2D
+class_name BaseBuilding
 
 var building_name = ""
 var health = 500

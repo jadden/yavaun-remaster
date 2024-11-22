@@ -1,8 +1,10 @@
 extends Control
+class_name SelectionManager
 
-# Gestion des unités
+# Gestion des entités
 var units: Array = []
-var selected_units: Array = []
+var buildings: Array = []
+var selected_entities: Array = []
 
 # Gestion de la sélection
 var selection_start: Vector2 = Vector2.ZERO
@@ -29,21 +31,25 @@ func _ready():
 	# Vérification et masquage des nœuds
 	_hide_ui_elements()
 
-	# Initialisation des unités
-	var units_container = get_node_or_null("../RaceSpecificUI/UI/UnitsContainer")
-	if units_container:
-		initialize(units_container)
+	# Initialisation des entités
+	var entities_container = get_node_or_null("../RaceSpecificUI/UI/EntitiesContainer")
+	if entities_container:
+		initialize(entities_container)
 	else:
-		print("Erreur : UnitsContainer introuvable.")
+		print("Erreur : EntitiesContainer introuvable.")
 
-func initialize(units_container: Node):
-	# Initialise les unités à partir du conteneur donné
+func initialize(entities_container: Node):
+	# Initialise les entités à partir du conteneur donné
 	units.clear()
-	selected_units.clear()
-	for unit in units_container.get_children():
-		if unit is BaseUnit:
-			unit.set_selected(false)
-			units.append(unit)
+	buildings.clear()
+	selected_entities.clear()
+	for entity in entities_container.get_children():
+		if entity is BaseUnit:
+			entity.set_selected(false)
+			units.append(entity)
+		elif entity is BaseBuilding:
+			entity.set_selected(false)
+			buildings.append(entity)
 
 func _input(event: InputEvent):
 	handle_input(event)
@@ -61,7 +67,7 @@ func _handle_mouse_button_input(event: InputEventMouseButton):
 		else:
 			end_selection()
 	elif event.button_index == MOUSE_BUTTON_RIGHT and not event.pressed:
-		move_selected_units(event.position)
+		move_selected_entities(event.position)
 
 func start_selection(start_pos: Vector2):
 	selection_start = start_pos
@@ -78,26 +84,26 @@ func end_selection():
 	is_selecting = false
 	selection_rectangle.visible = false
 	var selection_rect = Rect2(selection_start, selection_end - selection_start).abs()
-	selected_units.clear()
+	selected_entities.clear()
 
-	for unit in units:
-		if selection_rect.has_point(unit.global_position):
-			unit.set_selected(true)
-			selected_units.append(unit)
+	for entity in units + buildings:
+		if selection_rect.has_point(entity.global_position):
+			entity.set_selected(true)
+			selected_entities.append(entity)
 		else:
-			unit.set_selected(false)
+			entity.set_selected(false)
 
 	update_ui_selection()
 
 func clear_selection():
-	for unit in selected_units:
-		unit.set_selected(false)
-	selected_units.clear()
+	for entity in selected_entities:
+		entity.set_selected(false)
+	selected_entities.clear()
 	update_ui_selection()
 
-func move_selected_units(target_position: Vector2):
-	for unit in selected_units:
-		unit.move_to(target_position)
+func move_selected_entities(target_position: Vector2):
+	for entity in selected_entities:
+		entity.move_to(target_position)
 
 func update_selection_rectangle():
 	var top_left = selection_start
@@ -114,29 +120,43 @@ func update_selection_rectangle():
 	selection_rectangle.size = rect_size
 
 func update_ui_selection():
-	if selected_units.size() == 1:
-		var selected_unit = selected_units[0]
-		unit_name_label.text = selected_unit.unit_name
-		unit_name_label.visible = true
-		health_bar.value = selected_unit.health
-		health_bar.max_value = selected_unit.health_max
-		health_bar.visible = true
-		mana_bar.value = selected_unit.mana
-		mana_bar.max_value = selected_unit.mana_max
-		mana_bar.visible = true
-	elif selected_units.size() > 1:
-		unit_name_label.text = str(selected_units.size()) + " unités sélectionnées"
+	if selected_entities.size() == 1:
+		var selected_entity = selected_entities[0]
+		if selected_entity is BaseUnit:
+			_update_unit_ui(selected_entity)
+		elif selected_entity is BaseBuilding:
+			_update_building_ui(selected_entity)
+	elif selected_entities.size() > 1:
+		unit_name_label.text = str(selected_entities.size()) + " entités sélectionnées"
 		unit_name_label.visible = true
 		health_bar.visible = false
 		mana_bar.visible = false
 	else:
 		_hide_ui_elements()
 
-func _on_unit_mouse_entered(unit_name: String):
-	help_label.text = "Type: " + unit_name
+func _update_unit_ui(unit: BaseUnit):
+	unit_name_label.text = unit.unit_name
+	unit_name_label.visible = true
+	health_bar.value = unit.health
+	health_bar.max_value = unit.health_max
+	health_bar.visible = true
+	mana_bar.value = unit.mana
+	mana_bar.max_value = unit.mana_max
+	mana_bar.visible = true
+
+func _update_building_ui(building: BaseBuilding):
+	unit_name_label.text = building.building_name
+	unit_name_label.visible = true
+	health_bar.value = building.health
+	health_bar.max_value = building.health_max
+	health_bar.visible = true
+	mana_bar.visible = false
+
+func _on_entity_mouse_entered(entity_name: String):
+	help_label.text = "Type: " + entity_name
 	help_panel.visible = true
 
-func _on_unit_mouse_exited():
+func _on_entity_mouse_exited():
 	help_panel.visible = false
 
 func _process(delta):

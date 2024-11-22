@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://vtjp27ymlr5l"]
 
-[ext_resource type="PackedScene" uid="uid://887341wdcjj0" path="res://Scenes/Units/BaseUnit.tscn" id="1_v6ygw"]
+[ext_resource type="PackedScene" uid="uid://887341wdcjj0" path="res://Scenes/Entities/BaseUnit.tscn" id="1_v6ygw"]
 [ext_resource type="Script" path="res://ShamaLi/Scripts/Units/WarriorAdvanced.gd" id="2_3givp"]
 [ext_resource type="Resource" uid="uid://cu0jpuaf1evbf" path="res://ShamaLi/Datas/WarriorAdvancedStats.tres" id="3_mtag1"]
 

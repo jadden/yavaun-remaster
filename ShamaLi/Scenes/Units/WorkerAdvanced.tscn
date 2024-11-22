@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://ckxjbudahdenn"]
 
-[ext_resource type="PackedScene" uid="uid://887341wdcjj0" path="res://Scenes/Units/BaseUnit.tscn" id="1_yd03h"]
+[ext_resource type="PackedScene" uid="uid://887341wdcjj0" path="res://Scenes/Entities/BaseUnit.tscn" id="1_yd03h"]
 [ext_resource type="Script" path="res://ShamaLi/Scripts/Units/WorkerAdvanced.gd" id="2_w5ruf"]
 [ext_resource type="Resource" uid="uid://cbxvjr65mkrlc" path="res://ShamaLi/Datas/WorkerAdvancedStats.tres" id="3_76cfd"]
 

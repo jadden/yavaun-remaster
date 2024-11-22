@@ -1,9 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://cu15bh70hww3l"]
+[gd_scene load_steps=3 format=3 uid="uid://cu15bh70hww3l"]
 
-[ext_resource type="PackedScene" uid="uid://887341wdcjj0" path="res://Scenes/Units/BaseUnit.tscn" id="1_jkp7q"]
 [ext_resource type="Script" path="res://ShamaLi/Scripts/Units/Mage.gd" id="2_a1hr3"]
 [ext_resource type="Resource" uid="uid://counmcfra57qp" path="res://ShamaLi/Datas/MageStats.tres" id="3_w4lgu"]
 
-[node name="BaseUnit" instance=ExtResource("1_jkp7q")]
+[node name="BaseUnit"]
 script = ExtResource("2_a1hr3")
 stats = ExtResource("3_w4lgu")
