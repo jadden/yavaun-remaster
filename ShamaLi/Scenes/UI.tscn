@@ -30,7 +30,6 @@ size_flags_vertical = 3
 texture = ExtResource("1_n3aid")
 
 [node name="BottomBar" type="TextureRect" parent="VBoxContainer"]
-z_index = 1
 layout_mode = 2
 texture = ExtResource("2_eflqi")
 
@@ -53,3 +52,15 @@ offset_bottom = 27.0
 layout_mode = 0
 offset_right = 4.0
 offset_bottom = 27.0
+
+[node name="HelpPanel" type="Panel" parent="."]
+visible = false
+layout_mode = 0
+offset_top = 692.0
+offset_right = 1259.0
+offset_bottom = 717.0
+
+[node name="HelpLabel" type="Label" parent="HelpPanel"]
+layout_mode = 0
+offset_right = 1257.0
+offset_bottom = 24.0

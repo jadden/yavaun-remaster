@@ -2,7 +2,7 @@ class_name GlobalMap
 extends Node
 
 @onready var unit_selection_manager: Control = $UI/UnitSelectionManager
-@onready var units_container: Node = $UnitsContainer  # Assurez-vous que ce chemin est correct
+@onready var units_container: Node = $GlobalMap/CurrentMap/Map/UnitsContainer 
 
 @export var current_map_container: Node
 @export var race_ui_container: Node
