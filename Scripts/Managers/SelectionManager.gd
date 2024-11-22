@@ -12,25 +12,15 @@ var selection_end: Vector2 = Vector2.ZERO
 var is_selecting: bool = false
 
 # Références aux nœuds de l'interface
-var selection_rectangle: Panel
-var unit_name_label: Label
-var health_bar: ProgressBar
-var mana_bar: ProgressBar
-var help_panel: Panel
-var help_label: Label
+@onready var selection_rectangle: Panel = $SelectionRectangle/Rectangle
+@onready var unit_name_label: Label = get_node_or_null("/root/GlobalMap/UI/RaceSpecificUI/UI/Panel/UnitName")
+@onready var health_bar: ProgressBar = get_node_or_null("/root/GlobalMap/UI/RaceSpecificUI/UI/Panel/HealthBar")
+@onready var mana_bar: ProgressBar = get_node_or_null("/root/GlobalMap/UI/RaceSpecificUI/UI/Panel/ManaBar")
+@onready var help_panel: Panel = get_node_or_null("/root/GlobalMap/UI/RaceSpecificUI/UI/HelpPanel")
+@onready var help_label: Label = get_node_or_null("/root/GlobalMap/UI/RaceSpecificUI/UI/HelpPanel/HelpLabel")
 
 func _ready():
-	# Initialisation des références
-	selection_rectangle = $SelectionRectangle/Rectangle
-	unit_name_label = get_node_or_null("/root/GlobalMap/UI/RaceSpecificUI/UI/Panel/UnitName")
-	health_bar = get_node_or_null("/root/GlobalMap/UI/RaceSpecificUI/UI/Panel/HealthBar")
-	mana_bar = get_node_or_null("/root/GlobalMap/UI/RaceSpecificUI/UI/Panel/ManaBar")
-	help_panel = get_node_or_null("/root/GlobalMap/UI/RaceSpecificUI/UI/HelpPanel")
-	help_label = get_node_or_null("/root/GlobalMap/UI/RaceSpecificUI/UI/HelpPanel/HelpLabel")
-
-	# Vérification et masquage des nœuds
 	_hide_ui_elements()
-
 	# Initialisation des entités
 	var entities_container = get_node_or_null("../RaceSpecificUI/UI/EntitiesContainer")
 	if entities_container:
@@ -39,7 +29,6 @@ func _ready():
 		print("Erreur : EntitiesContainer introuvable.")
 
 func initialize(entities_container: Node):
-	# Initialise les entités à partir du conteneur donné
 	units.clear()
 	buildings.clear()
 	selected_entities.clear()
@@ -50,6 +39,8 @@ func initialize(entities_container: Node):
 		elif entity is BaseBuilding:
 			entity.set_selected(false)
 			buildings.append(entity)
+		else:
+			print("Erreur : Entité inconnue détectée :", entity.name)
 
 func _input(event: InputEvent):
 	handle_input(event)
@@ -103,7 +94,8 @@ func clear_selection():
 
 func move_selected_entities(target_position: Vector2):
 	for entity in selected_entities:
-		entity.move_to(target_position)
+		if entity.has_method("move_to"):
+			entity.move_to(target_position)
 
 func update_selection_rectangle():
 	var top_left = selection_start
@@ -135,20 +127,26 @@ func update_ui_selection():
 		_hide_ui_elements()
 
 func _update_unit_ui(unit: BaseUnit):
-	unit_name_label.text = unit.unit_name
+	if not unit:
+		print("Erreur : Unité invalide.")
+		return
+	unit_name_label.text = unit.stats.unit_name
 	unit_name_label.visible = true
-	health_bar.value = unit.health
-	health_bar.max_value = unit.health_max
+	health_bar.value = unit.stats.health
+	health_bar.max_value = unit.stats.health_max
 	health_bar.visible = true
-	mana_bar.value = unit.mana
-	mana_bar.max_value = unit.mana_max
+	mana_bar.value = unit.stats.mana
+	mana_bar.max_value = unit.stats.mana_max
 	mana_bar.visible = true
 
 func _update_building_ui(building: BaseBuilding):
+	if not building:
+		print("Erreur : Bâtiment invalide.")
+		return
 	unit_name_label.text = building.building_name
 	unit_name_label.visible = true
 	health_bar.value = building.health
-	health_bar.max_value = building.health_max
+	health_bar.max_value = building.max_health
 	health_bar.visible = true
 	mana_bar.visible = false
 
