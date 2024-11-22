@@ -8,7 +8,11 @@ extends Control
 @onready var quit_button = $VBoxContainer/QuitButton
 
 func _ready():
-	MusicManager.play_music("main_menu")
+	# Vérifier si la musique "main_menu" est déjà active
+	if not MusicManager.is_music_playing("main_menu"):
+		MusicManager.play_music("main_menu")
+	
+	# Connecter les signaux des boutons
 	new_clan_button.pressed.connect(_on_NewClanButton_pressed)
 	go_to_clan_button.pressed.connect(_on_GoToClanButton_pressed)
 	options_button.pressed.connect(_on_OptionsButton_pressed)

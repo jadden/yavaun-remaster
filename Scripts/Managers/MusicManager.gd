@@ -19,11 +19,17 @@ var music_streams = {
 	"warcry_shamali": preload("res://Assets/Audio/16-Shama_Li-Warcry.ogg"),
 }
 
+var current_music: String = ""  # Stocke le nom de la musique actuellement jouée
+
 func play_music(music_name: String, loop: bool = true):
 	# Vérification initiale
-	print("Tentative de lecture de la musique :", music_name)
 	if not $MusicPlayer:
 		print("Erreur : MusicPlayer introuvable dans la scène.")
+		return
+
+	# Si la musique demandée est déjà en cours, ne rien faire
+	if is_music_playing(music_name):
+		print("La musique '", music_name, "' est déjà en lecture.")
 		return
 
 	# Vérifie si le nom de musique existe dans le dictionnaire
@@ -35,6 +41,7 @@ func play_music(music_name: String, loop: bool = true):
 
 		# Applique le flux de musique
 		$MusicPlayer.stream = music_stream
+		current_music = music_name
 		print("Musique définie : ", music_name)
 
 		# Configure la boucle si applicable
@@ -55,6 +62,12 @@ func stop_music():
 		return
 	print("Musique arrêtée.")
 	$MusicPlayer.stop()
+	current_music = ""  # Réinitialise la musique en cours
+
+func is_music_playing(music_name: String) -> bool:
+	# Vérifie si une musique spécifique est actuellement en cours de lecture
+	return current_music == music_name and $MusicPlayer.playing
 
 func _on_music_player_finished():
-	print("Musique arrêtée par événement 'finished'.")
+	print("Musique terminée :", current_music)
+	current_music = ""  # Réinitialise la musique en cours après la fin
