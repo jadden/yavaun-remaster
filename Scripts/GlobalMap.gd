@@ -55,7 +55,7 @@ func load_map(map_path: String, race: String):
 	current_map_container.add_child(map_instance)
 
 	# Initialiser UnitSelectionManager avec les unités
-	var units_container = map_instance.get_node("Units")
+	var units_container = map_instance.get_node("UnitsContainer")
 	if units_container:
 		unit_selection_manager.initialize(units_container)
 	else:

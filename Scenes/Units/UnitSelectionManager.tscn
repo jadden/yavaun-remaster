@@ -1,24 +1,30 @@
 [gd_scene load_steps=5 format=3 uid="uid://swnjxqb6jy6v"]
 
 [ext_resource type="Script" path="res://Scripts/Managers/UnitSelectionManager.gd" id="1_n5yaj"]
+[ext_resource type="StyleBox" uid="uid://dms08w82u312n" path="res://RectangleSelection.tres" id="2_66m0q"]
 
 [sub_resource type="Animation" id="Animation_qwerj"]
 resource_name = "Pulse"
+length = 2.0
 loop_mode = 1
 step = 1.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:theme_override_styles/panel:border_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.101054, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 0.768627, 0, 1), Color(0.509804, 0.388235, 0, 1), Color(1, 0.768627, 0, 1)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_b0s02"]
 _data = {
 "Pulse": SubResource("Animation_qwerj")
 }
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uaid3"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(1, 0.768627, 0, 1)
 
 [node name="UnitSelectionManager" type="Control"]
 layout_mode = 3
@@ -32,14 +38,15 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="SelectionAnimationPlayer" type="AnimationPlayer" parent="SelectionRectangle"]
-root_node = NodePath("")
+root_node = NodePath("../Rectangle")
+autoplay = "Pulse"
 libraries = {
 "": SubResource("AnimationLibrary_b0s02")
 }
 
 [node name="Rectangle" type="Panel" parent="SelectionRectangle"]
 visible = false
-layout_mode = 0
+self_modulate = Color(0.509804, 0.388235, 0, 1)
 offset_right = 40.0
 offset_bottom = 40.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_uaid3")
+theme_override_styles/panel = ExtResource("2_66m0q")
