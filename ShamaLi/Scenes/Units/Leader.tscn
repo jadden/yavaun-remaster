@@ -1,11 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://c15ojisxeonpx"]
+[gd_scene load_steps=5 format=3 uid="uid://c15ojisxeonpx"]
 
 [ext_resource type="PackedScene" uid="uid://887341wdcjj0" path="res://Scenes/Entities/BaseUnit.tscn" id="1_kfgrm"]
 [ext_resource type="Script" path="res://ShamaLi/Scripts/Units/Leader.gd" id="2_f8qk0"]
+[ext_resource type="Resource" uid="uid://cojssbfq7teeu" path="res://ShamaLi/Datas/LeaderStats.tres" id="3_kkm1w"]
 [ext_resource type="Texture2D" uid="uid://dqpjkfsqgtebc" path="res://ShamaLi/Assets/Actors/Leader1/action_down_1.png" id="4_74r1v"]
 
 [node name="BaseUnit" instance=ExtResource("1_kfgrm")]
 script = ExtResource("2_f8qk0")
+stats = ExtResource("3_kkm1w")
 
 [node name="Control" parent="." index="0"]
 position = Vector2(20, 20)
