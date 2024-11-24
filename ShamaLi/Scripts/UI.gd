@@ -1,9 +1,11 @@
 extends Control
 class_name ShamaLiUI
 
-@onready var unit_name_label = $Panel/UnitName  # Label pour le nom de l'entité
-@onready var health_bar = $Panel/HealthBar  # Barre de vie
-@onready var mana_bar = $Panel/ManaBar  # Barre de mana
+@onready var unit_name_label = $UnitName  # Label pour le nom de l'entité
+@onready var health_bar = $HealthBar  # Barre de vie
+@onready var mana_bar = $ManaBar  # Barre de mana
+@onready var help_panel = $HelpPanel  # Panneau d'aide
+@onready var help_label = $HelpPanel/HelpLabel  # Label pour le texte d'aide
 
 # Met à jour l'interface avec les données de l'unité sélectionnée
 func update_unit_info(unit: BaseUnit):
@@ -45,7 +47,21 @@ func clear_ui():
 	Réinitialise l'UI pour qu'aucune entité ne soit sélectionnée.
 	"""
 	unit_name_label.text = "Aucune entité sélectionnée"
+	unit_name_label.text = ""
 	health_bar.value = 0
 	health_bar.visible = false
 	mana_bar.value = 0
 	mana_bar.visible = false
+
+func update_help_panel(entity_name: String):
+	"""
+	Affiche le HelpPanel avec le nom de l'entité survolée.
+	"""
+	help_label.text = "Type: " + entity_name
+	help_panel.visible = true
+
+func clear_help_panel():
+	"""
+	Cache le HelpPanel.
+	"""
+	help_panel.visible = false

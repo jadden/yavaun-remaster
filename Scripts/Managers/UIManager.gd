@@ -1,4 +1,5 @@
 extends CanvasLayer
+class_name UIManager
 
 # Dictionnaire pour stocker les références aux UI des races
 var race_uis = {
@@ -78,3 +79,17 @@ func update_building_info(building: BaseBuilding):
 func clear_ui():
 	if current_ui_instance and current_ui_instance.has_method("clear_ui"):
 		current_ui_instance.clear_ui()
+
+func update_help_panel(entity_name: String):
+	"""
+	Met à jour le HelpPanel avec le nom de l'entité survolée.
+	"""
+	if current_ui_instance and current_ui_instance.has_method("update_help_panel"):
+		current_ui_instance.update_help_panel(entity_name)
+
+func clear_help_panel():
+	"""
+	Réinitialise le HelpPanel en le cachant.
+	"""
+	if current_ui_instance and current_ui_instance.has_method("clear_help_panel"):
+		current_ui_instance.clear_help_panel()
