@@ -4,7 +4,11 @@
 
 [node name="RaceScreen" type="Control"]
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_x72x8")
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -22,11 +26,13 @@ scale = Vector2(23, 23)
 color = Color(0.572549, 0.403922, 0.152941, 1)
 
 [node name="NewCampagn" type="Button" parent="."]
-layout_mode = 0
-offset_left = 164.0
-offset_top = 614.0
-offset_right = 333.0
-offset_bottom = 686.0
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -72.0
+offset_right = 169.0
+grow_vertical = 0
 text = "Begin New Campagn
 "
 
@@ -56,11 +62,16 @@ offset_bottom = 396.0
 text = "QuitGame"
 
 [node name="PreviousScreen" type="Button" parent="."]
-layout_mode = 0
-offset_left = 1095.0
-offset_top = 621.0
-offset_right = 1264.0
-offset_bottom = 693.0
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -169.0
+offset_top = -72.0
+grow_horizontal = 0
+grow_vertical = 0
 text = "Previous screen"
 
 [node name="InputsContainer" type="BoxContainer" parent="."]

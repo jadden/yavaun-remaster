@@ -4,7 +4,11 @@
 
 [node name="ScenarioGoal" type="Control"]
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_2wmf8")
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -22,9 +26,11 @@ scale = Vector2(23, 23)
 color = Color(0.572549, 0.403922, 0.152941, 1)
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
-layout_mode = 0
-offset_right = 1203.0
-offset_bottom = 636.0
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 399.0
+grow_horizontal = 2
 text = "Bide you well these days of trial and hearken unto the spirit of the learned Shama'Li, for this we require of the devout clan :
 
 {clan_name}
@@ -41,19 +47,26 @@ Hints :
 Objective : Intercept and destroy the Tha'Roon forces to the north and northwest before they destroy the town. No technical facility (Guild House) or wal college (Outpost) in this scenario."
 
 [node name="PreviousRaceScreen" type="Button" parent="."]
-layout_mode = 0
-offset_left = 1095.0
-offset_top = 621.0
-offset_right = 1264.0
-offset_bottom = 693.0
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -169.0
+offset_top = -72.0
+grow_horizontal = 0
+grow_vertical = 0
 text = "Previous screen"
 
 [node name="LaunchGame" type="Button" parent="."]
-layout_mode = 0
-offset_left = 37.0
-offset_top = 674.0
-offset_right = 162.0
-offset_bottom = 705.0
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -31.0
+offset_right = 125.0
+grow_vertical = 0
 text = "Start the Game
 "
 

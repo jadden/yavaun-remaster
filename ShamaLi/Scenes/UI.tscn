@@ -24,6 +24,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="RightUI" type="TextureRect" parent="VBoxContainer"]
+custom_minimum_size = Vector2(200, 2.08165e-12)
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 3
@@ -35,23 +36,43 @@ texture = ExtResource("2_eflqi")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 1722.0
+offset_top = 648.0
+offset_right = 1877.0
+offset_bottom = 914.0
 
 [node name="UnitName" type="Label" parent="Panel"]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 155.0
+offset_bottom = 37.0
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 1
 
 [node name="HealthBar" type="ProgressBar" parent="Panel"]
-layout_mode = 0
-offset_right = 4.0
-offset_bottom = 27.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -74.5
+offset_top = 91.0
+offset_right = 78.5
+offset_bottom = 118.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1, 0.45)
 
 [node name="ManaBar" type="ProgressBar" parent="Panel"]
 layout_mode = 0
-offset_right = 4.0
-offset_bottom = 27.0
+offset_left = 1.0
+offset_top = 250.0
+offset_right = 154.0
+offset_bottom = 277.0
+scale = Vector2(1, 0.45)
 
 [node name="HelpPanel" type="Panel" parent="."]
 visible = false

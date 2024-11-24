@@ -1,20 +1,22 @@
 class_name GlobalMap
 extends Node
 
-@onready var unit_selection_manager: Control = null
+@onready var unit_selection_manager: SelectionManager = null
 @onready var units_container: Node = null
 @export var current_map_container: Node = null
 @export var race_ui_container: Node = null
 
 func _ready():
-	# Assurer l'initialisation des nœuds
+	"""
+	Prépare les nœuds et configure la scène au démarrage.
+	"""
 	ensure_nodes_ready()
-
-	# Autres configurations si nécessaire
 	set_default_cursor()
 
 func ensure_nodes_ready():
-	# Vérifier l'existence des nœuds et les initialiser si nécessaires
+	"""
+	Vérifie et initialise les nœuds essentiels.
+	"""
 	if not current_map_container:
 		print("CurrentMap introuvable, création d'un nouveau nœud.")
 		current_map_container = Node2D.new()
@@ -27,29 +29,36 @@ func ensure_nodes_ready():
 		race_ui_container.name = "RaceSpecificUI"
 		add_child(race_ui_container)
 
+	unit_selection_manager = get_node_or_null("UI/UnitSelectionManager")
 	if not unit_selection_manager:
-		unit_selection_manager = get_node_or_null("UI/UnitSelectionManager")
-		if not unit_selection_manager:
-			print("UnitSelectionManager introuvable, création dynamique.")
-			unit_selection_manager = Control.new()
-			unit_selection_manager.name = "UnitSelectionManager"
-			add_child(unit_selection_manager)
+		print("UnitSelectionManager introuvable, création dynamique.")
+		unit_selection_manager = SelectionManager.new()
+		unit_selection_manager.name = "UnitSelectionManager"
+		add_child(unit_selection_manager)
 
-	# Retarder l'accès à `UnitsContainer` jusqu'à ce que la carte soit chargée
+	# Retarder l'initialisation du conteneur des unités
 	call_deferred("_initialize_units_container")
 
 func _initialize_units_container():
+	"""
+	Initialise les références pour les entités sur la carte.
+	"""
 	if current_map_container:
 		units_container = current_map_container.get_node_or_null("Map/EntitiesContainer")
 		if not units_container:
 			print("Erreur : EntitiesContainer introuvable dans CurrentMap.")
 		else:
 			print("EntitiesContainer trouvé :", units_container.name)
+			if unit_selection_manager and unit_selection_manager is SelectionManager:
+				unit_selection_manager.initialize(units_container)
 	else:
 		print("Erreur : CurrentMap introuvable au moment de l'initialisation.")
 
 func load_map(map_path: String, race: String):
-	clean_previous_scene()  # Nettoyer les éléments précédents
+	"""
+	Charge une nouvelle carte et configure l'interface.
+	"""
+	clean_previous_scene()
 	print("Chargement de la carte :", map_path, " pour la race :", race)
 
 	# Vérifier la validité des nœuds
@@ -85,23 +94,28 @@ func load_map(map_path: String, race: String):
 	# Configurer le curseur par défaut
 	set_default_cursor()
 
-# Fonction utilitaire pour libérer tous les enfants d'un nœud
 func free_children(node: Node):
+	"""
+	Supprime tous les enfants d'un nœud donné.
+	"""
 	for child in node.get_children():
 		child.queue_free()
 
-# Fonction utilitaire pour nettoyer une scène
 func clean_previous_scene():
+	"""
+	Nettoie les éléments non nécessaires de la scène actuelle.
+	"""
 	var root = get_tree().root
 	var singleton_names = ["MusicManager", "SoundManager", "PlayerData", "GameData", "ThemeManager"]
-	
 	for child in root.get_children():
 		if child != self and child.name not in singleton_names:
 			print("Suppression du nœud :", child.name)
 			child.queue_free()
 
-# Fonction pour définir le curseur par défaut sur la carte
 func set_default_cursor():
+	"""
+	Configure le curseur par défaut.
+	"""
 	var default_cursor_path = "res://Assets/UI/Cursors/select_1.png"
 	var default_cursor = load(default_cursor_path)
 	if default_cursor:

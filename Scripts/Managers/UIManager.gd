@@ -65,3 +65,16 @@ func change_cursor(race_name):
 		# Réinitialiser le curseur par défaut
 		Input.set_custom_mouse_cursor(null, Input.CURSOR_ARROW, Vector2.ZERO)
 		print("Curseur par défaut rétabli.")
+
+# Délégation des mises à jour d'UI
+func update_unit_info(unit: BaseUnit):
+	if current_ui_instance and current_ui_instance.has_method("update_unit_info"):
+		current_ui_instance.update_unit_info(unit)
+
+func update_building_info(building: BaseBuilding):
+	if current_ui_instance and current_ui_instance.has_method("update_building_info"):
+		current_ui_instance.update_building_info(building)
+
+func clear_ui():
+	if current_ui_instance and current_ui_instance.has_method("clear_ui"):
+		current_ui_instance.clear_ui()

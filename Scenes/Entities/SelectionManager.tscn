@@ -44,7 +44,6 @@ libraries = {
 }
 
 [node name="Rectangle" type="Panel" parent="SelectionRectangle"]
-visible = false
 self_modulate = Color(0.509804, 0.388235, 0, 1)
 layout_mode = 0
 offset_right = 40.0
