@@ -10,7 +10,7 @@ race_ui_container = NodePath("UI/RaceSpecificUI")
 
 [node name="UI" type="CanvasLayer" parent="."]
 
-[node name="UnitSelectionManager" parent="UI" instance=ExtResource("2_d5dnp")]
+[node name="SelectionManager" parent="UI" instance=ExtResource("2_d5dnp")]
 
 [node name="RaceSpecificUI" type="Control" parent="UI"]
 layout_mode = 3

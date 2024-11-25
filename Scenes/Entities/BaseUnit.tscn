@@ -3,21 +3,22 @@
 [ext_resource type="Script" path="res://Scripts/Entities/BaseUnit.gd" id="1_a7myu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_765k1"]
-size = Vector2(38, 37)
+size = Vector2(38, 38)
 
 [node name="BaseUnit" type="CharacterBody2D"]
 script = ExtResource("1_a7myu")
 
 [node name="Control" type="Sprite2D" parent="."]
 
-[node name="CollisionArea2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionArea2D"]
-position = Vector2(21.5, 20)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(19.5, 18)
 shape = SubResource("RectangleShape2D_765k1")
 
-[node name="SelectionBox" type="Control" parent="CollisionArea2D"]
+[node name="SelectionBox" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 0.5
+offset_right = 38.5
+offset_bottom = 37.0

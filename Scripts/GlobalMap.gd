@@ -29,7 +29,7 @@ func ensure_nodes_ready():
 		race_ui_container.name = "RaceSpecificUI"
 		add_child(race_ui_container)
 
-	unit_selection_manager = get_node_or_null("UI/UnitSelectionManager")
+	unit_selection_manager = get_node_or_null("UI/SelectionManager")
 	if not unit_selection_manager:
 		print("UnitSelectionManager introuvable, création dynamique.")
 		unit_selection_manager = SelectionManager.new()
