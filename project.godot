@@ -32,7 +32,6 @@ window/size/window_width_override=1900
 window/size/window_height_override=1080
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
-window/stretch/scale=2.0
 mouse_cursor/custom_image="res://Assets/UI/Cursors/cursor.png"
 
 [rendering]

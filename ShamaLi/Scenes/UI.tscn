@@ -1,8 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://b6uqfi7rkr1c2"]
+[gd_scene load_steps=6 format=3 uid="uid://b6uqfi7rkr1c2"]
 
 [ext_resource type="Script" path="res://ShamaLi/Scripts/UI.gd" id="1_5y4jw"]
 [ext_resource type="Texture2D" uid="uid://d2ppx1hijpq1m" path="res://ShamaLi/Assets/UI/main_ui.png" id="1_n3aid"]
 [ext_resource type="Texture2D" uid="uid://sl1mk1j0nnsf" path="res://ShamaLi/Assets/UI/bottom_bar.png" id="2_eflqi"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b1etn"]
+
+[sub_resource type="Theme" id="Theme_1w1p3"]
+ProgressBar/styles/background = SubResource("StyleBoxFlat_b1etn")
 
 [node name="UI" type="Control"]
 layout_mode = 3
@@ -22,6 +27,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = SubResource("Theme_1w1p3")
 
 [node name="RightUI" type="TextureRect" parent="VBoxContainer"]
 custom_minimum_size = Vector2(200, 2.08165e-12)
@@ -65,6 +71,7 @@ offset_bottom = 118.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(1, 0.45)
+show_percentage = false
 
 [node name="ManaBar" type="ProgressBar" parent="Panel"]
 layout_mode = 0

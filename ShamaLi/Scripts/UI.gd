@@ -1,11 +1,17 @@
 extends Control
 class_name ShamaLiUI
 
-@onready var unit_name_label = $UnitName  # Label pour le nom de l'entité
-@onready var health_bar = $HealthBar  # Barre de vie
-@onready var mana_bar = $ManaBar  # Barre de mana
+@onready var unit_panel = $Panel
+@onready var unit_name_label = $Panel/UnitName  # Label pour le nom de l'entité
+@onready var health_bar = $Panel/HealthBar  # Barre de vie
+@onready var mana_bar = $Panel/ManaBar  # Barre de mana
 @onready var help_panel = $HelpPanel  # Panneau d'aide
 @onready var help_label = $HelpPanel/HelpLabel  # Label pour le texte d'aide
+
+func _ready():
+	# Appliquer les couleurs dynamiques aux barres
+	ThemeManager.apply_bar_color(health_bar, ThemeManager.COLOR_HEALTH)
+	ThemeManager.apply_bar_color(mana_bar, ThemeManager.COLOR_MANA)
 
 # Met à jour l'interface avec les données de l'unité sélectionnée
 func update_unit_info(unit: BaseUnit):
@@ -16,6 +22,7 @@ func update_unit_info(unit: BaseUnit):
 		print("Erreur : Unité invalide.")
 		return
 
+	print("Mise à jour de l'UI avec l'unité :", unit.stats.unit_name)
 	unit_name_label.text = unit.stats.unit_name
 	health_bar.value = unit.stats.health
 	health_bar.max_value = unit.stats.health_max
@@ -34,6 +41,7 @@ func update_building_info(building: BaseBuilding):
 		print("Erreur : Bâtiment invalide.")
 		return
 
+	print("Mise à jour de l'UI avec le bâtiment :", building.building_name)
 	unit_name_label.text = building.building_name
 	health_bar.value = building.health
 	health_bar.max_value = building.max_health
@@ -46,8 +54,8 @@ func clear_ui():
 	"""
 	Réinitialise l'UI pour qu'aucune entité ne soit sélectionnée.
 	"""
+	print("Réinitialisation de l'UI.")
 	unit_name_label.text = "Aucune entité sélectionnée"
-	unit_name_label.text = ""
 	health_bar.value = 0
 	health_bar.visible = false
 	mana_bar.value = 0
@@ -57,6 +65,7 @@ func update_help_panel(entity_name: String):
 	"""
 	Affiche le HelpPanel avec le nom de l'entité survolée.
 	"""
+	print("Mise à jour du panneau d'aide avec :", entity_name)
 	help_label.text = "Type: " + entity_name
 	help_panel.visible = true
 
@@ -64,4 +73,5 @@ func clear_help_panel():
 	"""
 	Cache le HelpPanel.
 	"""
+	print("Réinitialisation du panneau d'aide.")
 	help_panel.visible = false
