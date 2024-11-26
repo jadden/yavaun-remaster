@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="UnitStats" load_steps=2 format=3 uid="uid://b0t6hgug0d482"]
+[gd_resource type="Resource" script_class="UnitStats" load_steps=3 format=3 uid="uid://b0t6hgug0d482"]
 
 [ext_resource type="Script" path="res://Scripts/Entities/UnitStats.gd" id="1_cclag"]
+[ext_resource type="Texture2D" uid="uid://cvnfboi6np52g" path="res://ShamaLi/Assets/Portraits/worker.png" id="2_oih3o"]
 
 [resource]
 script = ExtResource("1_cclag")
@@ -22,3 +23,5 @@ special = "worker:basic,sapper:5"
 carry_item = 2
 armour = 0
 faction = "Shama'Li"
+unit_image = ExtResource("2_oih3o")
+unit_sound_selection_path = "res://ShamaLi/Assets/Sounds/worker_selection.wav"
