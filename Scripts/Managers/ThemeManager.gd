@@ -24,10 +24,6 @@ const RACE_THEMES = {
 	}
 }
 
-# Couleurs globales pour les barres
-const COLOR_HEALTH = Color("#bec641")  # Jaune
-const COLOR_MANA = Color("#316fc7")  # Bleu
-
 # Références par défaut
 var default_theme: Theme = preload("res://Assets/UI/Theme.tres")
 var default_cursor: Texture = preload("res://Assets/UI/Cursors/cursor.png")
@@ -72,24 +68,7 @@ func apply_race_ui(race: String, container: Node) -> Node:
 	else:
 		print("Race non définie dans RACE_THEMES:", race)
 	return null
-
-# Appliquer une couleur à une ProgressBar
-static func apply_bar_color(progress_bar: ProgressBar, color: Color):
-	if not progress_bar or not progress_bar.is_class("ProgressBar"):
-		print("Erreur : ProgressBar non valide")
-		return
-
-	var style = progress_bar.get_theme_stylebox("fg", "ProgressBar")
-	if not style:  # Si aucun style existant, créer un nouveau StyleBoxFlat
-		style = StyleBoxFlat.new()
-
-	# Appliquer la couleur
-	if style is StyleBoxFlat:
-		style.bg_color = color
-		progress_bar.add_theme_stylebox_override("fg", style)
-	else:
-		print("Erreur : Style non compatible pour la ProgressBar")
-
+	
 
 # Réinitialiser aux valeurs par défaut
 func reset_to_default():

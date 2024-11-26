@@ -38,3 +38,9 @@ class_name UnitStats
 
 ## Faction of unit
 @export var faction: String = ""
+
+## Image of the unit (for UI preview)
+@export var unit_image: Texture = null
+
+## Selection sound of the unit
+@export var unit_sound_selection_path: String = ""

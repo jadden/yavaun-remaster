@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="UnitStats" load_steps=2 format=3 uid="uid://cojssbfq7teeu"]
+[gd_resource type="Resource" script_class="UnitStats" load_steps=3 format=3 uid="uid://cojssbfq7teeu"]
 
 [ext_resource type="Script" path="res://Scripts/Entities/UnitStats.gd" id="1_xs1x4"]
+[ext_resource type="Texture2D" uid="uid://cjrhi5ucteras" path="res://ShamaLi/Assets/Portraits/leader.png" id="2_sjlxb"]
 
 [resource]
 script = ExtResource("1_xs1x4")
@@ -22,3 +23,5 @@ special = "leader,must_not_die,spells"
 carry_item = 1
 armour = 1
 faction = "Shama'Li"
+unit_image = ExtResource("2_sjlxb")
+unit_sound_selection_path = "res://ShamaLi/Assets/Sounds/leader_selection.wav"
