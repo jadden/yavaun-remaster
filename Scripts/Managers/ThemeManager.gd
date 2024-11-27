@@ -28,8 +28,8 @@ const RACE_THEMES = {
 var default_theme: Theme = preload("res://Assets/UI/Theme.tres")
 var default_cursor: Texture = preload("res://Assets/UI/Cursors/cursor.png")
 
-# Appliquer le thème par race
-func apply_race_theme(race: String):
+# Appliquer le thème par race avec un curseur optionnel
+func apply_race_theme(race: String, force_cursor: String = ""):
 	var race_data = RACE_THEMES.get(race, null)
 	if race_data:
 		print("Applying theme for race:", race)
@@ -38,16 +38,22 @@ func apply_race_theme(race: String):
 		if race_data.get("theme", null):
 			get_tree().root.set_theme(race_data["theme"])
 		else:
-			print("Aucun thème défini pour la race:", race)
+			print("Aucun thème défini pour la race :", race)
 
-		# Appliquer le curseur
-		if race_data.get("cursor", null):
-			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-			Input.set_custom_mouse_cursor(race_data["cursor"])
+		# Appliquer le curseur (priorité à force_cursor si défini)
+		var cursor_path = force_cursor if force_cursor != "" else race_data.get("cursor", null)
+		if cursor_path and cursor_path is String:
+			var cursor_texture = load(cursor_path)
+			if cursor_texture:
+				Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+				Input.set_custom_mouse_cursor(cursor_texture)
+				print("Curseur appliqué :", cursor_path)
+			else:
+				print("Erreur : Impossible de charger la texture du curseur :", cursor_path)
 		else:
-			print("Aucun curseur défini pour la race:", race)
+			print("Aucun curseur valide défini pour la race :", race)
 	else:
-		print("Race non trouvée dans RACE_THEMES:", race)
+		print("Race non trouvée dans RACE_THEMES :", race)
 
 # Charger l'interface utilisateur spécifique par race
 func apply_race_ui(race: String, container: Node) -> Node:

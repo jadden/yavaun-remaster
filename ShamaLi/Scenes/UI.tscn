@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://b6uqfi7rkr1c2"]
+[gd_scene load_steps=7 format=3 uid="uid://b6uqfi7rkr1c2"]
 
 [ext_resource type="Script" path="res://ShamaLi/Scripts/UI.gd" id="1_5y4jw"]
 [ext_resource type="Texture2D" uid="uid://d2ppx1hijpq1m" path="res://ShamaLi/Assets/UI/main_ui.png" id="1_n3aid"]
@@ -8,6 +8,8 @@
 
 [sub_resource type="Theme" id="Theme_1w1p3"]
 ProgressBar/styles/background = SubResource("StyleBoxFlat_b1etn")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jsyo5"]
 
 [node name="UI" type="Control"]
 layout_mode = 3
@@ -46,6 +48,7 @@ offset_left = 1728.0
 offset_top = 647.0
 offset_right = 1877.0
 offset_bottom = 914.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_jsyo5")
 
 [node name="UnitName" type="Label" parent="Panel"]
 layout_mode = 0
@@ -65,7 +68,7 @@ offset_right = 85.0
 offset_bottom = 216.0
 
 [node name="HealthBar" type="ProgressBar" parent="Panel"]
-modulate = Color(0.192157, 0.435294, 0.780392, 1)
+modulate = Color(0.329841, 0.567277, 0.911481, 1)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -82,7 +85,7 @@ scale = Vector2(1, 0.45)
 show_percentage = false
 
 [node name="ManaBar" type="ProgressBar" parent="Panel"]
-modulate = Color(0.745098, 0.776471, 0.254902, 1)
+modulate = Color(0.878431, 0.776471, 0.00392157, 1)
 layout_mode = 0
 offset_left = 3.0
 offset_top = 248.0

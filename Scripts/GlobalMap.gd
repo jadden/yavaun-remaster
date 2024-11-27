@@ -61,20 +61,25 @@ func load_map(map_path: String, race: String):
 	# Nettoyer la scène actuelle
 	clean_previous_scene()
 	print("Chargement de la carte :", map_path, " pour la race :", race)
+
 	# Vérifier que les conteneurs essentiels sont valides
 	if not current_map_container or not unit_selection_manager or not race_ui_container:
 		print("Erreur : Des nœuds essentiels sont manquants ou non initialisés.")
 		return
+
 	# Effacer les enfants existants dans CurrentMap
 	free_children(current_map_container)
+
 	# Charger la nouvelle carte
 	var map_scene = load(map_path)
 	if not map_scene:
 		print("Erreur : Impossible de charger la scène :", map_path)
 		return
+
 	var map_instance = map_scene.instantiate()
 	current_map_container.add_child(map_instance)
 	print("Nouvelle carte chargée :", map_path)
+
 	# Initialiser le conteneur des unités
 	units_container = map_instance.get_node_or_null("EntitiesContainer")
 	if units_container:
@@ -82,8 +87,10 @@ func load_map(map_path: String, race: String):
 		print("EntitiesContainer trouvé et initialisé :", units_container.name)
 	else:
 		print("Erreur : EntitiesContainer introuvable dans la carte :", map_path)
+
 	# Effacer les enfants actuels dans RaceSpecificUI
 	free_children(race_ui_container)
+
 	# Charger l'UI spécifique à la race via ThemeManager
 	var ui_instance = ThemeManager.apply_race_ui(race, race_ui_container)
 	if ui_instance:
@@ -91,11 +98,11 @@ func load_map(map_path: String, race: String):
 		unit_selection_manager.set_ui(ui_instance)  # Lier l'UI au SelectionManager
 	else:
 		print("Erreur : Impossible de charger l'UI pour la race :", race)
-	# Configurer le curseur par défaut
-	set_default_cursor()
-	# Vérifier et appliquer le thème de la race
-	ThemeManager.apply_race_theme(race)
+
+	# Configurer le curseur spécifique après avoir appliqué le thème
+	ThemeManager.apply_race_theme(race, "res://Assets/UI/Cursors/select_1.png")
 	print("Thème et curseur appliqués pour la race :", race)
+
 	# Vérifier l'intégrité globale
 	print("Chargement de la carte terminé avec succès.")
 
