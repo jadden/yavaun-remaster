@@ -43,6 +43,15 @@ func set_selected(selected: bool):
 			print("Unité désélectionnée :", name)
 	else:
 		print("Erreur : SelectionBox non trouvé pour l'unité :", name)
+		
+	# Démarrez l'animation si elle est sélectionnée
+	if selected:
+		var animation_player = selection_box.get_node_or_null("SelectionAnimationPlayer")
+		if animation_player:
+			print("On play")
+			animation_player.play("Effects/PulseSelectionBox")
+		else:
+			print("Erreur : AnimationPlayer introuvable dans SelectionBox.")
 
 func _on_mouse_entered():
 	"""
