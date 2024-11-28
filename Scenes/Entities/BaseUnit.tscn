@@ -1,11 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://887341wdcjj0"]
+[gd_scene load_steps=5 format=3 uid="uid://887341wdcjj0"]
 
 [ext_resource type="Script" path="res://Scripts/Entities/BaseUnit.gd" id="1_a7myu"]
+[ext_resource type="Script" path="res://Scenes/Entities/selection_box.gd" id="2_8164i"]
+[ext_resource type="AnimationLibrary" uid="uid://b06lf5rbt3h4d" path="res://Effects.res" id="2_wci0y"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_765k1"]
-size = Vector2(38, 38)
+size = Vector2(40, 40)
 
 [node name="BaseUnit" type="CharacterBody2D"]
+input_pickable = true
+safe_margin = 0.1
 script = ExtResource("1_a7myu")
 
 [node name="Control" type="Sprite2D" parent="."]
@@ -13,12 +17,43 @@ script = ExtResource("1_a7myu")
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(19.5, 18)
+position = Vector2(19.5, 19)
 shape = SubResource("RectangleShape2D_765k1")
 
 [node name="SelectionBox" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchors_preset = 0
-offset_left = 0.5
-offset_right = 38.5
-offset_bottom = 37.0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_8164i")
+
+[node name="TopBorder" type="ColorRect" parent="SelectionBox"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="BottomBorder" type="ColorRect" parent="SelectionBox"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="LeftBorder" type="ColorRect" parent="SelectionBox"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="RightBorder" type="ColorRect" parent="SelectionBox"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SelectionBox"]
+root_node = NodePath("../..")
+libraries = {
+"Effects": ExtResource("2_wci0y")
+}
+
+[connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

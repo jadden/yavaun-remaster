@@ -13,7 +13,9 @@ script = ExtResource("1_k254y")
 [node name="EntitiesContainer" type="Node2D" parent="."]
 
 [node name="Leader" parent="EntitiesContainer" instance=ExtResource("1_0a0n6")]
-position = Vector2(400, 314)
+z_index = -1
+position = Vector2(176, 172)
 
 [node name="Worker" parent="EntitiesContainer" instance=ExtResource("4_vhm7l")]
-position = Vector2(666, 249)
+z_index = -1
+position = Vector2(396, 175)
