@@ -7,6 +7,7 @@ class_name BaseUnit
 # Références aux nœuds
 @onready var selection_box: Control = $SelectionBox  # Indique visuellement la sélection
 @onready var collision_area: Area2D = $Area2D  # Zone de collision pour la détection des interactions
+@onready var collision_shape: CollisionShape2D = $Area2D/CollisionShape2D  # Forme de collision de l'unité
 @onready var visuals: Sprite2D = $Sprite2D  # Représentation visuelle de l'unité (ex. : sprite)
 
 func _ready():
@@ -29,6 +30,15 @@ func _ready():
 	else:
 		print("Erreur : Area2D introuvable pour l'unité :", name)
 
+	# Vérifie si le CollisionShape2D est correctement configuré
+	if collision_shape:
+		if collision_shape.disabled:
+			print("Erreur : CollisionShape2D désactivé pour l'unité :", name)
+		else:
+			print("CollisionShape2D configuré pour :", name)
+	else:
+		print("Erreur : CollisionShape2D introuvable pour l'unité :", name)
+
 func set_selected(selected: bool):
 	"""
 	Définit l'état de sélection de l'unité et met à jour le `SelectionBox`.
@@ -37,21 +47,12 @@ func set_selected(selected: bool):
 	if selection_box:
 		selection_box.visible = selected
 		if selected:
-			# Exemple : vous pouvez ajouter une logique supplémentaire ici, comme un effet sonore.
 			print("Unité sélectionnée :", name)
+			_play_selection_animation()
 		else:
 			print("Unité désélectionnée :", name)
 	else:
 		print("Erreur : SelectionBox non trouvé pour l'unité :", name)
-		
-	# Démarrez l'animation si elle est sélectionnée
-	if selected:
-		var animation_player = selection_box.get_node_or_null("SelectionAnimationPlayer")
-		if animation_player:
-			print("On play")
-			animation_player.play("Effects/PulseSelectionBox")
-		else:
-			print("Erreur : AnimationPlayer introuvable dans SelectionBox.")
 
 func _on_mouse_entered():
 	"""
@@ -78,3 +79,15 @@ func _on_collision_area_input_event(viewport, event: InputEvent, shape_idx: int)
 		elif event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
 			print("Clic droit sur :", name)
 			# Ajoutez une logique personnalisée pour le clic droit, comme déplacer l'unité.
+
+func _play_selection_animation():
+	"""
+	Joue l'animation de sélection si un `AnimationPlayer` est présent dans le `SelectionBox`.
+	"""
+	if selection_box:
+		var animation_player = selection_box.get_node_or_null("SelectionAnimationPlayer")
+		if animation_player and animation_player is AnimationPlayer:
+			animation_player.play("Effects/PulseSelectionBox")
+			print("Animation de sélection jouée pour :", name)
+		else:
+			print("Erreur : AnimationPlayer introuvable ou non configuré dans SelectionBox.")

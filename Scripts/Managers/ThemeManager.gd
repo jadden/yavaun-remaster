@@ -35,21 +35,34 @@ func apply_race_theme(race: String, force_cursor: String = ""):
 		print("Applying theme for race:", race)
 
 		# Appliquer le thème global
-		if race_data.get("theme", null):
+		if race_data.has("theme") and race_data["theme"]:
 			get_tree().root.set_theme(race_data["theme"])
+			print("Thème appliqué pour la race :", race)
 		else:
 			print("Aucun thème défini pour la race :", race)
 
 		# Appliquer le curseur (priorité à force_cursor si défini)
 		var cursor_path = force_cursor if force_cursor != "" else race_data.get("cursor", null)
-		if cursor_path and cursor_path is String:
-			var cursor_texture = load(cursor_path)
-			if cursor_texture:
+		print("Curseur extrait :", cursor_path)
+
+		if cursor_path:
+			if cursor_path is String:
+				# Si c'est un chemin, charge la texture
+				var cursor_texture = load(cursor_path)
+				if cursor_texture and cursor_texture is Texture:
+					Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+					Input.set_custom_mouse_cursor(cursor_texture)
+					print("Curseur appliqué depuis chemin :", cursor_path)
+				else:
+					print("Erreur : Impossible de charger le curseur depuis le chemin :", cursor_path)
+			elif cursor_path is Texture:
+				# Si c'est déjà une texture, l'appliquer directement
 				Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-				Input.set_custom_mouse_cursor(cursor_texture)
-				print("Curseur appliqué :", cursor_path)
+				Input.set_custom_mouse_cursor(cursor_path)
+				print("Curseur appliqué directement :", cursor_path)
 			else:
-				print("Erreur : Impossible de charger la texture du curseur :", cursor_path)
+				# Type inattendu pour le curseur
+				print("Erreur : Type de curseur invalide :", typeof(cursor_path))
 		else:
 			print("Aucun curseur valide défini pour la race :", race)
 	else:
@@ -65,6 +78,11 @@ func apply_race_ui(race: String, container: Node) -> Node:
 			if ui_scene:
 				var ui_instance = ui_scene.instantiate()
 				container.add_child(ui_instance)
+
+				# Passez les curseurs à l'UI raciale
+				if ui_instance.has_method("set_cursors"):
+					ui_instance.call("set_cursors", race_data.get("cursor", null), default_cursor)
+
 				print("UI spécifique chargée pour la race:", race)
 				return ui_instance  # Retourne l'instance de l'UI
 			else:
@@ -74,7 +92,6 @@ func apply_race_ui(race: String, container: Node) -> Node:
 	else:
 		print("Race non définie dans RACE_THEMES:", race)
 	return null
-	
 
 # Réinitialiser aux valeurs par défaut
 func reset_to_default():
