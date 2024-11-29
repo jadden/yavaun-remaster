@@ -28,6 +28,7 @@ ThemeManager="*res://Scripts/Managers/ThemeManager.gd"
 
 window/size/viewport_width=1900
 window/size/viewport_height=1080
+window/size/resizable=false
 window/size/window_width_override=1900
 window/size/window_height_override=1080
 window/stretch/mode="viewport"
