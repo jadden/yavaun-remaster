@@ -23,6 +23,7 @@ SoundManager="*res://Scenes/SoundManager.tscn"
 PlayerData="*res://Scripts/PlayerData.gd"
 GameData="*res://Scripts/GameData.gd"
 ThemeManager="*res://Scripts/Managers/ThemeManager.gd"
+ClanManager="*res://Scripts/Clans/ClanManager.gd"
 
 [display]
 

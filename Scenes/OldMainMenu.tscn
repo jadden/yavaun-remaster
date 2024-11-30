@@ -1,14 +1,67 @@
-[gd_scene load_steps=3 format=3 uid="uid://q4s36qjxxl0d"]
+[gd_scene load_steps=3 format=3 uid="uid://bexm8md2gnq77"]
 
-[ext_resource type="Script" path="res://Scripts/Menus/OldMainMenu.gd" id="1_n5eeu"]
 [ext_resource type="Texture2D" uid="uid://dxyyix3ccv1n7" path="res://Assets/Backgrounds/Yavaun2.webp" id="3_vyg60"]
+
+[sub_resource type="GDScript" id="GDScript_63764"]
+script/source = "extends Control
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	MusicManager.play_music(\"main_menu\")
+
+func _on_tha_roon_pressed():
+	# Jouer le son de clic via le SoundManager
+	SoundManager.play_click_sound()
+	SoundManager.play_confirm_race_sound()
+	# Changer la musique
+	MusicManager.stop_music()
+	MusicManager.play_music(\"race_screen\")
+	# Changer de scène pour aller à l'écran de campagne
+	get_tree().change_scene_to_file(\"res://ThaRoon/Scenes/RaceScreen.tscn\")
+
+func _on_obblinox_pressed():
+	# Jouer le son de clic via le SoundManager
+	SoundManager.play_click_sound()
+	SoundManager.play_confirm_race_sound()
+	# Changer la musique
+	MusicManager.play_music(\"race_screen\")
+	# Changer de scène pour aller à l'écran de campagne
+	get_tree().change_scene_to_file(\"res://Obblinox/Scenes/RaceScreen.tscn\")
+
+func _on_eaggra_pressed():
+	# Jouer le son de clic via le SoundManager
+	SoundManager.play_click_sound()
+	SoundManager.play_confirm_race_sound()
+	# Changer la musique
+	MusicManager.play_music(\"race_screen\")
+	# Changer de scène pour aller à l'écran de campagne
+	get_tree().change_scene_to_file(\"res://Eaggra/Scenes/RaceScreen.tscn\")
+
+func _on_shama_li_pressed():
+	# Jouer le son de clic via le SoundManager
+	SoundManager.play_click_sound()
+	SoundManager.play_confirm_race_sound()
+	# Changer la musique
+	MusicManager.play_music(\"race_screen\")
+	# Changer de scène pour aller à l'écran de campagne
+	get_tree().change_scene_to_file(\"res://ShamaLi/Scenes/RaceScreen.tscn\")
+	
+func _on_custom_game_pressed():
+	# Jouer le son de clic via le SoundManager
+	SoundManager.play_click_sound()
+	SoundManager.play_confirm_race_sound()
+	# Changer la musique
+	MusicManager.play_music(\"race_screen\")
+	# Changer de scène pour aller à l'écran de campagne
+	get_tree().change_scene_to_file(\"res://ShamaLi/Scenes/RaceScreen.tscn\")
+"
 
 [node name="Control" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
-script = ExtResource("1_n5eeu")
+script = SubResource("GDScript_63764")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 0

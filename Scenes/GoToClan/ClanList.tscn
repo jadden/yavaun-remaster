@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://diqv11a5uyuo0"]
 
-[ext_resource type="Script" path="res://Scripts/GoToClan/ClanList.gd" id="1_i8gs1"]
+[ext_resource type="Script" path="res://Scripts/Clans/ClanList.gd" id="1_i8gs1"]
 
 [node name="ClanList" type="Control"]
 layout_mode = 3
