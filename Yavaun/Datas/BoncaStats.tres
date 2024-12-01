@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="UnitStats" load_steps=3 format=3 uid="uid://btingpc6e3a5m"]
+
+[ext_resource type="Script" path="res://Scripts/Entities/UnitStats.gd" id="1_t4256"]
+[ext_resource type="Texture2D" uid="uid://c5ts1333g5yny" path="res://Yavaun/Assets/Portraits/Wild/bonca.png" id="2_l3dgu"]
+
+[resource]
+script = ExtResource("1_t4256")
+unit_name = "Bonca"
+unit_type = "Critter"
+health = 90
+health_max = 90
+mana = 0
+mana_max = 0
+movement = 7
+damage_min = 4
+damage_max = 14
+rate_of_fire = 2
+hit_mod = 0
+hit_range = 1
+visibility = 1
+sight_range = 6
+special = "loot"
+carry_item = 0
+armour = 1
+faction = "critter"
+unit_image = ExtResource("2_l3dgu")
+unit_sound_selection_path = "res://Yavaun/Assets/Sounds/bonca_selection.wav"

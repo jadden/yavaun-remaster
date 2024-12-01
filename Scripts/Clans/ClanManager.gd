@@ -6,10 +6,10 @@ var current_race: String = ""
 var current_clan_id: String = ""  # UUID du clan actuellement sélectionné
 
 # Fichier de sauvegarde
-const SAVE_FILE_PATH: String = "user://clans.save"
+const SAVE_FILE_PATH: String = "user://clans.json"
 
-# Classe Clan
-class Clan:
+# Classe interne GameClan
+class GameClan:
 	var uuid: String
 	var clan_name: String
 	var leader_name: String
@@ -35,8 +35,8 @@ class Clan:
 			"clan_color": clan_color.to_html()
 		}
 
-	static func from_dict(data: Dictionary) -> Clan:
-		return Clan.new(
+	static func from_dict(data: Dictionary) -> GameClan:
+		return GameClan.new(
 			data.get("clan_name", "Default Clan"),
 			data.get("leader_name", "Default Leader"),
 			data.get("race", ""),
@@ -45,38 +45,38 @@ class Clan:
 		)
 
 # Ajouter un clan
-func add_clan(clan: Clan):
+func add_clan(clan: GameClan):
 	clans.append(clan)
+	save_clans()
 
-# Charger les clans
+# Charger les clans depuis le fichier JSON
 func load_clans():
 	if FileAccess.file_exists(SAVE_FILE_PATH):
 		var file = FileAccess.open(SAVE_FILE_PATH, FileAccess.ModeFlags.READ)
-		var saved_data = file.get_var()
+		var json_data = file.get_as_text()
 		file.close()
 
-		clans.clear()
-		for clan_dict in saved_data:
-			var clan = Clan.from_dict(clan_dict)
-			clans.append(clan)
-
-		# Assigner un UUID si manquant
-		for clan in clans:
-			if clan.uuid == "":
-				clan.uuid = generate_uuid()
-
-		print("Clans chargés :", clans)
+		var parsed_data = JSON.parse_string(json_data)
+		if typeof(parsed_data) == TYPE_ARRAY:
+			clans.clear()
+			for clan_dict in parsed_data:
+				var clan = GameClan.from_dict(clan_dict)
+				clans.append(clan)
+			print("Clans chargés :", clans)
+		else:
+			print("Erreur : Les données JSON ne sont pas au format attendu.")
 	else:
 		print("Aucun fichier de sauvegarde trouvé.")
 
-# Sauvegarder les clans
+# Sauvegarder les clans dans un fichier JSON
 func save_clans():
 	var save_data: Array = []
 	for clan in clans:
 		save_data.append(clan.to_dict())
 
 	var file = FileAccess.open(SAVE_FILE_PATH, FileAccess.ModeFlags.WRITE)
-	file.store_var(save_data)
+	var json_data = JSON.stringify(save_data)
+	file.store_string(json_data)
 	file.close()
 	print("Clans sauvegardés :", save_data)
 

@@ -1,6 +1,9 @@
 extends Control
 class_name ShamaLiUI
 
+# Signal émis lorsque l'UI est prête
+signal ui_ready
+
 # Références aux éléments de l'interface
 @onready var unit_panel = $Panel  # Panneau principal pour afficher les informations d'une unité
 @onready var unit_name_label = $Panel/UnitName  # Label pour afficher le nom de l'entité
@@ -23,15 +26,19 @@ var group_image_path: String = "res://ShamaLi/Assets/Portraits/group.png"
 
 func _ready():
 	"""
-	Initialise l'interface utilisateur.
+	Initialise l'interface utilisateur et émet le signal `ui_ready`.
 	"""
+	clear_ui()
 	leader_name_label.text = "Inconnu"
 	leader_health_bar.max_value = 100
 	leader_health_bar.value = 0
 	resource_score_label.text = "0"
 	unit_panel.visible = false
 	help_panel.visible = false
-	print("Interface ShamaLiUI initialisée.")
+	print("Interface Raciale ShamaLiUI initialisée.")
+
+	# Émettre le signal pour notifier que l'UI est prête
+	emit_signal("ui_ready")
 
 func update_clan_data(clan_data: Dictionary):
 	"""
@@ -110,6 +117,10 @@ func clear_ui():
 	mana_bar.visible = false
 	unit_image.texture = null
 	unit_image.visible = false
+	leader_name_label.text = "Inconnu"
+	leader_health_bar.value = 0
+	help_panel.visible = false
+	help_label.text = ""
 	print("Interface réinitialisée.")
 
 func update_leader_health(new_health: int):
@@ -125,7 +136,7 @@ func update_resource_score(new_score: int):
 	Met à jour le score de ressources.
 	"""
 	resource_score = new_score
-	resource_score_label.text = str(resource_score)
+	resource_score_label.text = str(new_score)
 	print("Score de ressources mis à jour :", new_score)
 
 func update_help_panel(entity_name: String):

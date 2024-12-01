@@ -12,13 +12,13 @@ var selection_end: Vector2 = Vector2.ZERO
 var is_selecting: bool = false
 
 # Références aux nœuds
-@onready var selection_rectangle: Control = $SelectionRectangle  # Le conteneur du rectangle
-@onready var rectangle_panel: Panel = $SelectionRectangle/Rectangle  # Le rectangle visuel
-var ui: Node = null  # Référence à l'UI raciale
+@onready var selection_rectangle: Control = $SelectionRectangle
+@onready var rectangle_panel: Panel = $SelectionRectangle/Rectangle
+var ui: Node = null
 
 func _ready():
 	"""
-	Initialise le `SelectionManager` et masque le rectangle de sélection.
+	Initialise le gestionnaire de sélection.
 	"""
 	if selection_rectangle and rectangle_panel:
 		selection_rectangle.visible = false
@@ -28,7 +28,7 @@ func _ready():
 
 func set_ui(ui_instance: Node):
 	"""
-	Associe dynamiquement une instance de l'UI raciale.
+	Associe une instance de l'UI raciale.
 	"""
 	ui = ui_instance
 	if ui:
@@ -44,20 +44,32 @@ func initialize(entities_container: Node):
 	buildings.clear()
 	selected_entities.clear()
 
-	for entity in entities_container.get_children():
-		if entity is BaseUnit:
-			entity.set_selected(false)  # Désactive la sélection initiale
-			units.append(entity)
-		elif entity is BaseBuilding:
-			entity.set_selected(false)  # Désactive la sélection initiale
-			buildings.append(entity)
+	print("Initialisation des entités depuis :", entities_container.name)
+	gather_entities_recursive(entities_container)
 
 	print("Entités initialisées :", units.size(), "unités et", buildings.size(), "bâtiments.")
 
+func gather_entities_recursive(container: Node):
+	"""
+	Collecte récursivement les entités dans un conteneur et ses enfants.
+	"""
+	for child in container.get_children():
+		if child is BaseUnit:
+			print("Unité détectée :", child.name)
+			child.set_selected(false)
+			units.append(child)
+		elif child is BaseBuilding:
+			print("Bâtiment détecté :", child.name)
+			child.set_selected(false)
+			buildings.append(child)
+		elif child is Node:  # Vérifie les sous-conteneurs
+			gather_entities_recursive(child)
+
 func _input(event: InputEvent):
 	"""
-	Gère les événements utilisateur pour la sélection.
+	Gère les événements utilisateur.
 	"""
+	print("Input détecté :", event)
 	if event is InputEventMouseButton:
 		_handle_mouse_button_input(event)
 	elif event is InputEventMouseMotion and is_selecting:
@@ -77,7 +89,7 @@ func _handle_mouse_button_input(event: InputEventMouseButton):
 
 func start_selection(start_pos: Vector2):
 	"""
-	Démarre un rectangle de sélection à partir de la position de départ.
+	Démarre une sélection.
 	"""
 	selection_start = start_pos
 	selection_end = start_pos
@@ -88,24 +100,26 @@ func start_selection(start_pos: Vector2):
 
 func update_selection(end_pos: Vector2):
 	"""
-	Met à jour les dimensions et la position du rectangle de sélection.
+	Met à jour le rectangle de sélection.
 	"""
 	selection_end = end_pos
 	update_selection_rectangle()
 
 func end_selection():
 	"""
-	Termine la sélection et identifie les entités dans le rectangle.
+	Termine la sélection et met à jour les entités sélectionnées.
 	"""
 	is_selecting = false
 	selection_rectangle.visible = false
 
 	var selection_rect = Rect2(selection_start, selection_end - selection_start).abs()
+	print("Rectangle de sélection :", selection_rect)
 	selected_entities.clear()
 
-	# Parcourt les entités pour déterminer celles dans le rectangle
 	for entity in units + buildings:
+		print("Vérification pour :", entity.name, "à la position :", entity.global_position)
 		if selection_rect.has_point(entity.global_position):
+			print("-> Dans le rectangle :", entity.name)
 			entity.set_selected(true)
 			selected_entities.append(entity)
 		else:
@@ -116,7 +130,7 @@ func end_selection():
 
 func clear_selection():
 	"""
-	Réinitialise la sélection.
+	Désélectionne toutes les entités.
 	"""
 	for entity in selected_entities:
 		entity.set_selected(false)
@@ -128,7 +142,7 @@ func clear_selection():
 
 func update_ui():
 	"""
-	Mise à jour de l'UI raciale selon la sélection.
+	Mise à jour de l'UI en fonction des entités sélectionnées.
 	"""
 	if not ui:
 		print("Erreur : UI non initialisée.")
@@ -143,7 +157,7 @@ func update_ui():
 
 func update_selection_rectangle():
 	"""
-	Met à jour la position et les dimensions du rectangle de sélection.
+	Met à jour les dimensions et la position du rectangle de sélection.
 	"""
 	var top_left = selection_start
 	var rect_size = selection_end - selection_start

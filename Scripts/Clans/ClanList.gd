@@ -56,7 +56,7 @@ func _display_no_clan_message():
 	label.size_flags_vertical = Control.SIZE_SHRINK_CENTER  # Centre verticalement
 	clan_list_container.add_child(label)
 
-func _create_clan_row(clan: ClanManager.Clan):
+func _create_clan_row(clan: ClanManager.GameClan):
 	"""
 	Crée une ligne avec un bouton de sélection et un bouton de suppression.
 	"""
@@ -91,7 +91,7 @@ func _reset_scroll():
 	if clan_list_container.get_parent() and clan_list_container.get_parent() is ScrollContainer:
 		clan_list_container.get_parent().scroll_vertical = 0
 
-func _on_ClanButton_pressed(clan: ClanManager.Clan):
+func _on_ClanButton_pressed(clan: ClanManager.GameClan):
 	"""
 	Gère la sélection d'un clan.
 	"""

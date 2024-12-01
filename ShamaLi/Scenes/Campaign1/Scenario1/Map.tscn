@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://cw6tsq1sgb35s"]
+[gd_scene load_steps=6 format=3 uid="uid://cw6tsq1sgb35s"]
 
 [ext_resource type="PackedScene" uid="uid://c15ojisxeonpx" path="res://ShamaLi/Scenes/Units/Leader.tscn" id="1_0a0n6"]
 [ext_resource type="Script" path="res://ShamaLi/Scripts/Campaign1/Scenario1/Map.gd" id="1_k254y"]
 [ext_resource type="PackedScene" uid="uid://bhlh8x8nd33s8" path="res://Scenes/UIManager.tscn" id="2_yeavn"]
 [ext_resource type="PackedScene" uid="uid://dkwtihabed1n8" path="res://ShamaLi/Scenes/Units/Worker.tscn" id="4_vhm7l"]
+[ext_resource type="PackedScene" uid="uid://5xpbf2tsl6ro" path="res://Yavaun/Scenes/Units/Bonca.tscn" id="5_qm2c4"]
 
 [node name="Map" type="Node2D"]
 script = ExtResource("1_k254y")
@@ -12,10 +13,19 @@ script = ExtResource("1_k254y")
 
 [node name="EntitiesContainer" type="Node2D" parent="."]
 
-[node name="Leader" parent="EntitiesContainer" instance=ExtResource("1_0a0n6")]
+[node name="PlayerUnits" type="Node2D" parent="EntitiesContainer"]
+
+[node name="Leader" parent="EntitiesContainer/PlayerUnits" instance=ExtResource("1_0a0n6")]
 z_index = -1
 position = Vector2(176, 172)
 
-[node name="Worker" parent="EntitiesContainer" instance=ExtResource("4_vhm7l")]
+[node name="Worker" parent="EntitiesContainer/PlayerUnits" instance=ExtResource("4_vhm7l")]
 z_index = -1
 position = Vector2(396, 175)
+
+[node name="WildUnits" type="Node2D" parent="EntitiesContainer"]
+
+[node name="Bonca" parent="EntitiesContainer/WildUnits" instance=ExtResource("5_qm2c4")]
+position = Vector2(50, 50)
+
+[node name="AIUnits" type="Node2D" parent="EntitiesContainer"]

@@ -1,4 +1,4 @@
-extends BaseUnit
+extends "res://Scripts/Entities/BaseUnit.gd"
 
 func _ready():
 	super._ready()  # Appelle la méthode `_ready()` de BaseUnit
