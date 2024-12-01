@@ -24,6 +24,7 @@ PlayerData="*res://Scripts/PlayerData.gd"
 GameData="*res://Scripts/GameData.gd"
 ThemeManager="*res://Scripts/Managers/ThemeManager.gd"
 ClanManager="*res://Scripts/Clans/ClanManager.gd"
+DebugManager="*res://Scripts/Managers/DebugManager.gd"
 
 [display]
 

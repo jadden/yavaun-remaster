@@ -51,7 +51,12 @@ offset_right = 1877.0
 offset_bottom = 1024.0
 theme_override_styles/panel = SubResource("StyleBoxTexture_jsyo5")
 
-[node name="LeaderName" type="Label" parent="Panel"]
+[node name="LeaderPanel" type="Panel" parent="Panel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="LeaderName" type="Label" parent="Panel/LeaderPanel"]
 layout_mode = 0
 offset_left = 1.0
 offset_top = -3.0
@@ -61,14 +66,14 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 1
 
-[node name="LeaderImage" type="TextureRect" parent="Panel"]
+[node name="LeaderImage" type="TextureRect" parent="Panel/LeaderPanel"]
 layout_mode = 0
 offset_left = -1.0
 offset_top = 44.0
 offset_right = 89.0
 offset_bottom = 210.0
 
-[node name="LeaderHealth" type="ProgressBar" parent="Panel"]
+[node name="LeaderHealth" type="ProgressBar" parent="Panel/LeaderPanel"]
 modulate = Color(0.329841, 0.567277, 0.911481, 1)
 layout_mode = 1
 anchors_preset = 8
@@ -76,10 +81,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -80.5
-offset_top = -286.0
-offset_right = 77.5
-offset_bottom = -257.0
+offset_left = -22.0
+offset_top = 200.0
+offset_right = 136.0
+offset_bottom = 229.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(1, 0.45)
@@ -103,7 +108,29 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 1
 
-[node name="UnitName" type="Label" parent="Panel"]
+[node name="UnitPanel" type="Panel" parent="Panel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HealthBar" type="ProgressBar" parent="Panel/UnitPanel"]
+modulate = Color(0.329841, 0.567277, 0.911481, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -21.0
+offset_top = 825.0
+offset_right = 137.0
+offset_bottom = 854.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1, 0.45)
+show_percentage = false
+
+[node name="UnitName" type="Label" parent="Panel/UnitPanel"]
 layout_mode = 0
 offset_left = 1.0
 offset_top = 625.0
@@ -113,31 +140,14 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 1
 
-[node name="UnitImage" type="TextureRect" parent="Panel"]
+[node name="UnitImage" type="TextureRect" parent="Panel/UnitPanel"]
 layout_mode = 0
 offset_left = 1.0
 offset_top = 670.0
 offset_right = 89.0
 offset_bottom = 836.0
 
-[node name="HealthBar" type="ProgressBar" parent="Panel"]
-modulate = Color(0.329841, 0.567277, 0.911481, 1)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -79.5
-offset_top = 339.0
-offset_right = 78.5
-offset_bottom = 368.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(1, 0.45)
-show_percentage = false
-
-[node name="ManaBar" type="ProgressBar" parent="Panel"]
+[node name="ManaBar" type="ProgressBar" parent="Panel/UnitPanel"]
 modulate = Color(0.878431, 0.776471, 0.00392157, 1)
 layout_mode = 0
 offset_left = -2.0

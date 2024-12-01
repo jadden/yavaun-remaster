@@ -68,11 +68,7 @@ func _on_ui_ready():
 
 	# Mettre à jour l'interface raciale
 	if leader_unit and racial_ui and current_clan:
-		racial_ui.update_clan_data({
-			"leader_name": current_clan.leader_name,
-			"leader_health": leader_unit.stats.health,
-			"resource_score": 3000
-		})
+		racial_ui.update_leader_data(leader_unit, 3000)  # Passer le score des ressources
 		print("Leader trouvé :", leader_unit.name)
 	else:
 		print("Erreur : Leader ou clan introuvable.")

@@ -14,7 +14,8 @@ var is_selecting: bool = false
 # Références aux nœuds
 @onready var selection_rectangle: Control = $SelectionRectangle
 @onready var rectangle_panel: Panel = $SelectionRectangle/Rectangle
-var ui: Node = null
+var ui: Node = null  # Référence à l'interface raciale
+var player_id: String = "Player1"  # ID du joueur actuel
 
 func _ready():
 	"""
@@ -44,7 +45,6 @@ func initialize(entities_container: Node):
 	buildings.clear()
 	selected_entities.clear()
 
-	print("Initialisation des entités depuis :", entities_container.name)
 	gather_entities_recursive(entities_container)
 
 	print("Entités initialisées :", units.size(), "unités et", buildings.size(), "bâtiments.")
@@ -69,7 +69,6 @@ func _input(event: InputEvent):
 	"""
 	Gère les événements utilisateur.
 	"""
-	print("Input détecté :", event)
 	if event is InputEventMouseButton:
 		_handle_mouse_button_input(event)
 	elif event is InputEventMouseMotion and is_selecting:
@@ -113,15 +112,20 @@ func end_selection():
 	selection_rectangle.visible = false
 
 	var selection_rect = Rect2(selection_start, selection_end - selection_start).abs()
-	print("Rectangle de sélection :", selection_rect)
 	selected_entities.clear()
 
-	for entity in units + buildings:
-		print("Vérification pour :", entity.name, "à la position :", entity.global_position)
-		if selection_rect.has_point(entity.global_position):
-			print("-> Dans le rectangle :", entity.name)
+	# Parcourt les entités pour déterminer celles dans le rectangle
+	for entity in units:
+		var is_in_rectangle = selection_rect.has_point(entity.global_position)
+		print("Entité :", entity.name)
+		print(" - Position :", entity.global_position)
+		print(" - Player ID :", entity.player_id)
+		print(" - Dans le rectangle :", is_in_rectangle)
+
+		if is_in_rectangle and entity.player_id == player_id:
 			entity.set_selected(true)
 			selected_entities.append(entity)
+			print(" -> Entité sélectionnée :", entity.name)
 		else:
 			entity.set_selected(false)
 
