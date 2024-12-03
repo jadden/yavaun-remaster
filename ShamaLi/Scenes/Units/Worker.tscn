@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dkwtihabed1n8"]
 
-[ext_resource type="PackedScene" uid="uid://887341wdcjj0" path="res://Scenes/Entities/BaseUnit.tscn" id="1_4pfqr"]
-[ext_resource type="Script" path="res://ShamaLi/Scripts/Units/Worker.gd" id="2_e2y7u"]
+[ext_resource type="PackedScene" uid="uid://887341wdcjj0" path="res://Global/Entities/BaseUnit.tscn" id="1_4pfqr"]
+[ext_resource type="Script" path="res://ShamaLi/Scenes/Units/Worker.gd" id="2_e2y7u"]
 [ext_resource type="Resource" uid="uid://b0t6hgug0d482" path="res://ShamaLi/Datas/WorkerStats.tres" id="3_fs0he"]
 [ext_resource type="Texture2D" uid="uid://cwsb26s2lqpcj" path="res://ShamaLi/Assets/Actors/Worker1/action_down_1.png" id="4_r7uj6"]
 
@@ -9,6 +9,6 @@
 script = ExtResource("2_e2y7u")
 stats = ExtResource("3_fs0he")
 
-[node name="Control" parent="." index="0"]
-position = Vector2(19, 19)
+[node name="Sprite2D" parent="." index="1"]
+position = Vector2(19, 20)
 texture = ExtResource("4_r7uj6")

@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="UnitStats" load_steps=3 format=3 uid="uid://btingpc6e3a5m"]
 
-[ext_resource type="Script" path="res://Scripts/Entities/UnitStats.gd" id="1_t4256"]
+[ext_resource type="Script" path="res://Global/Entities/UnitStats.gd" id="1_t4256"]
 [ext_resource type="Texture2D" uid="uid://c5ts1333g5yny" path="res://Yavaun/Assets/Portraits/Wild/bonca.png" id="2_l3dgu"]
 
 [resource]

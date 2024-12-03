@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://ptvpyyght01p"]
 
-[ext_resource type="PackedScene" uid="uid://dmsm60gp1u406" path="res://Scenes/Buildings/BaseBuilding.tscn" id="1_70d5n"]
-[ext_resource type="Script" path="res://ShamaLi/Scripts/Buildings/Arcanery.gd" id="2_2bg64"]
+[ext_resource type="PackedScene" uid="uid://dmsm60gp1u406" path="res://Global/Buildings/BaseBuilding.tscn" id="1_70d5n"]
+[ext_resource type="Script" path="res://ShamaLi/Scenes/Buildings/Arcanery.gd" id="2_2bg64"]
 
 [node name="BaseBuilding" instance=ExtResource("1_70d5n")]
 script = ExtResource("2_2bg64")

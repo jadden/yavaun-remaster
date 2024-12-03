@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cvvuafci07hvt"]
 
-[ext_resource type="PackedScene" uid="uid://dmsm60gp1u406" path="res://Scenes/Buildings/BaseBuilding.tscn" id="1_66wkl"]
+[ext_resource type="PackedScene" uid="uid://dmsm60gp1u406" path="res://Global/Buildings/BaseBuilding.tscn" id="1_66wkl"]
 [ext_resource type="Script" path="res://ThaRoon/Scripts/Buildings/Arcanery.gd" id="2_cyi6b"]
 
 [node name="BaseBuilding" instance=ExtResource("1_66wkl")]

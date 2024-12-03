@@ -11,25 +11,25 @@ config_version=5
 [application]
 
 config/name="Yavaun"
-run/main_scene="res://Scenes/SplashScreen.tscn"
+run/main_scene="res://Global/SplashScreen.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 boot_splash/bg_color=Color(0.141176, 0.141176, 0.141176, 1)
 config/icon="res://Assets/Logos/icon.svg"
 
 [autoload]
 
-MusicManager="*res://Scenes/MusicManager.tscn"
-SoundManager="*res://Scenes/SoundManager.tscn"
-PlayerData="*res://Scripts/PlayerData.gd"
-GameData="*res://Scripts/GameData.gd"
-ThemeManager="*res://Scripts/Managers/ThemeManager.gd"
-ClanManager="*res://Scripts/Clans/ClanManager.gd"
-DebugManager="*res://Scripts/Managers/DebugManager.gd"
+MusicManager="*res://Global/MusicManager.tscn"
+SoundManager="*res://Global/SoundManager.tscn"
+PlayerData="*res://Global/PlayerData.gd"
+GameData="*res://Global/GameData.gd"
+ThemeManager="*res://Global/Managers/ThemeManager.gd"
+ClanManager="*res://Global/Clans/ClanManager.gd"
+DebugManager="*res://Global/Managers/DebugManager.gd"
 
 [display]
 
-window/size/viewport_width=1900
-window/size/viewport_height=1080
+window/size/viewport_width=800
+window/size/viewport_height=600
 window/size/resizable=false
 window/size/window_width_override=1900
 window/size/window_height_override=1080

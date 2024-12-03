@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://c5al7ybgi3u34"]
+
+[ext_resource type="Script" path="res://Global/Entities/BaseUnit.gd" id="1_mxxpn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_765k1"]
+size = Vector2(43, 42)
+
+[node name="BaseUnit" type="CharacterBody2D"]
+script = ExtResource("1_mxxpn")
+
+[node name="Control" type="Sprite2D" parent="."]
+
+[node name="CollisionArea2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionArea2D"]
+position = Vector2(21.5, 20)
+shape = SubResource("RectangleShape2D_765k1")
+
+[node name="SelectionBox" type="Control" parent="CollisionArea2D"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0

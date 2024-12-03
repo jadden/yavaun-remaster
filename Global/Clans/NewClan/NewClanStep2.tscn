@@ -1,0 +1,70 @@
+[gd_scene load_steps=3 format=3 uid="uid://d3mbkrvpkp1e6"]
+
+[ext_resource type="Script" path="res://Global/Clans/NewClan/NewClanStep2.gd" id="1_bcwn1"]
+[ext_resource type="Texture2D" uid="uid://dnm5s5144qqkf" path="res://Assets/Backgrounds/tablet.webp" id="2_ufm3y"]
+
+[node name="NewClanStep2" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_bcwn1")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -340.0
+offset_top = -95.0
+offset_right = 360.0
+offset_bottom = 95.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="LeaderNameLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Entrez le Nom du Leader"
+horizontal_alignment = 1
+
+[node name="LeaderNameInput" type="LineEdit" parent="VBoxContainer"]
+layout_mode = 2
+text = "Nom du Leader"
+placeholder_text = "Nom du Leader"
+alignment = 1
+
+[node name="ClanNameLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Entrez le Nom du Clan"
+horizontal_alignment = 1
+
+[node name="ClanNameInput" type="LineEdit" parent="VBoxContainer"]
+layout_mode = 2
+text = "Nom du Clan"
+placeholder_text = "Nom du Clan"
+alignment = 1
+
+[node name="CreateClanButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Créer le Clan"
+
+[node name="BackButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Retour"
+
+[node name="Background" type="TextureRect" parent="."]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_ufm3y")

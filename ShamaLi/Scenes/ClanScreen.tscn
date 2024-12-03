@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://hgvr8t7ohcqh"]
+[gd_scene load_steps=3 format=3 uid="uid://hgvr8t7ohcqh"]
 
-[ext_resource type="Script" path="res://ShamaLi/Scripts/ClanScreen.gd" id="1_x72x8"]
+[ext_resource type="Script" path="res://ShamaLi/Scenes/ClanScreen.gd" id="1_x72x8"]
+[ext_resource type="Texture2D" uid="uid://dnm5s5144qqkf" path="res://Assets/Backgrounds/tablet.webp" id="2_85i2r"]
 
 [node name="RaceScreen" type="Control"]
 layout_mode = 3
@@ -12,6 +13,7 @@ grow_vertical = 2
 script = ExtResource("1_x72x8")
 
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -25,89 +27,90 @@ grow_vertical = 2
 scale = Vector2(23, 23)
 color = Color(0.572549, 0.403922, 0.152941, 1)
 
-[node name="NewCampagn" type="Button" parent="."]
+[node name="Container" type="Control" parent="."]
+custom_minimum_size = Vector2(800, 600)
 layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
+anchors_preset = 15
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -72.0
-offset_right = 169.0
-grow_vertical = 0
-text = "Begin New Campagn
-"
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="LoadGame" type="Button" parent="."]
-layout_mode = 0
-offset_left = 154.0
-offset_top = 144.0
-offset_right = 323.0
-offset_bottom = 216.0
-text = "Load a saved game
-"
-
-[node name="ViewIdeology" type="Button" parent="."]
-layout_mode = 0
-offset_left = 152.0
-offset_top = 238.0
-offset_right = 321.0
-offset_bottom = 310.0
-text = "View ideology"
-
-[node name="QuitGame" type="Button" parent="."]
-layout_mode = 0
-offset_left = 154.0
-offset_top = 324.0
-offset_right = 323.0
-offset_bottom = 396.0
-text = "QuitGame"
-
-[node name="PreviousScreen" type="Button" parent="."]
+[node name="PreviousScreen" type="Button" parent="Container"]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -169.0
-offset_top = -72.0
+offset_left = -185.0
+offset_top = -95.0
+offset_right = -5.0
+offset_bottom = -25.0
 grow_horizontal = 0
 grow_vertical = 0
 text = "Previous screen"
 
-[node name="InputsContainer" type="BoxContainer" parent="."]
+[node name="NewCampagn" type="Button" parent="Container"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 30.0
+offset_top = -95.0
+offset_right = 210.0
+offset_bottom = -25.0
+grow_vertical = 0
+text = "Begin New Campagn
+"
+
+[node name="InputsContainer" type="BoxContainer" parent="Container"]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 50.0
+offset_top = 40.0
+offset_right = 554.0
+offset_bottom = 100.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="InputsContainer"]
+[node name="ClanPanel" type="HBoxContainer" parent="Container/InputsContainer"]
 layout_mode = 2
 
-[node name="LeaderNameInputContainer" type="VBoxContainer" parent="InputsContainer/HBoxContainer"]
+[node name="LeaderNameInputContainer" type="VBoxContainer" parent="Container/InputsContainer/ClanPanel"]
+custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 
-[node name="LeaderNameLabel" type="Label" parent="InputsContainer/HBoxContainer/LeaderNameInputContainer"]
+[node name="LeaderNameLabel" type="Label" parent="Container/InputsContainer/ClanPanel/LeaderNameInputContainer"]
 layout_mode = 2
 text = "Leader's Name"
 
-[node name="LeaderNameInput" type="LineEdit" parent="InputsContainer/HBoxContainer/LeaderNameInputContainer"]
+[node name="LeaderNameInput" type="LineEdit" parent="Container/InputsContainer/ClanPanel/LeaderNameInputContainer"]
 layout_mode = 2
-text = "Jan Akka'"
 placeholder_text = "Leader's Name"
 
-[node name="ClanNameInputContainer" type="VBoxContainer" parent="InputsContainer/HBoxContainer"]
+[node name="ClanNameInputContainer" type="VBoxContainer" parent="Container/InputsContainer/ClanPanel"]
+custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 
-[node name="ClanNameLabel" type="Label" parent="InputsContainer/HBoxContainer/ClanNameInputContainer"]
+[node name="ClanNameLabel" type="Label" parent="Container/InputsContainer/ClanPanel/ClanNameInputContainer"]
 layout_mode = 2
 text = "Clan's Name"
 
-[node name="ClanNameInput" type="LineEdit" parent="InputsContainer/HBoxContainer/ClanNameInputContainer"]
+[node name="ClanNameInput" type="LineEdit" parent="Container/InputsContainer/ClanPanel/ClanNameInputContainer"]
 layout_mode = 2
-text = "Agro Defense"
 placeholder_text = "Clan's Name"
 
+[node name="Background" type="TextureRect" parent="."]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_85i2r")
+
 [connection signal="ready" from="." to="." method="_on_ready"]
-[connection signal="pressed" from="NewCampagn" to="." method="_on_new_campagn_pressed"]
-[connection signal="pressed" from="PreviousScreen" to="." method="_on_previous_screen_pressed"]
-[connection signal="focus_exited" from="InputsContainer/HBoxContainer/LeaderNameInputContainer/LeaderNameInput" to="." method="_on_leader_name_input_focus_exited"]
-[connection signal="focus_exited" from="InputsContainer/HBoxContainer/ClanNameInputContainer/ClanNameInput" to="." method="_on_line_edit_focus_exited"]
+[connection signal="pressed" from="Container/PreviousScreen" to="." method="_on_previous_screen_pressed"]
+[connection signal="pressed" from="Container/NewCampagn" to="." method="_on_new_campagn_pressed"]
+[connection signal="focus_exited" from="Container/InputsContainer/ClanPanel/LeaderNameInputContainer/LeaderNameInput" to="." method="_on_leader_name_input_focus_exited"]
+[connection signal="focus_exited" from="Container/InputsContainer/ClanPanel/ClanNameInputContainer/ClanNameInput" to="." method="_on_line_edit_focus_exited"]

@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://dmsm60gp1u406"]
-
-[ext_resource type="Script" path="res://Scripts/Entities/BaseBuilding.gd" id="1_dj00p"]
-
-[node name="BaseBuilding" type="Node2D"]
-script = ExtResource("1_dj00p")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]

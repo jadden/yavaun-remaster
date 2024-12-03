@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://c7n7v1wwurrmt"]
 
-[ext_resource type="Script" path="res://ShamaLi/Scripts/Campaign1/Scenario1/ScenarioGoal.gd" id="1_2wmf8"]
+[ext_resource type="Script" path="res://ShamaLi/Scenes/Campaign1/Scenario1/ScenarioGoal.gd" id="1_2wmf8"]
 
 [node name="ScenarioGoal" type="Control"]
 layout_mode = 3

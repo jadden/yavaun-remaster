@@ -1,0 +1,110 @@
+[gd_scene load_steps=7 format=3 uid="uid://ctw7qcbvbrhvr"]
+
+[ext_resource type="Script" path="res://Global/Clans/NewClan/NewClanStep1.gd" id="1_kvs1a"]
+[ext_resource type="Texture2D" uid="uid://dnm5s5144qqkf" path="res://Assets/Backgrounds/tablet.webp" id="2_7n51x"]
+[ext_resource type="Texture2D" uid="uid://b0rurqesj2tw7" path="res://ThaRoon/Assets/Portraits/tharoon.png" id="2_ca8p3"]
+[ext_resource type="Texture2D" uid="uid://blpnrrx5i7cku" path="res://Obblinox/Assets/Portraits/obblinox.png" id="3_mvi6t"]
+[ext_resource type="Texture2D" uid="uid://cvlewbtfr22ha" path="res://Eaggra/Assets/Portraits/eaggra.png" id="4_g6t6s"]
+[ext_resource type="Texture2D" uid="uid://rwmxr1u2snh2" path="res://ShamaLi/Assets/Portraits/shamali.png" id="5_bejdx"]
+
+[node name="NewClanStep1" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_kvs1a")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 50.0
+offset_bottom = -150.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 2
+size_flags_vertical = 0
+text = "Choisissez une Race
+"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+alignment = 1
+
+[node name="ThaRoon" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="ThaRoonImage" type="TextureRect" parent="VBoxContainer/HBoxContainer/ThaRoon"]
+custom_minimum_size = Vector2(110, 142)
+layout_mode = 2
+texture = ExtResource("2_ca8p3")
+
+[node name="ThaRoonButton" type="Button" parent="VBoxContainer/HBoxContainer/ThaRoon"]
+layout_mode = 2
+text = "Tha'Roon"
+
+[node name="Obblinox" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="ObblinoxImage" type="TextureRect" parent="VBoxContainer/HBoxContainer/Obblinox"]
+custom_minimum_size = Vector2(110, 142)
+layout_mode = 2
+texture = ExtResource("3_mvi6t")
+
+[node name="ObblinoxButton" type="Button" parent="VBoxContainer/HBoxContainer/Obblinox"]
+layout_mode = 2
+text = "Obblinox"
+
+[node name="Eaggra" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="EaggraImage" type="TextureRect" parent="VBoxContainer/HBoxContainer/Eaggra"]
+custom_minimum_size = Vector2(110, 142)
+layout_mode = 2
+texture = ExtResource("4_g6t6s")
+
+[node name="EaggraButton" type="Button" parent="VBoxContainer/HBoxContainer/Eaggra"]
+layout_mode = 2
+text = "Eaggra"
+
+[node name="ShamaLi" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="ShamaLiImage" type="TextureRect" parent="VBoxContainer/HBoxContainer/ShamaLi"]
+custom_minimum_size = Vector2(110, 142)
+layout_mode = 2
+texture = ExtResource("5_bejdx")
+
+[node name="ShamaLiButton" type="Button" parent="VBoxContainer/HBoxContainer/ShamaLi"]
+layout_mode = 2
+text = "ShamaLi"
+
+[node name="BackButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Retour"
+
+[node name="NextButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Suivant"
+
+[node name="Background" type="TextureRect" parent="."]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_7n51x")

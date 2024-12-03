@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dqtjjfdfdhewv"]
 
-[ext_resource type="PackedScene" uid="uid://887341wdcjj0" path="res://Scenes/Entities/BaseUnit.tscn" id="1_vetrw"]
-[ext_resource type="Script" path="res://ShamaLi/Scripts/Units/Mercenary.gd" id="2_o6qsj"]
+[ext_resource type="PackedScene" uid="uid://887341wdcjj0" path="res://Global/Entities/BaseUnit.tscn" id="1_vetrw"]
+[ext_resource type="Script" path="res://ShamaLi/Scenes/Units/Mercenary.gd" id="2_o6qsj"]
 
 [node name="BaseUnit" instance=ExtResource("1_vetrw")]
 script = ExtResource("2_o6qsj")

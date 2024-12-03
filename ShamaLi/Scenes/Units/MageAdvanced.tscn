@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://baq4smtf4bkan"]
 
-[ext_resource type="PackedScene" uid="uid://887341wdcjj0" path="res://Scenes/Entities/BaseUnit.tscn" id="1_f05kv"]
-[ext_resource type="Script" path="res://ShamaLi/Scripts/Units/MageAdvanced.gd" id="2_qk6n1"]
+[ext_resource type="PackedScene" uid="uid://887341wdcjj0" path="res://Global/Entities/BaseUnit.tscn" id="1_f05kv"]
+[ext_resource type="Script" path="res://ShamaLi/Scenes/Units/MageAdvanced.gd" id="2_qk6n1"]
 [ext_resource type="Resource" uid="uid://b150ionrclj7" path="res://ShamaLi/Datas/MageAdvancedStats.tres" id="3_53l8n"]
 
 [node name="BaseUnit" instance=ExtResource("1_f05kv")]

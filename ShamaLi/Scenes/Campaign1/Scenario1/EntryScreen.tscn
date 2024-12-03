@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://ci4dh5kkqs2rn"]
 
-[ext_resource type="Script" path="res://ShamaLi/Scripts/Campaign1/Scenario1/EntryScreen.gd" id="1_i8hat"]
+[ext_resource type="Script" path="res://ShamaLi/Scenes/Campaign1/Scenario1/EntryScreen.gd" id="1_i8hat"]
 
 [node name="EntryScreen" type="Control"]
 layout_mode = 3

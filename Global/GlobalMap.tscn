@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://df3fhcthjojqe"]
+
+[ext_resource type="Script" path="res://Global/GlobalMap.gd" id="1_syrp0"]
+[ext_resource type="PackedScene" uid="uid://swnjxqb6jy6v" path="res://Global/Entities/SelectionManager.tscn" id="2_d5dnp"]
+
+[node name="GlobalMap" type="Node" node_paths=PackedStringArray("current_map_container", "race_ui_container")]
+script = ExtResource("1_syrp0")
+current_map_container = NodePath("CurrentMap")
+race_ui_container = NodePath("UI/RaceSpecificUI")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="SelectionManager" parent="UI" instance=ExtResource("2_d5dnp")]
+
+[node name="RaceSpecificUI" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CurrentMap" type="Node2D" parent="."]

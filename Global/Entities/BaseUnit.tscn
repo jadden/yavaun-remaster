@@ -1,0 +1,125 @@
+[gd_scene load_steps=7 format=3 uid="uid://887341wdcjj0"]
+
+[ext_resource type="Script" path="res://Global/Entities/BaseUnit.gd" id="1_a7myu"]
+[ext_resource type="Script" path="res://Global/Entities/SelectionBox.gd" id="2_6dss8"]
+[ext_resource type="AnimationLibrary" uid="uid://b06lf5rbt3h4d" path="res://Effects.res" id="2_wci0y"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_765k1"]
+size = Vector2(40, 40)
+
+[sub_resource type="Animation" id="Animation_6luok"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TopBorder:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 0.768627, 0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BottomBorder:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 0.768627, 0, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("LeftBorder:color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 0.768627, 0, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("RightBorder:color")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 0.768627, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_o2ruw"]
+_data = {
+"RESET": SubResource("Animation_6luok")
+}
+
+[node name="BaseUnit" type="CharacterBody2D"]
+input_pickable = true
+safe_margin = 0.1
+script = ExtResource("1_a7myu")
+
+[node name="CollisionShape2DBaseUnit" type="CollisionShape2D" parent="."]
+top_level = true
+position = Vector2(19.5, 19)
+shape = SubResource("RectangleShape2D_765k1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+top_level = true
+position = Vector2(19.5, 19)
+shape = SubResource("RectangleShape2D_765k1")
+
+[node name="SelectionBox" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_6dss8")
+border_color = Color(1, 0.768627, 0, 1)
+
+[node name="TopBorder" type="ColorRect" parent="SelectionBox"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(1, 0.768627, 0, 1)
+
+[node name="BottomBorder" type="ColorRect" parent="SelectionBox"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(1, 0.768627, 0, 1)
+
+[node name="LeftBorder" type="ColorRect" parent="SelectionBox"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(1, 0.768627, 0, 1)
+
+[node name="RightBorder" type="ColorRect" parent="SelectionBox"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(1, 0.768627, 0, 1)
+
+[node name="SelectionAnimationPlayer" type="AnimationPlayer" parent="SelectionBox"]
+libraries = {
+"": SubResource("AnimationLibrary_o2ruw"),
+"Effects": ExtResource("2_wci0y")
+}
+
+[connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]
