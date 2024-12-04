@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://cw6tsq1sgb35s"]
+[gd_scene load_steps=8 format=3 uid="uid://cw6tsq1sgb35s"]
 
 [ext_resource type="PackedScene" uid="uid://c15ojisxeonpx" path="res://ShamaLi/Scenes/Units/Leader.tscn" id="1_0a0n6"]
 [ext_resource type="Script" path="res://ShamaLi/Scenes/Campaign1/Scenario1/Map.gd" id="1_k254y"]
+[ext_resource type="Script" path="res://ShamaLi/Scenes/Campaign1/Scenario1/Camera2d.gd" id="2_7v0ow"]
 [ext_resource type="PackedScene" uid="uid://bhlh8x8nd33s8" path="res://Global/UIManager.tscn" id="2_yeavn"]
 [ext_resource type="PackedScene" uid="uid://dkwtihabed1n8" path="res://ShamaLi/Scenes/Units/Worker.tscn" id="4_vhm7l"]
 [ext_resource type="PackedScene" uid="uid://5xpbf2tsl6ro" path="res://Yavaun/Scenes/Units/Bonca.tscn" id="5_qm2c4"]
@@ -18,6 +19,7 @@ limit_top = -7000
 limit_right = 7000
 limit_bottom = 7000
 limit_smoothed = true
+script = ExtResource("2_7v0ow")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 

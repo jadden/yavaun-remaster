@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://c7n7v1wwurrmt"]
+[gd_scene load_steps=3 format=3 uid="uid://c7n7v1wwurrmt"]
 
 [ext_resource type="Script" path="res://ShamaLi/Scenes/Campaign1/Scenario1/ScenarioGoal.gd" id="1_2wmf8"]
+[ext_resource type="Texture2D" uid="uid://dnm5s5144qqkf" path="res://Assets/Backgrounds/tablet.webp" id="2_e4l8f"]
 
 [node name="ScenarioGoal" type="Control"]
 layout_mode = 3
@@ -11,26 +12,16 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_2wmf8")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -32.0
-offset_top = -31.0
-offset_right = 27.0
-offset_bottom = 4.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(23, 23)
-color = Color(0.572549, 0.403922, 0.152941, 1)
-
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 399.0
+offset_left = 43.0
+offset_top = 41.0
+offset_right = -15.0
+offset_bottom = 494.0
 grow_horizontal = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
 text = "Bide you well these days of trial and hearken unto the spirit of the learned Shama'Li, for this we require of the devout clan :
 
 {clan_name}
@@ -48,27 +39,35 @@ Objective : Intercept and destroy the Tha'Roon forces to the north and northwest
 
 [node name="PreviousRaceScreen" type="Button" parent="."]
 layout_mode = 1
-anchors_preset = 3
+anchors_preset = 1
 anchor_left = 1.0
-anchor_top = 1.0
 anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -169.0
-offset_top = -72.0
+offset_left = -185.0
+offset_top = 505.0
+offset_right = -5.0
+offset_bottom = 575.0
 grow_horizontal = 0
-grow_vertical = 0
 text = "Previous screen"
 
 [node name="LaunchGame" type="Button" parent="."]
 layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -31.0
-offset_right = 125.0
-grow_vertical = 0
+offset_left = 30.0
+offset_top = 505.0
+offset_right = 210.0
+offset_bottom = 575.0
 text = "Start the Game
 "
+
+[node name="TextureRect" type="TextureRect" parent="."]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_e4l8f")
 
 [connection signal="pressed" from="PreviousRaceScreen" to="." method="_on_previous_race_screen_pressed"]
 [connection signal="pressed" from="LaunchGame" to="." method="_on_launch_game_pressed"]

@@ -1,7 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://hgvr8t7ohcqh"]
+[gd_scene load_steps=5 format=3 uid="uid://hgvr8t7ohcqh"]
 
 [ext_resource type="Script" path="res://ShamaLi/Scenes/ClanScreen.gd" id="1_x72x8"]
 [ext_resource type="Texture2D" uid="uid://dnm5s5144qqkf" path="res://Assets/Backgrounds/tablet.webp" id="2_85i2r"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_rw5se"]
+line_spacing = 4.0
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_un86f"]
+line_spacing = 4.0
+font_color = Color(0, 0, 0, 1)
 
 [node name="RaceScreen" type="Control"]
 layout_mode = 3
@@ -11,21 +19,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_x72x8")
-
-[node name="ColorRect" type="ColorRect" parent="."]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -30.0
-offset_top = -14.0
-offset_right = 29.0
-offset_bottom = 21.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(23, 23)
-color = Color(0.572549, 0.403922, 0.152941, 1)
 
 [node name="Container" type="Control" parent="."]
 custom_minimum_size = Vector2(800, 600)
@@ -81,6 +74,7 @@ layout_mode = 2
 [node name="LeaderNameLabel" type="Label" parent="Container/InputsContainer/ClanPanel/LeaderNameInputContainer"]
 layout_mode = 2
 text = "Leader's Name"
+label_settings = SubResource("LabelSettings_rw5se")
 
 [node name="LeaderNameInput" type="LineEdit" parent="Container/InputsContainer/ClanPanel/LeaderNameInputContainer"]
 layout_mode = 2
@@ -93,6 +87,7 @@ layout_mode = 2
 [node name="ClanNameLabel" type="Label" parent="Container/InputsContainer/ClanPanel/ClanNameInputContainer"]
 layout_mode = 2
 text = "Clan's Name"
+label_settings = SubResource("LabelSettings_un86f")
 
 [node name="ClanNameInput" type="LineEdit" parent="Container/InputsContainer/ClanPanel/ClanNameInputContainer"]
 layout_mode = 2
