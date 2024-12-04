@@ -7,15 +7,21 @@
 [ext_resource type="PackedScene" uid="uid://5xpbf2tsl6ro" path="res://Yavaun/Scenes/Units/Bonca.tscn" id="5_qm2c4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mn3vf"]
-size = Vector2(6451.5, 3847)
+size = Vector2(7000, 7000)
 
 [node name="Map" type="Node2D"]
 script = ExtResource("1_k254y")
 
+[node name="Camera2D" type="Camera2D" parent="."]
+limit_left = -7000
+limit_top = -7000
+limit_right = 7000
+limit_bottom = 7000
+limit_smoothed = true
+
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(-808.75, 35.5)
 shape = SubResource("RectangleShape2D_mn3vf")
 
 [node name="UIManager" parent="." instance=ExtResource("2_yeavn")]
@@ -26,15 +32,15 @@ shape = SubResource("RectangleShape2D_mn3vf")
 
 [node name="Leader" parent="EntitiesContainer/PlayerUnits" instance=ExtResource("1_0a0n6")]
 z_index = -1
-position = Vector2(176, 172)
+position = Vector2(-86, 42)
 
 [node name="Worker" parent="EntitiesContainer/PlayerUnits" instance=ExtResource("4_vhm7l")]
 z_index = -1
-position = Vector2(396, 175)
+position = Vector2(124, 34)
 
 [node name="WildUnits" type="Node2D" parent="EntitiesContainer"]
 
 [node name="Bonca" parent="EntitiesContainer/WildUnits" instance=ExtResource("5_qm2c4")]
-position = Vector2(188, 336)
+position = Vector2(15, 74)
 
 [node name="AIUnits" type="Node2D" parent="EntitiesContainer"]

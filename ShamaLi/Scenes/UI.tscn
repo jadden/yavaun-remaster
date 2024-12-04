@@ -45,36 +45,37 @@ layout_mode = 2
 texture = ExtResource("2_eflqi")
 
 [node name="Panel" type="Panel" parent="."]
-layout_mode = 0
-offset_left = 611.0
-offset_top = -5.0
-offset_right = 796.0
-offset_bottom = 552.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_jsyo5")
 
 [node name="LeaderPanel" type="Panel" parent="Panel"]
 layout_mode = 0
-offset_left = 19.0
-offset_top = 10.0
-offset_right = 168.0
-offset_bottom = 138.0
+offset_left = 633.0
+offset_top = 5.0
+offset_right = 782.0
+offset_bottom = 133.0
 
 [node name="LeaderName" type="Label" parent="Panel/LeaderPanel"]
 layout_mode = 0
-offset_left = 2.0
-offset_top = -1.0
-offset_right = 149.0
-offset_bottom = 22.0
+offset_left = 614.0
+offset_top = -5.0
+offset_right = 761.0
+offset_bottom = 18.0
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 1
 
 [node name="LeaderImage" type="TextureRect" parent="Panel/LeaderPanel"]
 layout_mode = 0
-offset_left = 2.0
-offset_top = 25.0
-offset_right = 87.0
-offset_bottom = 115.0
+offset_left = 614.0
+offset_top = 21.0
+offset_right = 699.0
+offset_bottom = 111.0
 
 [node name="LeaderHealth" type="ProgressBar" parent="Panel/LeaderPanel"]
 modulate = Color(0.329841, 0.567277, 0.911481, 1)
@@ -85,9 +86,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -72.5
-offset_top = 54.0
+offset_top = 50.0
 offset_right = 73.5
-offset_bottom = 76.0
+offset_bottom = 72.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(1, 0.45)
@@ -102,10 +103,10 @@ offset_bottom = 286.0
 
 [node name="RessourcesScore" type="Label" parent="Panel"]
 layout_mode = 0
-offset_left = 45.0
-offset_top = 141.0
-offset_right = 142.0
-offset_bottom = 164.0
+offset_left = 657.0
+offset_top = 137.0
+offset_right = 754.0
+offset_bottom = 160.0
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -113,10 +114,10 @@ autowrap_mode = 1
 
 [node name="UnitPanel" type="Panel" parent="Panel"]
 layout_mode = 0
-offset_left = 22.0
-offset_top = 345.0
-offset_right = 171.0
-offset_bottom = 485.0
+offset_left = 630.0
+offset_top = 337.0
+offset_right = 779.0
+offset_bottom = 477.0
 
 [node name="HealthBar" type="ProgressBar" parent="Panel/UnitPanel"]
 modulate = Color(0.329841, 0.567277, 0.911481, 1)
