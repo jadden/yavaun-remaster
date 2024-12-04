@@ -19,19 +19,19 @@ func _on_previous_screen_pressed():
 
 
 func _on_leader_name_input_focus_exited():
-	var leader_name = $InputsContainer/HBoxContainer/LeaderNameInputContainer/LeaderNameInput.text
+	var leader_name = $Container/InputsContainer/ClanPanel/LeaderNameInputContainer/LeaderNameInput.text
 	if leader_name.strip_edges() == "":
 		leader_name = "Jan Akka'"
-		$InputsContainer/HBoxContainer/LeaderNameInputContainer/LeaderNameInput.text = "Druk Angrak"
+		$Container/InputsContainer/ClanPanel/LeaderNameInputContainer/LeaderNameInput.text = "Druk Angrak"
 	PlayerData.leader_name = leader_name
 	print("Leader's Name :", PlayerData.leader_name)
 
 
 func _on_line_edit_focus_exited():
-	var clan_name = $InputsContainer/HBoxContainer/ClanNameInputContainer/ClanNameInput.text
+	var clan_name = $Container/InputsContainer/ClanPanel/ClanNameInputContainer/ClanNameInput.text
 	if clan_name.strip_edges() == "":
 		clan_name = "Agro Defense"
-		$InputsContainer/HBoxContainer/ClanNameInputContainer/ClanNameInput.text = "House Mondra"
+		$Container/InputsContainer/ClanPanel/ClanNameInputContainer/ClanNameInput.text = "House Mondra"
 	PlayerData.leader_name = clan_name
 	print("Clan's Name :", PlayerData.clan_name)
 

@@ -37,6 +37,10 @@ window/stretch/mode="viewport"
 window/stretch/aspect="expand"
 mouse_cursor/custom_image="res://Assets/UI/Cursors/cursor.png"
 
+[gui]
+
+theme/custom_font="res://Assets/Fonts/BatuphatScript.otf"
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
