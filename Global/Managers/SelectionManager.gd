@@ -59,6 +59,9 @@ func initialize(entities_container: Node):
 	print("Entités initialisées :", units.size(), "unités et", buildings.size(), "bâtiments.")
 
 func gather_entities_recursive(container: Node):
+	"""
+	Récupère les entités dans le conteneur spécifié et ses enfants.
+	"""
 	for child in container.get_children():
 		if child is BaseUnit:
 			print("BaseUnit trouvée :", child.name, "Position globale :", child.global_position)
@@ -96,6 +99,7 @@ func start_selection(start_pos: Vector2):
 	"""
 	Démarre une sélection avec la position initiale.
 	"""
+	clear_selection()  # Réinitialise toutes les entités avant de commencer une nouvelle sélection
 	selection_start = start_pos
 	selection_end = start_pos
 	is_selecting = true
@@ -110,6 +114,9 @@ func update_selection(end_pos: Vector2):
 	update_selection_rectangle()
 
 func end_selection():
+	"""
+	Termine la sélection et met à jour les entités sélectionnées.
+	"""
 	is_selecting = false
 	selection_rectangle.visible = false
 
@@ -123,32 +130,23 @@ func end_selection():
 	selected_entities.clear()
 
 	for entity in units:
-		# Conversion des coordonnées de l'entité dans l'espace écran via la caméra
 		var entity_screen_pos = camera.global_to_viewport_position(entity.global_position)
-		print("Position globale :", entity.global_position, " -> Position écran :", entity_screen_pos)
-		print("Rectangle contient :", selection_rect.has_point(entity_screen_pos))
-
-		# Vérification si l'entité est dans le rectangle
 		if selection_rect.has_point(entity_screen_pos):
 			if entity.player_id == player_id:
 				entity.set_selected(true)
 				selected_entities.append(entity)
-				print(" -> Entité sélectionnée :", entity.name)
-			else:
-				entity.set_selected(false)
-
 	print("Sélection terminée. Entités sélectionnées :", selected_entities)
 	update_ui()
 
 func clear_selection():
 	"""
-	Désélectionne toutes les entités.
+	Désélectionne toutes les entités et vide la sélection active.
 	"""
-	for entity in selected_entities:
+	for entity in units:
 		entity.set_selected(false)
 	selected_entities.clear()
-	if ui and ui.has_method("clear_ui"):
-		ui.call("clear_ui")
+	if ui and ui.has_method("reset_ui"):
+		ui.call("reset_ui")
 
 func update_ui():
 	"""
@@ -161,7 +159,7 @@ func update_ui():
 	elif selected_entities.size() > 1:
 		ui.call("update_multiple_units_info", selected_entities)
 	else:
-		ui.call("clear_ui")
+		ui.call("reset_ui")
 
 func update_selection_rectangle():
 	"""

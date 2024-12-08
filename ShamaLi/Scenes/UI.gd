@@ -36,16 +36,18 @@ func _ready():
 	"""
 	Initialise l'interface utilisateur.
 	"""
-	clear_ui()
-	clear_unit_panel()
-
-	leader_name_label.text = "Inconnu"
-	leader_health_bar.max_value = 100
-	leader_health_bar.value = 0
-	resource_score_label.text = "0"
-
+	reset_ui()  # Réinitialise l'interface complète
 	print_debug("Interface Raciale ShamaLiUI initialisée.")
 	emit_signal("ui_ready")
+
+func reset_ui():
+	"""
+	Remet à zéro l'intégralité de l'interface utilisateur (leader + unités).
+	"""
+	clear_ui()
+	clear_unit_panel()
+	clear_help_panel()
+	print_debug("UI entièrement réinitialisée.")
 
 func update_leader_data(leader: BaseUnit, resource_data: int):
 	"""
@@ -59,9 +61,7 @@ func update_leader_data(leader: BaseUnit, resource_data: int):
 		leader_health_bar.value = leader_health
 		leader_name_label.text = leader_name
 	else:
-		leader_name_label.text = "Inconnu"
-		leader_health_bar.value = 0
-		leader_health_bar.max_value = 100
+		clear_ui()  # Efface les données si aucun leader
 
 	resource_score = resource_data
 	resource_score_label.text = str(resource_score)
