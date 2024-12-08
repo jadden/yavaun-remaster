@@ -13,14 +13,6 @@ size = Vector2(7000, 7000)
 [node name="Map" type="Node2D"]
 script = ExtResource("1_k254y")
 
-[node name="Camera2D" type="Camera2D" parent="."]
-limit_left = -7000
-limit_top = -7000
-limit_right = 7000
-limit_bottom = 7000
-limit_smoothed = true
-script = ExtResource("2_7v0ow")
-
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
@@ -37,7 +29,6 @@ z_index = -1
 position = Vector2(-86, 42)
 
 [node name="Worker" parent="EntitiesContainer/PlayerUnits" instance=ExtResource("4_vhm7l")]
-z_index = -1
 position = Vector2(124, 34)
 
 [node name="WildUnits" type="Node2D" parent="EntitiesContainer"]
@@ -46,3 +37,22 @@ position = Vector2(124, 34)
 position = Vector2(15, 74)
 
 [node name="AIUnits" type="Node2D" parent="EntitiesContainer"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+limit_left = -7000
+limit_top = -7000
+limit_right = 7000
+limit_bottom = 7000
+limit_smoothed = true
+script = ExtResource("2_7v0ow")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+visible = false
+offset_left = 246.0
+offset_top = 122.0
+offset_right = 758.0
+offset_bottom = 634.0
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+render_target_update_mode = 0

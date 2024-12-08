@@ -14,12 +14,13 @@ var is_selecting: bool = false
 # Références aux nœuds
 @onready var selection_rectangle: Control = $SelectionRectangle
 @onready var rectangle_panel: Panel = $SelectionRectangle/Rectangle
+var camera: Camera2D = null  # Référence à la caméra
 var ui: Node = null  # Référence à l'interface raciale
 var player_id: String = "Player1"  # ID du joueur actuel
 
 func _ready():
 	"""
-	Initialise le gestionnaire de sélection.
+	Initialise les références et cache le rectangle de sélection.
 	"""
 	if selection_rectangle and rectangle_panel:
 		selection_rectangle.visible = false
@@ -29,7 +30,7 @@ func _ready():
 
 func set_ui(ui_instance: Node):
 	"""
-	Associe une instance de l'UI raciale.
+	Associe l'interface raciale au gestionnaire.
 	"""
 	ui = ui_instance
 	if ui:
@@ -37,37 +38,42 @@ func set_ui(ui_instance: Node):
 	else:
 		print("Erreur : Impossible d'associer l'UI.")
 
+func set_camera(camera_instance: Camera2D):
+	"""
+	Associe la caméra au gestionnaire.
+	"""
+	camera = camera_instance
+	if camera:
+		print("Caméra définie pour SelectionManager :", camera.name)
+	else:
+		print("Erreur : Impossible d'associer la caméra.")
+
 func initialize(entities_container: Node):
 	"""
-	Initialise les entités à partir d'un conteneur parent.
+	Initialise les entités à partir du conteneur spécifié.
 	"""
 	units.clear()
 	buildings.clear()
 	selected_entities.clear()
-
 	gather_entities_recursive(entities_container)
-
 	print("Entités initialisées :", units.size(), "unités et", buildings.size(), "bâtiments.")
 
 func gather_entities_recursive(container: Node):
-	"""
-	Collecte récursivement les entités dans un conteneur et ses enfants.
-	"""
 	for child in container.get_children():
 		if child is BaseUnit:
-			print("Unité détectée :", child.name)
+			print("BaseUnit trouvée :", child.name, "Position globale :", child.global_position)
 			child.set_selected(false)
 			units.append(child)
 		elif child is BaseBuilding:
-			print("Bâtiment détecté :", child.name)
+			print("BaseBuilding trouvée :", child.name, "Position globale :", child.global_position)
 			child.set_selected(false)
 			buildings.append(child)
-		elif child is Node:  # Vérifie les sous-conteneurs
+		elif child is Node:
 			gather_entities_recursive(child)
 
 func _input(event: InputEvent):
 	"""
-	Gère les événements utilisateur.
+	Gère les événements utilisateur pour la sélection.
 	"""
 	if event is InputEventMouseButton:
 		_handle_mouse_button_input(event)
@@ -76,7 +82,7 @@ func _input(event: InputEvent):
 
 func _handle_mouse_button_input(event: InputEventMouseButton):
 	"""
-	Gère les clics pour démarrer ou terminer la sélection.
+	Gère les clics pour commencer ou terminer une sélection.
 	"""
 	if event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
@@ -88,14 +94,13 @@ func _handle_mouse_button_input(event: InputEventMouseButton):
 
 func start_selection(start_pos: Vector2):
 	"""
-	Démarre une sélection.
+	Démarre une sélection avec la position initiale.
 	"""
 	selection_start = start_pos
 	selection_end = start_pos
 	is_selecting = true
 	selection_rectangle.visible = true
 	update_selection_rectangle()
-	print("Début de sélection à :", selection_start)
 
 func update_selection(end_pos: Vector2):
 	"""
@@ -105,29 +110,32 @@ func update_selection(end_pos: Vector2):
 	update_selection_rectangle()
 
 func end_selection():
-	"""
-	Termine la sélection et met à jour les entités sélectionnées.
-	"""
 	is_selecting = false
 	selection_rectangle.visible = false
 
+	if camera == null:
+		print("Erreur : La caméra n'est pas définie pour convertir les coordonnées.")
+		return
+
 	var selection_rect = Rect2(selection_start, selection_end - selection_start).abs()
+	print("Rectangle de sélection :", selection_rect)
+
 	selected_entities.clear()
 
-	# Parcourt les entités pour déterminer celles dans le rectangle
 	for entity in units:
-		var is_in_rectangle = selection_rect.has_point(entity.global_position)
-		print("Entité :", entity.name)
-		print(" - Position :", entity.global_position)
-		print(" - Player ID :", entity.player_id)
-		print(" - Dans le rectangle :", is_in_rectangle)
+		# Conversion des coordonnées de l'entité dans l'espace écran via la caméra
+		var entity_screen_pos = camera.global_to_viewport_position(entity.global_position)
+		print("Position globale :", entity.global_position, " -> Position écran :", entity_screen_pos)
+		print("Rectangle contient :", selection_rect.has_point(entity_screen_pos))
 
-		if is_in_rectangle and entity.player_id == player_id:
-			entity.set_selected(true)
-			selected_entities.append(entity)
-			print(" -> Entité sélectionnée :", entity.name)
-		else:
-			entity.set_selected(false)
+		# Vérification si l'entité est dans le rectangle
+		if selection_rect.has_point(entity_screen_pos):
+			if entity.player_id == player_id:
+				entity.set_selected(true)
+				selected_entities.append(entity)
+				print(" -> Entité sélectionnée :", entity.name)
+			else:
+				entity.set_selected(false)
 
 	print("Sélection terminée. Entités sélectionnées :", selected_entities)
 	update_ui()
@@ -139,19 +147,15 @@ func clear_selection():
 	for entity in selected_entities:
 		entity.set_selected(false)
 	selected_entities.clear()
-
 	if ui and ui.has_method("clear_ui"):
 		ui.call("clear_ui")
-	print("Sélection effacée.")
 
 func update_ui():
 	"""
 	Mise à jour de l'UI en fonction des entités sélectionnées.
 	"""
 	if not ui:
-		print("Erreur : UI non initialisée.")
 		return
-
 	if selected_entities.size() == 1:
 		ui.call("update_unit_info", selected_entities[0])
 	elif selected_entities.size() > 1:
@@ -161,18 +165,15 @@ func update_ui():
 
 func update_selection_rectangle():
 	"""
-	Met à jour les dimensions et la position du rectangle de sélection.
+	Met à jour la position et la taille du rectangle de sélection.
 	"""
 	var top_left = selection_start
 	var rect_size = selection_end - selection_start
-
 	if rect_size.x < 0:
 		top_left.x += rect_size.x
 		rect_size.x = -rect_size.x
 	if rect_size.y < 0:
 		top_left.y += rect_size.y
 		rect_size.y = -rect_size.y
-
 	rectangle_panel.position = top_left
 	rectangle_panel.size = rect_size
-	print("Rectangle mis à jour : position =", top_left, ", taille =", rect_size)

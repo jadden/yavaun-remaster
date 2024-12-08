@@ -23,9 +23,6 @@ func _ready():
 		print("Erreur : Un des sous-conteneurs d'unités est introuvable.")
 		return
 
-	# Tentative d'initialisation de l'UI raciale
-	attempt_ui_initialization()
-
 	# Charger le clan actuel
 	var current_clan = ClanManager.clans.find(func(clan): return clan.uuid == ClanManager.current_clan_id)
 	if current_clan == null:
@@ -38,21 +35,6 @@ func _ready():
 	# Initialiser les unités
 	print("Initialisation des unités...")
 	initialize_units()
-
-func attempt_ui_initialization():
-	"""
-	Tente de connecter l'UI raciale et écoute son signal `ui_ready`.
-	"""
-	var ui_node = get_node_or_null("root/UI/RaceSpecificUI")  # Modifier le chemin si nécessaire
-	if ui_node:
-		racial_ui = ui_node
-		print("UI raciale trouvée :", racial_ui.name)
-		racial_ui.connect("ui_ready", Callable(self, "_on_ui_ready"))
-		_on_ui_ready()  # Appeler immédiatement si nécessaire
-	else:
-		print("Erreur : racial_ui (RaceSpecificUI) introuvable. Réessayer dans 1 seconde.")
-		await get_tree().create_timer(1.0).timeout
-		attempt_ui_initialization()
 
 func _on_ui_ready():
 	"""

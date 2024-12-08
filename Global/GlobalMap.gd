@@ -51,6 +51,14 @@ func _initialize_units_container():
 			print("EntitiesContainer trouvé :", units_container.name)
 			if unit_selection_manager and unit_selection_manager is SelectionManager:
 				unit_selection_manager.initialize(units_container)
+
+		# Associer la caméra au SelectionManager
+		var camera = current_map_container.get_node_or_null("Map/Camera2D")
+		if camera:
+			unit_selection_manager.set_camera(camera)
+			print("Caméra définie pour SelectionManager :", camera.name)
+		else:
+			print("Erreur : Caméra introuvable dans CurrentMap.")
 	else:
 		print("Erreur : CurrentMap introuvable au moment de l'initialisation.")
 
