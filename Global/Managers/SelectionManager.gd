@@ -130,6 +130,7 @@ func end_selection():
 	selected_entities.clear()
 
 	for entity in units:
+		# Conversion des coordonnées de l'entité dans l'espace écran via la caméra
 		var entity_screen_pos = camera.global_to_viewport_position(entity.global_position)
 		if selection_rect.has_point(entity_screen_pos):
 			if entity.player_id == player_id:

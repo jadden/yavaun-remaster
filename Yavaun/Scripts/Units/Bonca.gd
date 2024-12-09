@@ -3,7 +3,7 @@ extends BaseUnit
 # Variables d'animation et de mouvement
 @export var move_speed: float = 50.0  # Vitesse de déplacement
 @export var wander_radius: float = 300.0  # Rayon maximal d'errance
-@export var idle_time_range: Vector2 = Vector2(1.0, 3.0)  # Temps d'inactivité entre les mouvements (min, max)
+@export var idle_time_range: Vector2 = Vector2(30.0, 90.0)  # Temps d'inactivité entre les mouvements (min : 30s, max : 90s)
 
 # Point de départ
 var start_position: Vector2 = Vector2.ZERO
@@ -28,6 +28,7 @@ func _idle() -> void:
 	"""
 	animator.stop()  # Arrête l'animation en cours
 	animator.frame = 0  # Optionnel : repositionne l'animation à son état initial
+	_show_sprite()  # Affiche le sprite pour l'état idle
 	var idle_time = randf_range(idle_time_range.x, idle_time_range.y)
 	print("Bonca en mode idle pour :", idle_time, "secondes.")
 	get_tree().create_timer(idle_time).connect("timeout", Callable(self, "_choose_new_direction"))

@@ -4,9 +4,12 @@ extends Camera2D
 @export var move_speed: float = 400.0
 @export var zoom_speed: float = 0.1
 @export var scroll_margin: float = 10.0
-@export var screen_limits: Vector2 = Vector2(5000, 5000)
+@export var screen_limits: Vector2 = Vector2(7000, 7000)
 
 func _ready():
+	"""
+	Rend cette caméra active au démarrage.
+	"""
 	make_current()
 	print("Camera active:", is_current())
 
@@ -19,6 +22,9 @@ func _input(event):
 	handle_zoom(event)
 
 func handle_movement(delta: float):
+	"""
+	Gère le déplacement de la caméra via les touches directionnelles.
+	"""
 	var direction = Vector2.ZERO
 	if Input.is_action_pressed("ui_up"):
 		direction.y -= 1
@@ -31,6 +37,9 @@ func handle_movement(delta: float):
 	position += direction.normalized() * move_speed * delta
 
 func scroll_with_mouse(delta: float):
+	"""
+	Gère le déplacement de la caméra avec les bords de l'écran.
+	"""
 	var mouse_pos = get_viewport().get_mouse_position()
 	var viewport_size = get_viewport().get_visible_rect().size
 	var direction = Vector2.ZERO
@@ -45,21 +54,24 @@ func scroll_with_mouse(delta: float):
 	position += direction.normalized() * move_speed * delta
 
 func handle_zoom(event):
+	"""
+	Gère le zoom de la caméra avec des actions personnalisées.
+	"""
 	if Input.is_action_just_pressed("zoom_in"):
 		zoom *= 1 - zoom_speed
 	elif Input.is_action_just_pressed("zoom_out"):
 		zoom *= 1 + zoom_speed
 
 func clamp_position():
-	position.x = clamp(position.x, 0, screen_limits.x)
-	position.y = clamp(position.y, 0, screen_limits.y)
+	"""
+	Restreint la caméra aux limites configurées.
+	"""
+	position.x = clamp(position.x, -screen_limits.x, screen_limits.x)
+	position.y = clamp(position.y, -screen_limits.y, screen_limits.y)
 
 func global_to_viewport_position(global_position: Vector2) -> Vector2:
 	"""
 	Convertit une position globale (monde) en position relative à l'écran (viewport).
 	"""
-	var canvas_transform = get_canvas_transform()  # Transformation du canvas
-	var screen_position = canvas_transform.origin + (global_position - position) * zoom
-	print("Canvas Transform Origin:", canvas_transform.origin)
-	print("Camera Position:", position, "Zoom:", zoom)
-	return screen_position
+	var viewport_position = (global_position - position) * zoom
+	return viewport_position
