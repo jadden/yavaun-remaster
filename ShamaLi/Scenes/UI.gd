@@ -23,7 +23,7 @@ var leader_name: String = ""
 var leader_health: int = 0
 var resource_score: int = 0
 var leader_unit: BaseUnit = null  # Référence au leader
-var group_name: String = "Groupe Shama'Li"
+var group_name: String = "Tribu Shama'Li"
 var group_image_path: String = "res://ShamaLi/Assets/Portraits/group.png"
 
 func print_debug(message: String, category: String = "UI"):

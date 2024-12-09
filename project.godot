@@ -36,6 +36,10 @@ window/size/window_height_override=1200
 window/stretch/mode="viewport"
 mouse_cursor/custom_image="res://Assets/UI/Cursors/cursor.png"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/visibility_collision_shape_editor/plugin.cfg")
+
 [gui]
 
 theme/custom_font="res://Assets/Fonts/BatuphatScript.otf"
