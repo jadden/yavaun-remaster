@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://5xpbf2tsl6ro"]
 
 [ext_resource type="PackedScene" uid="uid://887341wdcjj0" path="res://Global/Entities/BaseUnit.tscn" id="1_1yijm"]
-[ext_resource type="Script" path="res://Yavaun/Scripts/Units/Bonca.gd" id="2_erxqy"]
+[ext_resource type="Script" path="res://Yavaun/Scenes/Units/Bonca.gd" id="2_erxqy"]
 [ext_resource type="Resource" uid="uid://btingpc6e3a5m" path="res://Yavaun/Datas/BoncaStats.tres" id="3_ao2vw"]
 [ext_resource type="Texture2D" uid="uid://b44rr60f776ud" path="res://Yavaun/Assets/Actors/Wild/Bonca/walk_down_1.png" id="4_5uxhx"]
 [ext_resource type="SpriteFrames" uid="uid://btcur7ve1nl33" path="res://Yavaun/Assets/Actors/Wild/Bonca/SpriteFrameBonca.tres" id="5_44ffh"]
@@ -18,13 +18,14 @@ position = Vector2(25, 25)
 scale = Vector2(1.25, 1.25)
 
 [node name="Sprite2D" parent="." index="1"]
+visible = false
 position = Vector2(25, 25)
 texture = ExtResource("4_5uxhx")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="2"]
 position = Vector2(30, 30)
 sprite_frames = ExtResource("5_44ffh")
-animation = &"walk_right"
+animation = &"idle_down"
 
 [node name="CollisionShape2D" parent="Area2D" index="0"]
 position = Vector2(25, 25)

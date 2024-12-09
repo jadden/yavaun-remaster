@@ -37,3 +37,9 @@ class_name UnitStats
 
 @export_group("Audio")
 @export var unit_sound_selection_path: String = "" ## Selection sound of the unit
+
+func has_property(prop_name: String) -> bool:
+	for prop in self.get_property_list():
+		if prop.name == prop_name:
+			return true
+	return false

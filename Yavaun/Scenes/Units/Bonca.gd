@@ -7,11 +7,10 @@ extends BaseUnit
 
 # Point de départ
 var start_position: Vector2 = Vector2.ZERO
-var current_direction: Vector2 = Vector2.ZERO
+var current_direction: Vector2 = Vector2.DOWN  # Par défaut "down"
 
 # Références aux composants graphiques
 @onready var animator: AnimatedSprite2D = $AnimatedSprite2D
-@onready var sprite: Sprite2D = $Sprite2D  # Sprite qui doit être masqué lors de l'animation
 
 func _ready() -> void:
 	"""
@@ -26,9 +25,8 @@ func _idle() -> void:
 	"""
 	Met le Bonca en mode inactif pendant un temps aléatoire.
 	"""
-	animator.stop()  # Arrête l'animation en cours
-	animator.frame = 0  # Optionnel : repositionne l'animation à son état initial
-	_show_sprite()  # Affiche le sprite pour l'état idle
+	_play_idle_animation(current_direction)  # Joue l'animation idle pour la direction actuelle
+
 	var idle_time = randf_range(idle_time_range.x, idle_time_range.y)
 	print("Bonca en mode idle pour :", idle_time, "secondes.")
 	get_tree().create_timer(idle_time).connect("timeout", Callable(self, "_choose_new_direction"))
@@ -67,12 +65,20 @@ func _play_walk_animation(direction: Vector2) -> void:
 	"""
 	Joue l'animation de marche en fonction de la direction.
 	"""
-	_hide_sprite()  # Masque le Sprite2D lors de l'animation
 	var direction_name = _get_direction_name(direction)
 	if direction_name != "":
 		animator.flip_h = direction.x < 0  # Flip horizontal si la direction est gauche
 		animator.play("walk_" + direction_name)
 		print("Bonca joue l'animation :", "walk_" + direction_name)
+
+func _play_idle_animation(direction: Vector2) -> void:
+	"""
+	Joue l'animation idle en fonction de la direction actuelle.
+	"""
+	var direction_name = _get_direction_name(direction)
+	if direction_name != "":
+		animator.play("idle_" + direction_name)
+		print("Bonca joue l'animation :", "idle_" + direction_name)
 
 func _get_direction_name(direction: Vector2) -> String:
 	"""
@@ -87,19 +93,3 @@ func _get_direction_name(direction: Vector2) -> String:
 			return "rightup" if direction.y < 0 else "rightdown"
 		else:
 			return "rightup" if direction.y < 0 else "rightdown"
-
-func _hide_sprite():
-	"""
-	Masque le Sprite2D lorsque l'animation est jouée.
-	"""
-	if sprite:
-		sprite.visible = false
-		print("Sprite2D masqué.")
-
-func _show_sprite():
-	"""
-	Affiche le Sprite2D lorsque le Bonca est idle.
-	"""
-	if sprite:
-		sprite.visible = true
-		print("Sprite2D affiché.")

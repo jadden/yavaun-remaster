@@ -60,6 +60,7 @@ func update_leader_data(leader: BaseUnit, resource_data: int):
 		leader_health_bar.max_value = leader.stats.health_max
 		leader_health_bar.value = leader_health
 		leader_name_label.text = leader_name
+		_play_selection_sound(leader)
 	else:
 		clear_ui()  # Efface les données si aucun leader
 
@@ -94,6 +95,7 @@ func update_unit_info(unit: BaseUnit):
 		unit_image.visible = false
 
 	unit_panel.visible = true
+	_play_selection_sound(unit)
 	print_debug("Panneau mis à jour pour l'unité sélectionnée : " + unit.stats.unit_name)
 
 func update_multiple_units_info(units: Array):
@@ -116,7 +118,29 @@ func update_multiple_units_info(units: Array):
 	mana_bar.visible = false
 	unit_panel.visible = true
 
+	# Joue le son de la première unité dans le groupe
+	if units.size() > 0:
+		_play_selection_sound(units[0])
+
 	print_debug("Panneau mis à jour pour plusieurs unités : " + str(units.size()))
+
+func _play_selection_sound(unit: BaseUnit):
+	"""
+	Joue le son de sélection d'une unité si disponible.
+	"""
+	if not unit or not unit.stats:
+		return
+
+	# Vérifie dynamiquement si la propriété existe
+	if unit.stats.has_property("unit_sound_selection_path"):
+		var sound_path = unit.stats.unit_sound_selection_path
+		if sound_path and sound_path.strip_edges() != "":
+			SoundManager.play_sound_from_path(sound_path)  # Utilise le SoundManager autoload
+			print_debug("Son de sélection joué pour :", unit.stats.unit_name)
+		else:
+			print_debug("Aucun chemin valide pour le son :", unit.stats.unit_name)
+	else:
+		print_debug("Aucun son de sélection défini pour l'unité :", unit.stats.unit_name)
 
 func clear_ui():
 	"""
