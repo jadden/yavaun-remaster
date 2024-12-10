@@ -11,6 +11,17 @@ class_name BaseUnit
 @onready var selection_animation: AnimationPlayer = $SelectionBox/SelectionAnimationPlayer
 @onready var area2d: Area2D = $Area2D  # Area2D pour les événements d'entrée
 
+# Curseur animé
+var cursor_animation_running: bool = false
+var cursor_frames: Array = [
+	"res://Assets/UI/Cursors/select_1.png",
+	"res://Assets/UI/Cursors/select_2.png",
+	"res://Assets/UI/Cursors/select_3.png",
+	"res://Assets/UI/Cursors/select_4.png"
+]
+var current_cursor_index: int = 0
+var cursor_animation_timer: Timer = null
+
 func _ready():
 	"""
 	Initialise l'unité et configure les éléments nécessaires.
@@ -38,6 +49,13 @@ func _ready():
 		area2d.connect("input_event", Callable(self, "_on_collision_area_input_event"))
 	else:
 		print("Erreur : Area2D introuvable.")
+
+	# Initialise le timer pour l'animation du curseur
+	cursor_animation_timer = Timer.new()
+	cursor_animation_timer.set_wait_time(0.2)  # Change d'image toutes les 0.2 secondes
+	cursor_animation_timer.set_one_shot(false)
+	cursor_animation_timer.connect("timeout", Callable(self, "_animate_cursor"))
+	add_child(cursor_animation_timer)
 
 func set_player_id(player_id_value: String):
 	"""
@@ -68,12 +86,31 @@ func _on_mouse_entered():
 	Gère l'événement lorsque la souris survole l'unité.
 	"""
 	print("Souris survole :", name, "à la position :", global_position)
+	if not cursor_animation_running:
+		cursor_animation_running = true
+		current_cursor_index = 0  # Réinitialise l'animation
+		cursor_animation_timer.start()
 
 func _on_mouse_exited():
 	"""
 	Gère l'événement lorsque la souris quitte le survol de l'unité.
 	"""
 	print("Souris quitte :", name, "à la position :", global_position)
+	if cursor_animation_running:
+		cursor_animation_running = false
+		cursor_animation_timer.stop()
+		Input.set_custom_mouse_cursor(null)  # Réinitialise le curseur par défaut
+
+func _animate_cursor():
+	"""
+	Change dynamiquement le curseur pour donner l'illusion d'une animation.
+	"""
+	if cursor_animation_running and current_cursor_index < cursor_frames.size():
+		var cursor_path = cursor_frames[current_cursor_index]
+		var cursor_texture = load(cursor_path)
+		if cursor_texture and cursor_texture is Texture2D:
+			Input.set_custom_mouse_cursor(cursor_texture)
+		current_cursor_index = (current_cursor_index + 1) % cursor_frames.size()
 
 func _on_collision_area_input_event(viewport: Viewport, event: InputEvent, shape_idx: int):
 	"""

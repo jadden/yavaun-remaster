@@ -24,6 +24,7 @@ func _ready():
 	"""
 	if selection_rectangle and rectangle_panel:
 		selection_rectangle.visible = false
+		selection_rectangle.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		print("SelectionManager prêt. Rectangle de sélection masqué.")
 	else:
 		print("Erreur : Les nœuds `SelectionRectangle` ou `Rectangle` sont manquants.")
@@ -33,20 +34,14 @@ func set_ui(ui_instance: Node):
 	Associe l'interface raciale au gestionnaire.
 	"""
 	ui = ui_instance
-	if ui:
-		print("UI correctement associée :", ui.name)
-	else:
-		print("Erreur : Impossible d'associer l'UI.")
+	print("UI correctement associée :", ui.name)
 
 func set_camera(camera_instance: Camera2D):
 	"""
 	Associe la caméra au gestionnaire.
 	"""
 	camera = camera_instance
-	if camera:
-		print("Caméra définie pour SelectionManager :", camera.name)
-	else:
-		print("Erreur : Impossible d'associer la caméra.")
+	print("Caméra définie pour SelectionManager :", camera.name)
 
 func initialize(entities_container: Node):
 	"""
@@ -64,13 +59,11 @@ func gather_entities_recursive(container: Node):
 	"""
 	for child in container.get_children():
 		if child is BaseUnit:
-			print("BaseUnit trouvée :", child.name, "Position globale :", child.global_position)
-			child.set_selected(false)
 			units.append(child)
-		elif child is BaseBuilding:
-			print("BaseBuilding trouvée :", child.name, "Position globale :", child.global_position)
 			child.set_selected(false)
+		elif child is BaseBuilding:
 			buildings.append(child)
+			child.set_selected(false)
 		elif child is Node:
 			gather_entities_recursive(child)
 
@@ -91,7 +84,7 @@ func _handle_mouse_button_input(event: InputEventMouseButton):
 		if event.pressed:
 			start_selection(event.position)
 		else:
-			end_selection()
+			end_selection(event.position)
 	elif event.button_index == MOUSE_BUTTON_RIGHT and not event.pressed:
 		clear_selection()
 
@@ -99,7 +92,7 @@ func start_selection(start_pos: Vector2):
 	"""
 	Démarre une sélection avec la position initiale.
 	"""
-	clear_selection()  # Réinitialise toutes les entités avant de commencer une nouvelle sélection
+	clear_selection()
 	selection_start = start_pos
 	selection_end = start_pos
 	is_selecting = true
@@ -113,15 +106,16 @@ func update_selection(end_pos: Vector2):
 	selection_end = end_pos
 	update_selection_rectangle()
 
-func end_selection():
+func end_selection(end_pos: Vector2):
 	"""
 	Termine la sélection et met à jour les entités sélectionnées.
 	"""
 	is_selecting = false
 	selection_rectangle.visible = false
+	selection_end = end_pos
 
 	if camera == null:
-		print("Erreur : La caméra n'est pas définie pour convertir les coordonnées.")
+		print("Erreur : Caméra non définie.")
 		return
 
 	var selection_rect = Rect2(selection_start, selection_end - selection_start).abs()
@@ -130,14 +124,28 @@ func end_selection():
 	selected_entities.clear()
 
 	for entity in units:
-		# Conversion des coordonnées de l'entité dans l'espace écran via la caméra
+		if not entity:
+			continue
+
 		var entity_screen_pos = camera.global_to_viewport_position(entity.global_position)
-		if selection_rect.has_point(entity_screen_pos):
-			if entity.player_id == player_id:
-				entity.set_selected(true)
-				selected_entities.append(entity)
+		
+		# Sélection unique ou multiple
+		if selection_rect.size == Vector2.ZERO:
+			if entity_screen_pos.distance_to(selection_start) < 10:  # Tolérance pour clic unique
+				select_entity(entity)
+		elif selection_rect.has_point(entity_screen_pos):
+			select_entity(entity)
+
 	print("Sélection terminée. Entités sélectionnées :", selected_entities)
 	update_ui()
+
+func select_entity(entity):
+	"""
+	Sélectionne une entité et l'ajoute à la liste.
+	"""
+	if entity.player_id == player_id:
+		entity.set_selected(true)
+		selected_entities.append(entity)
 
 func clear_selection():
 	"""
@@ -166,13 +174,13 @@ func update_selection_rectangle():
 	"""
 	Met à jour la position et la taille du rectangle de sélection.
 	"""
-	var top_left = selection_start
-	var rect_size = selection_end - selection_start
-	if rect_size.x < 0:
-		top_left.x += rect_size.x
-		rect_size.x = -rect_size.x
-	if rect_size.y < 0:
-		top_left.y += rect_size.y
-		rect_size.y = -rect_size.y
+	var top_left = Vector2(
+		min(selection_start.x, selection_end.x),
+		min(selection_start.y, selection_end.y)
+	)
+	var rect_size = Vector2(
+		abs(selection_end.x - selection_start.x),
+		abs(selection_end.y - selection_start.y)
+	)
 	rectangle_panel.position = top_left
 	rectangle_panel.size = rect_size
