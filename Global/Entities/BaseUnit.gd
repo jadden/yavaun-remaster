@@ -8,21 +8,36 @@ class_name BaseUnit
 
 # Références aux nœuds
 @onready var selection_box: Control = $SelectionBox
-@onready var collision_area: Area2D = $Area2D
+@onready var selection_animation: AnimationPlayer = $SelectionBox/SelectionAnimationPlayer
+@onready var area2d: Area2D = $Area2D  # Area2D pour les événements d'entrée
 
 func _ready():
 	"""
 	Initialise l'unité et configure les éléments nécessaires.
 	"""
+	print("Initialisation de BaseUnit :", name)
+
+	# Vérifie que le nœud SelectionBox existe
 	if selection_box:
-		selection_box.visible = false
+		print("SelectionBox trouvé :", selection_box.name)
+		selection_box.visible = false  # Masque la boîte par défaut
+	else:
+		print("Erreur : SelectionBox introuvable.")
 
-	if collision_area:
-		collision_area.connect("mouse_entered", Callable(self, "_on_mouse_entered"))
-		collision_area.connect("mouse_exited", Callable(self, "_on_mouse_exited"))
-		collision_area.connect("input_event", Callable(self, "_on_collision_area_input_event"))
+	# Vérifie que l'AnimationPlayer existe
+	if selection_animation:
+		print("AnimationPlayer trouvé :", selection_animation.name)
+	else:
+		print("Erreur : AnimationPlayer introuvable dans SelectionBox.")
 
-	print("BaseUnit initialisée :", name, "Position :", global_position)
+	# Connecte les signaux de Area2D
+	if area2d:
+		print("Connexion des signaux Area2D.")
+		area2d.connect("mouse_entered", Callable(self, "_on_mouse_entered"))
+		area2d.connect("mouse_exited", Callable(self, "_on_mouse_exited"))
+		area2d.connect("input_event", Callable(self, "_on_collision_area_input_event"))
+	else:
+		print("Erreur : Area2D introuvable.")
 
 func set_player_id(player_id_value: String):
 	"""
@@ -33,7 +48,7 @@ func set_player_id(player_id_value: String):
 
 func set_selected(selected: bool):
 	"""
-	Définit l'état de sélection de l'unité et met à jour la visibilité de la `SelectionBox`.
+	Définit l'état de sélection de l'unité et joue l'animation de sélection si nécessaire.
 	"""
 	is_selected = selected
 	if selection_box:
@@ -41,8 +56,12 @@ func set_selected(selected: bool):
 
 	if selected:
 		print("Unité sélectionnée :", name)
+		if selection_animation and not selection_animation.is_playing():
+			selection_animation.play("Effects/PulseSelectionBox")
 	else:
 		print("Unité désélectionnée :", name)
+		if selection_animation and selection_animation.is_playing():
+			selection_animation.stop()
 
 func _on_mouse_entered():
 	"""
