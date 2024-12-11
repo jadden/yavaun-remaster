@@ -69,9 +69,14 @@ func clamp_position():
 	position.x = clamp(position.x, -screen_limits.x, screen_limits.x)
 	position.y = clamp(position.y, -screen_limits.y, screen_limits.y)
 
-func global_to_viewport_position(global_position: Vector2) -> Vector2:
+func viewport_to_global(viewport_position: Vector2) -> Vector2:
 	"""
-	Convertit une position globale (monde) en position relative à l'écran (viewport).
+	Convertit une position dans le viewport en position globale (monde).
 	"""
-	var viewport_position = (global_position - position) * zoom
-	return viewport_position
+	return position + (viewport_position / zoom)
+
+func global_to_viewport(global_position: Vector2) -> Vector2:
+	"""
+	Convertit une position globale (monde) en position dans le viewport.
+	"""
+	return (global_position - position) * zoom

@@ -37,6 +37,7 @@ shape = SubResource("RectangleShape2D_mn3vf")
 [node name="Leader" parent="EntitiesContainer/PlayerUnits" instance=ExtResource("1_0a0n6")]
 z_index = -1
 position = Vector2(-86, 42)
+disable_mode = 2
 
 [node name="Worker" parent="EntitiesContainer/PlayerUnits" instance=ExtResource("4_vhm7l")]
 position = Vector2(124, 34)
@@ -44,7 +45,7 @@ position = Vector2(124, 34)
 [node name="WildUnits" type="Node2D" parent="EntitiesContainer"]
 
 [node name="Bonca" parent="EntitiesContainer/WildUnits" instance=ExtResource("5_qm2c4")]
-position = Vector2(15, 74)
+position = Vector2(38, 191)
 idle_time_range = Vector2(30, 90)
 
 [node name="AIUnits" type="Node2D" parent="EntitiesContainer"]

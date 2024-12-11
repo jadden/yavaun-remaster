@@ -4,12 +4,11 @@ class_name BaseUnit
 @export var stats: UnitStats  # Informations sur l'unité
 @export var player_id: String = ""  # Identifiant du joueur ou de l'entité IA
 @export var is_selected: bool = false  # État de sélection de l'unité
-@export var map_size: Vector2 = Vector2(2000, 2000)  # Taille maximale de la carte (limites)
 
 # Références aux nœuds
 @onready var selection_box: Control = $SelectionBox
 @onready var selection_animation: AnimationPlayer = $SelectionBox/SelectionAnimationPlayer
-@onready var area2d: Area2D = $Area2D  # Area2D pour les événements d'entrée
+@onready var area2d: Area2D = $Area2D  # Zone d'interaction pour les événements d'entrée
 
 # Curseur animé
 var cursor_animation_running: bool = false
@@ -24,36 +23,53 @@ var cursor_animation_timer: Timer = null
 
 func _ready():
 	"""
-	Initialise l'unité et configure les éléments nécessaires.
+	Initialise l'unité et configure les composants nécessaires.
 	"""
 	print("Initialisation de BaseUnit :", name)
 
-	# Vérifie que le nœud SelectionBox existe
+	# Configure la boîte de sélection
 	if selection_box:
-		print("SelectionBox trouvé :", selection_box.name)
-		selection_box.visible = false  # Masque la boîte par défaut
+		selection_box.visible = false
+		print("SelectionBox trouvée :", selection_box.name)
 	else:
 		print("Erreur : SelectionBox introuvable.")
 
-	# Vérifie que l'AnimationPlayer existe
+	# Configure l'AnimationPlayer pour la sélection
 	if selection_animation:
 		print("AnimationPlayer trouvé :", selection_animation.name)
 	else:
-		print("Erreur : AnimationPlayer introuvable dans SelectionBox.")
+		print("Erreur : AnimationPlayer introuvable.")
 
-	# Connecte les signaux de Area2D
+	# Connecte les signaux de l'Area2D
 	if area2d:
-		print("Connexion des signaux Area2D.")
-		area2d.connect("mouse_entered", Callable(self, "_on_mouse_entered"))
-		area2d.connect("mouse_exited", Callable(self, "_on_mouse_exited"))
-		area2d.connect("input_event", Callable(self, "_on_collision_area_input_event"))
+		var entered_callable = Callable(self, "_on_mouse_entered")
+		if not area2d.is_connected("mouse_entered", entered_callable):
+			area2d.connect("mouse_entered", entered_callable)
+
+		var exited_callable = Callable(self, "_on_mouse_exited")
+		if not area2d.is_connected("mouse_exited", exited_callable):
+			area2d.connect("mouse_exited", exited_callable)
+
+		var input_callable = Callable(self, "_on_collision_area_input_event")
+		if not area2d.is_connected("input_event", input_callable):
+			area2d.connect("input_event", input_callable)
+
+		var area_entered_callable = Callable(self, "_on_area_2d_area_entered")
+		if not area2d.is_connected("area_entered", area_entered_callable):
+			area2d.connect("area_entered", area_entered_callable)
+
+		var area_exited_callable = Callable(self, "_on_area_2d_area_exited")
+		if not area2d.is_connected("area_exited", area_exited_callable):
+			area2d.connect("area_exited", area_exited_callable)
+
+		print("Connexion des signaux Area2D effectuée.")
 	else:
 		print("Erreur : Area2D introuvable.")
 
 	# Initialise le timer pour l'animation du curseur
 	cursor_animation_timer = Timer.new()
-	cursor_animation_timer.set_wait_time(0.2)  # Change d'image toutes les 0.2 secondes
-	cursor_animation_timer.set_one_shot(false)
+	cursor_animation_timer.wait_time = 0.2  # Change d'image toutes les 0.2 secondes
+	cursor_animation_timer.one_shot = false
 	cursor_animation_timer.connect("timeout", Callable(self, "_animate_cursor"))
 	add_child(cursor_animation_timer)
 
@@ -66,11 +82,12 @@ func set_player_id(player_id_value: String):
 
 func set_selected(selected: bool):
 	"""
-	Définit l'état de sélection de l'unité et joue l'animation de sélection si nécessaire.
+	Définit l'état de sélection de l'unité et gère l'animation de sélection.
 	"""
 	is_selected = selected
+
 	if selection_box:
-		selection_box.visible = selected
+		selection_box.visible = selected  # Affiche ou masque visuellement la boîte de sélection
 
 	if selected:
 		print("Unité sélectionnée :", name)
@@ -80,6 +97,13 @@ func set_selected(selected: bool):
 		print("Unité désélectionnée :", name)
 		if selection_animation and selection_animation.is_playing():
 			selection_animation.stop()
+
+func move_to(target_position: Vector2):
+	"""
+	Déplace l'unité vers une position cible.
+	"""
+	print("Déplacement de l'unité :", name, "vers :", target_position)
+	position = target_position  # Déplacement immédiat (peut être adapté pour interpolation)
 
 func _on_mouse_entered():
 	"""
@@ -120,20 +144,22 @@ func _on_collision_area_input_event(viewport: Viewport, event: InputEvent, shape
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			print("Clic gauche détecté sur :", name)
 			set_selected(true)
+		elif event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
+			print("Clic droit détecté sur :", name)
+			set_selected(false)
 
-# Gestion des limites de la carte
-func move_to(target_position: Vector2):
+func _on_area_2d_area_entered(area: Area2D):
 	"""
-	Déplace l'unité vers une position cible, en respectant les limites de la carte.
+	Gère l'événement lorsqu'une autre zone entre en collision avec l'Area2D.
 	"""
-	var clamped_position = target_position.clamp(Vector2(0, 0), map_size)
-	if clamped_position != target_position:
-		print("Position ajustée aux limites :", clamped_position)
-	global_position = clamped_position
+	print("Zone entrée dans :", name, "par :", area)
+	if selection_animation:
+		selection_animation.play("Effects/Highlight")
 
-func move_by(offset: Vector2):
+func _on_area_2d_area_exited(area: Area2D):
 	"""
-	Déplace l'unité par un décalage donné, en respectant les limites de la carte.
+	Gère l'événement lorsqu'une autre zone quitte la collision avec l'Area2D.
 	"""
-	var target_position = global_position + offset
-	move_to(target_position)
+	print("Zone sortie de :", name, "par :", area)
+	if selection_animation:
+		selection_animation.stop()

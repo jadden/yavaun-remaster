@@ -15,7 +15,7 @@ var is_selecting: bool = false
 @onready var selection_rectangle: Control = $SelectionRectangle
 @onready var rectangle_panel: Panel = $SelectionRectangle/Rectangle
 var camera: Camera2D = null  # Référence à la caméra
-var ui: Node = null  # Référence à l'interface raciale
+var ui: Node = null  # Référence à l'interface utilisateur
 var player_id: String = "Player1"  # ID du joueur actuel
 
 func _ready():
@@ -31,7 +31,7 @@ func _ready():
 
 func set_ui(ui_instance: Node):
 	"""
-	Associe l'interface raciale au gestionnaire.
+	Associe l'interface utilisateur au gestionnaire.
 	"""
 	ui = ui_instance
 	print("UI correctement associée :", ui.name)
@@ -69,7 +69,7 @@ func gather_entities_recursive(container: Node):
 
 func _input(event: InputEvent):
 	"""
-	Gère les événements utilisateur pour la sélection.
+	Gère les événements utilisateur pour la sélection et le déplacement.
 	"""
 	if event is InputEventMouseButton:
 		_handle_mouse_button_input(event)
@@ -78,21 +78,53 @@ func _input(event: InputEvent):
 
 func _handle_mouse_button_input(event: InputEventMouseButton):
 	"""
-	Gère les clics pour commencer ou terminer une sélection.
+	Gère les clics pour commencer ou terminer une sélection ou déplacer des unités.
 	"""
-	if event.button_index == MOUSE_BUTTON_LEFT:
-		if event.pressed:
-			start_selection(event.position)
+	if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		handle_left_click(event.position)
+	elif event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
+		handle_right_click(event.position)
+
+func handle_left_click(position: Vector2):
+	"""
+	Gère les clics gauche pour déplacer ou sélectionner des unités.
+	"""
+	var clicked_entity = get_entity_at_position(position)
+	if clicked_entity != null:
+		if selected_entities.size() > 0:
+			clear_selection()
+		select_entity(clicked_entity)
+	else:
+		if selected_entities.size() > 0:
+			move_selected_units(position)
 		else:
-			end_selection(event.position)
-	elif event.button_index == MOUSE_BUTTON_RIGHT and not event.pressed:
+			start_selection(position)
+
+func handle_right_click(position: Vector2):
+	"""
+	Gère les clics droit pour désélectionner ou sélectionner une nouvelle unité.
+	"""
+	var clicked_entity = get_entity_at_position(position)
+	if clicked_entity != null:
 		clear_selection()
+		select_entity(clicked_entity)
+	else:
+		clear_selection()
+
+func get_entity_at_position(position: Vector2) -> BaseUnit:
+	"""
+	Renvoie l'entité sous le curseur si elle existe, sinon null.
+	"""
+	for entity in units:
+		var entity_screen_pos = camera.global_to_viewport(entity.global_position)
+		if position.distance_to(entity_screen_pos) < 10:  # Tolérance pour clic
+			return entity
+	return null
 
 func start_selection(start_pos: Vector2):
 	"""
 	Démarre une sélection avec la position initiale.
 	"""
-	clear_selection()
 	selection_start = start_pos
 	selection_end = start_pos
 	is_selecting = true
@@ -119,27 +151,41 @@ func end_selection(end_pos: Vector2):
 		return
 
 	var selection_rect = Rect2(selection_start, selection_end - selection_start).abs()
-	print("Rectangle de sélection :", selection_rect)
 
-	selected_entities.clear()
+	clear_selection()  # Réinitialise toutes les unités avant de sélectionner de nouvelles
 
 	for entity in units:
 		if not entity:
 			continue
 
-		var entity_screen_pos = camera.global_to_viewport_position(entity.global_position)
-		
-		# Sélection unique ou multiple
+		var entity_screen_pos = camera.global_to_viewport(entity.global_position)
+
+		# Sélection par clic ou rectangle
 		if selection_rect.size == Vector2.ZERO:
 			if entity_screen_pos.distance_to(selection_start) < 10:  # Tolérance pour clic unique
 				select_entity(entity)
+				break  # Un seul clic suffit
 		elif selection_rect.has_point(entity_screen_pos):
 			select_entity(entity)
 
 	print("Sélection terminée. Entités sélectionnées :", selected_entities)
 	update_ui()
 
-func select_entity(entity):
+func move_selected_units(target_screen_pos: Vector2):
+	"""
+	Déplace les unités sélectionnées vers la position cible.
+	"""
+	if camera == null:
+		print("Erreur : Caméra non définie pour le déplacement.")
+		return
+
+	var target_world_pos = camera.get_global_mouse_position()
+	print("Déplacement des unités sélectionnées vers :", target_world_pos)
+
+	for entity in selected_entities:
+		entity.move_to(target_world_pos)
+
+func select_entity(entity: BaseUnit):
 	"""
 	Sélectionne une entité et l'ajoute à la liste.
 	"""
@@ -149,11 +195,12 @@ func select_entity(entity):
 
 func clear_selection():
 	"""
-	Désélectionne toutes les entités et vide la sélection active.
+	Désélectionne toutes les entités et réinitialise visuellement la sélection.
 	"""
 	for entity in units:
-		entity.set_selected(false)
+		entity.set_selected(false)  # Désélectionne et masque la box visuelle
 	selected_entities.clear()
+
 	if ui and ui.has_method("reset_ui"):
 		ui.call("reset_ui")
 
