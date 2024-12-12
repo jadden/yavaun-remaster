@@ -14,13 +14,14 @@ var is_selecting: bool = false
 # Références aux nœuds
 @onready var selection_rectangle: Control = $SelectionRectangle
 @onready var rectangle_panel: Panel = $SelectionRectangle/Rectangle
+@onready var path_animation: AnimatedSprite2D = $PathAnimation  # Animation pour le point de déplacement
 var camera: Camera2D = null  # Référence à la caméra
 var ui: Node = null  # Référence à l'interface utilisateur
 var player_id: String = "Player1"  # ID du joueur actuel
 
 func _ready():
 	"""
-	Initialise les références et cache le rectangle de sélection.
+	Initialise les références et cache les éléments visuels.
 	"""
 	if selection_rectangle and rectangle_panel:
 		selection_rectangle.visible = false
@@ -28,6 +29,9 @@ func _ready():
 		print("SelectionManager prêt. Rectangle de sélection masqué.")
 	else:
 		print("Erreur : Les nœuds `SelectionRectangle` ou `Rectangle` sont manquants.")
+
+	if path_animation:
+		path_animation.visible = false
 
 func set_ui(ui_instance: Node):
 	"""
@@ -80,46 +84,45 @@ func _handle_mouse_button_input(event: InputEventMouseButton):
 	"""
 	Gère les clics pour commencer ou terminer une sélection ou déplacer des unités.
 	"""
-	if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		handle_left_click(event.position)
-	elif event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
-		handle_right_click(event.position)
-
-func handle_left_click(position: Vector2):
-	"""
-	Gère les clics gauche pour déplacer ou sélectionner des unités.
-	"""
-	var clicked_entity = get_entity_at_position(position)
-	if clicked_entity != null:
-		if selected_entities.size() > 0:
-			clear_selection()
-		select_entity(clicked_entity)
-	else:
-		if selected_entities.size() > 0:
-			move_selected_units(position)
+	if event.button_index == MOUSE_BUTTON_LEFT:
+		if selected_entities.size() > 0 and not is_selecting:
+			start_move_selected_units(event.position)
+		elif event.pressed:
+			start_selection(event.position)
 		else:
-			start_selection(position)
-
-func handle_right_click(position: Vector2):
-	"""
-	Gère les clics droit pour désélectionner ou sélectionner une nouvelle unité.
-	"""
-	var clicked_entity = get_entity_at_position(position)
-	if clicked_entity != null:
-		clear_selection()
-		select_entity(clicked_entity)
-	else:
+			end_selection(event.position)
+	elif event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
 		clear_selection()
 
-func get_entity_at_position(position: Vector2) -> BaseUnit:
+func start_move_selected_units(target_screen_pos: Vector2):
 	"""
-	Renvoie l'entité sous le curseur si elle existe, sinon null.
+	Anime le point de destination et déplace les unités sélectionnées vers la position cible.
 	"""
-	for entity in units:
-		var entity_screen_pos = camera.global_to_viewport(entity.global_position)
-		if position.distance_to(entity_screen_pos) < 10:  # Tolérance pour clic
-			return entity
-	return null
+	if camera == null:
+		print("Erreur : Caméra non définie pour le déplacement.")
+		return
+
+	# Convertit la position écran en position monde
+	var target_world_pos = camera.get_global_mouse_position()
+	print("Cible du déplacement :", target_world_pos)
+
+	# Affiche et anime le PathAnimation au point cliqué
+	if path_animation:
+		path_animation.global_position = target_world_pos
+		path_animation.visible = true
+		path_animation.play("move_point")  # Joue l'animation de croix
+
+		# Attend la fin de l'animation
+		var animation_frames = path_animation.sprite_frames.get_frame_count("move_point")
+		var animation_fps = path_animation.sprite_frames.get_animation_speed("move_point")
+		var animation_duration = animation_frames / animation_fps
+
+		await get_tree().create_timer(animation_duration).timeout
+		path_animation.visible = false
+
+	# Démarre le déplacement des unités sélectionnées
+	for entity in selected_entities:
+		entity.start_moving(target_world_pos)
 
 func start_selection(start_pos: Vector2):
 	"""
@@ -159,7 +162,7 @@ func end_selection(end_pos: Vector2):
 			continue
 
 		var entity_screen_pos = camera.global_to_viewport(entity.global_position)
-
+		
 		# Sélection par clic ou rectangle
 		if selection_rect.size == Vector2.ZERO:
 			if entity_screen_pos.distance_to(selection_start) < 10:  # Tolérance pour clic unique
@@ -170,20 +173,6 @@ func end_selection(end_pos: Vector2):
 
 	print("Sélection terminée. Entités sélectionnées :", selected_entities)
 	update_ui()
-
-func move_selected_units(target_screen_pos: Vector2):
-	"""
-	Déplace les unités sélectionnées vers la position cible.
-	"""
-	if camera == null:
-		print("Erreur : Caméra non définie pour le déplacement.")
-		return
-
-	var target_world_pos = camera.get_global_mouse_position()
-	print("Déplacement des unités sélectionnées vers :", target_world_pos)
-
-	for entity in selected_entities:
-		entity.move_to(target_world_pos)
 
 func select_entity(entity: BaseUnit):
 	"""

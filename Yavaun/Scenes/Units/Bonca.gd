@@ -1,7 +1,7 @@
 extends BaseUnit
 
 # Variables d'animation et de mouvement
-@export var move_speed: float = 50.0  # Vitesse de déplacement
+@export var base_speed: float = 7.14  # Base utilisée pour convertir movement en move_speed
 @export var wander_radius: float = 300.0  # Rayon maximal d'errance
 @export var idle_time_range: Vector2 = Vector2(30.0, 90.0)  # Temps d'inactivité entre les mouvements (min : 30s, max : 90s)
 
@@ -18,7 +18,8 @@ func _ready() -> void:
 	"""
 	super._ready()  # Appelle la méthode `_ready()` de BaseUnit
 	start_position = global_position  # Définit la position de départ
-	print("Bonca _ready() appelé.")
+	move_speed = stats.movement * base_speed  # Calcule la vitesse réelle
+	print("Bonca _ready() appelé avec move_speed:", move_speed)
 	_idle()  # Commence en mode inactif
 
 func _idle() -> void:
@@ -58,8 +59,8 @@ func _move_to(target_position: Vector2) -> void:
 
 	var travel_time = global_position.distance_to(target_position) / move_speed
 	var tween = create_tween()
-	tween.tween_property(self, "global_position", target_position, travel_time)
-	tween.connect("finished", Callable(self, "_idle"))
+	tween.tween_property(self, "global_position", target_position, travel_time).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN_OUT)
+	tween.finished.connect(Callable(self, "_idle"))
 
 func _play_walk_animation(direction: Vector2) -> void:
 	"""
