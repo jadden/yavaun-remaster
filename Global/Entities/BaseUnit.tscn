@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Global/Entities/BaseUnit.gd" id="1_a7myu"]
 [ext_resource type="Script" path="res://Global/Entities/SelectionBox.gd" id="2_6dss8"]
-[ext_resource type="AnimationLibrary" uid="uid://b06lf5rbt3h4d" path="res://Effects.res" id="2_wci0y"]
+[ext_resource type="AnimationLibrary" uid="uid://b06lf5rbt3h4d" path="res://Global/Styles/Effects.res" id="2_wci0y"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_765k1"]
 size = Vector2(50, 50.5)

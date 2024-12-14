@@ -1,8 +1,8 @@
 [gd_scene load_steps=13 format=3 uid="uid://swnjxqb6jy6v"]
 
 [ext_resource type="Script" path="res://Global/Managers/SelectionManager.gd" id="1_og3wa"]
-[ext_resource type="AnimationLibrary" uid="uid://b06lf5rbt3h4d" path="res://Effects.res" id="2_3vr6o"]
-[ext_resource type="StyleBox" uid="uid://dms08w82u312n" path="res://RectangleSelection.tres" id="2_ydrxx"]
+[ext_resource type="AnimationLibrary" uid="uid://b06lf5rbt3h4d" path="res://Global/Styles/Effects.res" id="2_3vr6o"]
+[ext_resource type="StyleBox" uid="uid://dms08w82u312n" path="res://Global/Styles/RectangleSelection.tres" id="2_ydrxx"]
 [ext_resource type="Texture2D" uid="uid://j625s2uam7b7" path="res://Assets/UI/Cursors/path_1.png" id="4_q45gc"]
 [ext_resource type="Texture2D" uid="uid://b5nml7i2g6co0" path="res://Assets/UI/Cursors/path_2.png" id="5_run18"]
 [ext_resource type="Texture2D" uid="uid://cwl2sfbtp23fp" path="res://Assets/UI/Cursors/path_3.png" id="6_1qg5h"]

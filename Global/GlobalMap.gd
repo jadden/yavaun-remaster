@@ -49,16 +49,25 @@ func _initialize_units_container():
 			print("Erreur : EntitiesContainer introuvable dans CurrentMap.")
 		else:
 			print("EntitiesContainer trouvé :", units_container.name)
-			if unit_selection_manager and unit_selection_manager is SelectionManager:
-				unit_selection_manager.initialize(units_container)
 
-		# Associer la caméra au SelectionManager
-		var camera = current_map_container.get_node_or_null("Map/Camera2D")
-		if camera:
-			unit_selection_manager.set_camera(camera)
-			print("Caméra définie pour SelectionManager :", camera.name)
-		else:
-			print("Erreur : Caméra introuvable dans CurrentMap.")
+			# Recherche des conteneurs spécifiques
+			var player_units = units_container.get_node_or_null("PlayerUnits")
+			var enemy_units = units_container.get_node_or_null("EnemyUnits")
+			var wild_units = units_container.get_node_or_null("WildUnits")
+
+			if not player_units or not enemy_units or not wild_units:
+				print("Erreur : Un ou plusieurs conteneurs d'unités manquent dans EntitiesContainer.")
+			else:
+				print("Conteneurs trouvés : PlayerUnits, EnemyUnits, WildUnits.")
+				unit_selection_manager.initialize(player_units, enemy_units, wild_units)
+
+			# Associer la caméra au SelectionManager
+			var camera = current_map_container.get_node_or_null("Map/Camera2D")
+			if camera:
+				unit_selection_manager.set_camera(camera)
+				print("Caméra définie pour SelectionManager :", camera.name)
+			else:
+				print("Erreur : Caméra introuvable dans CurrentMap.")
 	else:
 		print("Erreur : CurrentMap introuvable au moment de l'initialisation.")
 
@@ -70,7 +79,6 @@ func load_map(map_path: String, race: String):
 	clean_previous_scene()
 	print("Chargement de la carte :", map_path, " pour la race :", race)
 
-	# Vérifier que les conteneurs essentiels sont valides
 	if not current_map_container or not unit_selection_manager or not race_ui_container:
 		print("Erreur : Des nœuds essentiels sont manquants ou non initialisés.")
 		return
@@ -91,8 +99,15 @@ func load_map(map_path: String, race: String):
 	# Initialiser le conteneur des unités
 	units_container = map_instance.get_node_or_null("EntitiesContainer")
 	if units_container:
-		unit_selection_manager.initialize(units_container)
-		print("EntitiesContainer trouvé et initialisé :", units_container.name)
+		var player_units = units_container.get_node_or_null("PlayerUnits")
+		var enemy_units = units_container.get_node_or_null("EnemyUnits")
+		var wild_units = units_container.get_node_or_null("WildUnits")
+
+		if player_units and enemy_units and wild_units:
+			unit_selection_manager.initialize(player_units, enemy_units, wild_units)
+			print("EntitiesContainer trouvé et initialisé :", units_container.name)
+		else:
+			print("Erreur : Un ou plusieurs conteneurs d'unités manquent dans EntitiesContainer.")
 	else:
 		print("Erreur : EntitiesContainer introuvable dans la carte :", map_path)
 
@@ -111,7 +126,6 @@ func load_map(map_path: String, race: String):
 	ThemeManager.apply_race_theme(race, "res://Assets/UI/Cursors/select_1.png")
 	print("Thème et curseur appliqués pour la race :", race)
 
-	# Vérifier l'intégrité globale
 	print("Chargement de la carte terminé avec succès.")
 
 func free_children(node: Node):
