@@ -122,7 +122,7 @@ func start_move_selected_units(target_screen_pos: Vector2):
 
 	# Démarre le déplacement des unités sélectionnées
 	for entity in selected_entities:
-		entity.start_moving(target_world_pos)
+		entity.move_to(target_world_pos)
 
 func start_selection(start_pos: Vector2):
 	"""

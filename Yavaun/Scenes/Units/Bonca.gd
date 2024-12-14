@@ -1,16 +1,11 @@
 extends BaseUnit
 
 # Variables d'animation et de mouvement
-@export var base_speed: float = 7.14  # Base utilisée pour convertir movement en move_speed
 @export var wander_radius: float = 300.0  # Rayon maximal d'errance
 @export var idle_time_range: Vector2 = Vector2(30.0, 90.0)  # Temps d'inactivité entre les mouvements (min : 30s, max : 90s)
 
 # Point de départ
 var start_position: Vector2 = Vector2.ZERO
-var current_direction: Vector2 = Vector2.DOWN  # Par défaut "down"
-
-# Références aux composants graphiques
-@onready var animator: AnimatedSprite2D = $AnimatedSprite2D
 
 func _ready() -> void:
 	"""

@@ -36,6 +36,14 @@ animations = [{
 "texture": ExtResource("13_2bcwf")
 }],
 "loop": true,
+"name": &"idle_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("13_2bcwf")
+}],
+"loop": true,
 "name": &"idle_right",
 "speed": 5.0
 }, {
