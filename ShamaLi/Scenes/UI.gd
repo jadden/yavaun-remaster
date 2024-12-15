@@ -98,6 +98,23 @@ func update_unit_info(unit: BaseUnit):
 	_play_selection_sound(unit)
 	print_debug("Panneau mis à jour pour l'unité sélectionnée : " + unit.stats.unit_name)
 
+func update_unit_portrait(portrait_path: String):
+	"""
+	Met à jour le portrait de l'unité affichée.
+	"""
+	if typeof(portrait_path) == TYPE_STRING and portrait_path != "":
+		var texture = ResourceLoader.load(portrait_path)
+		if texture and texture is Texture2D:
+			unit_image.texture = texture
+			unit_image.visible = true
+			print_debug("Portrait mis à jour depuis :", portrait_path)
+		else:
+			print_debug("Erreur : Impossible de charger le portrait depuis :", portrait_path)
+	else:
+		unit_image.visible = false
+		print_debug("Aucun portrait disponible pour mise à jour.")
+
+
 func update_multiple_units_info(units: Array):
 	"""
 	Met à jour le panneau lorsque plusieurs unités sont sélectionnées.
@@ -206,3 +223,17 @@ func update_minimap(data):
 	Placeholder pour la gestion de la minimap.
 	"""
 	print_debug("Mise à jour de la minimap avec les données : " + str(data))
+
+func update_unit_health(unit: BaseUnit, new_health: int):
+	"""
+	Met à jour la santé d'une unité sélectionnée.
+	"""
+	if not unit or not unit_panel.visible:
+		print_debug("Aucune unité sélectionnée ou panneau non visible.", "Erreur")
+		return
+
+	if unit.stats and unit.stats.unit_name == unit_name_label.text:
+		health_bar.value = new_health
+		print_debug("Santé mise à jour pour l'unité : " + unit.stats.unit_name + " -> " + str(new_health))
+	else:
+		print_debug("Unité non correspondante pour la mise à jour de la santé.", "Erreur")
