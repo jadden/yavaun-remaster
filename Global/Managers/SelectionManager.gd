@@ -30,6 +30,17 @@ var player_id: String = "Player1"  # ID du joueur actuel (allié)
 # Couleur de sélection pour unités non contrôlées
 @export var non_controllable_color: Color = Color(1, 0, 0)  # Rouge
 
+# Curseur d'animation
+@export var cursor_images: Array = [
+	"res://Assets/UI/Cursors/select_1.png",
+	"res://Assets/UI/Cursors/select_2.png",
+	"res://Assets/UI/Cursors/select_3.png",
+	"res://Assets/UI/Cursors/select_4.png"
+]
+var cursor_animation_index: int = 0
+var cursor_animation_timer: Timer = null
+var hovered_unit: BaseUnit = null
+
 func _ready():
 	"""
 	Initialise les références et cache les éléments visuels.
@@ -37,6 +48,15 @@ func _ready():
 	if selection_rectangle:
 		selection_rectangle.visible = false
 		selection_rectangle.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	cursor_animation_timer = Timer.new()
+	cursor_animation_timer.one_shot = false
+	cursor_animation_timer.wait_time = 0.1
+	cursor_animation_timer.connect("timeout", Callable(self, "_animate_cursor_frame"))
+	add_child(cursor_animation_timer)
+
+	# Définir le curseur par défaut
+	Input.set_custom_mouse_cursor(ResourceLoader.load(cursor_images[0]))
 
 func set_camera(camera_instance: Camera2D):
 	"""
@@ -78,8 +98,8 @@ func _input(event: InputEvent):
 	"""
 	if event is InputEventMouseButton:
 		_handle_mouse_button_input(event)
-	elif event is InputEventMouseMotion and is_selecting:
-		update_selection(event.position)
+	elif event is InputEventMouseMotion:
+		_handle_mouse_motion_input(event)
 
 func _handle_mouse_button_input(event: InputEventMouseButton):
 	"""
@@ -92,6 +112,57 @@ func _handle_mouse_button_input(event: InputEventMouseButton):
 			end_selection(event.position)
 	elif event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
 		clear_selection()
+
+func _handle_mouse_motion_input(event: InputEventMouseMotion):
+	"""
+	Gère le mouvement de la souris pour animer le curseur lors du survol d'une unité.
+	"""
+	var current_hovered_unit = _detect_hovered_unit(event.position)
+	if current_hovered_unit != hovered_unit:
+		if hovered_unit != null:
+			_stop_cursor_animation()
+		if current_hovered_unit != null:
+			animate_cursor_for_selection(current_hovered_unit)
+		hovered_unit = current_hovered_unit
+
+	if is_selecting:
+		update_selection(event.position)
+
+func _detect_hovered_unit(mouse_position: Vector2) -> BaseUnit:
+	"""
+	Détecte l'unité sous la souris, s'il y en a une.
+	"""
+	for unit in player_units + enemy_units + wild_units:
+		if not unit or not camera:
+			continue
+
+		var unit_screen_pos = camera.global_to_viewport(unit.global_position)
+		if unit_screen_pos.distance_to(mouse_position) < 10:
+			return unit
+	return null
+
+func animate_cursor_for_selection(unit: BaseUnit):
+	"""
+	Lance l'animation du curseur pour indiquer qu'une unité est survolée.
+	"""
+	cursor_animation_index = 0  # Réinitialise l'animation
+	cursor_animation_timer.start()
+	print("Unit hovered: " + unit.name)
+
+func _stop_cursor_animation():
+	"""
+	Arrête l'animation du curseur.
+	"""
+	cursor_animation_timer.stop()
+	Input.set_custom_mouse_cursor(ResourceLoader.load(cursor_images[0]))  # Retour au curseur par défaut
+
+func _animate_cursor_frame():
+	"""
+	Met à jour l'image du curseur pour animer l'effet.
+	"""
+	if cursor_animation_index < cursor_images.size():
+		Input.set_custom_mouse_cursor(ResourceLoader.load(cursor_images[cursor_animation_index]))
+		cursor_animation_index = (cursor_animation_index + 1) % cursor_images.size()
 
 func start_selection(start_pos: Vector2):
 	"""
@@ -141,11 +212,11 @@ func _select_unit_by_click(click_position: Vector2):
 	# Priorité : Alliés -> Ennemis -> Sauvages
 	if _check_and_select_individual(click_position, player_units, true):
 		return
-	if _check_and_select_individual(click_position, enemy_units, false):
+	if _check_and_select_individual(click_position, enemy_units, false, true):
 		return
-	_check_and_select_individual(click_position, wild_units, false)
+	_check_and_select_individual(click_position, wild_units, false, false)
 
-func _check_and_select_individual(click_position: Vector2, units: Array, is_player_unit: bool) -> bool:
+func _check_and_select_individual(click_position: Vector2, units: Array, is_player_unit: bool, is_enemy: bool = false) -> bool:
 	"""
 	Vérifie et sélectionne une unité proche de la position de clic.
 	"""
@@ -155,7 +226,12 @@ func _check_and_select_individual(click_position: Vector2, units: Array, is_play
 
 		var unit_screen_pos = camera.global_to_viewport(unit.global_position)
 		if unit_screen_pos.distance_to(click_position) < 10:
-			_select_unit(unit, is_player_unit)
+			if is_player_unit:
+				_select_unit(unit, true)
+			elif is_enemy:
+				_select_enemy_unit(unit)
+			else:
+				_select_wild_unit(unit)
 			return true
 	return false
 
@@ -186,20 +262,37 @@ func _select_unit(unit: BaseUnit, is_player_unit: bool):
 		ui.update_unit_info(unit)
 		ui.update_unit_health(unit, unit.stats.health)
 
-	_play_portrait_and_sound(unit)
+	if ui and is_player_unit:
+		ui.update_unit_info(unit)
 
-func _play_portrait_and_sound(unit: BaseUnit):
+	_play_sound(unit)
+
+func _play_sound(unit: BaseUnit):
 	"""
-	Joue le portrait et le son de sélection pour une unité.
+	Joue le son associé à une unité.
 	"""
-	var portrait_path = unit.stats.unit_image if unit.stats else ""
-	var sound_path = unit.stats.unit_sound_selection_path if unit.stats else ""
+	if unit.stats and unit.stats.unit_sound_selection_path:
+		SoundManager.play_sound_from_path(unit.stats.unit_sound_selection_path)
 
-	if ui and typeof(portrait_path) == TYPE_STRING and portrait_path != "":
-		ui.update_unit_portrait(portrait_path)
+func _select_enemy_unit(unit: BaseUnit):
+	"""
+	Gère la sélection d'une unité ennemie.
+	"""
+	if ui:
+		var faction = unit.stats.faction if unit.stats else "Unknown"
+		var portrait_path = faction_portraits.get(faction, "res://DefaultPortrait.png")
+		var sound_path = faction_selection_sounds.get(faction, "res://DefaultSound.wav")
+		ui.update_generic_enemy_info(faction, portrait_path)
+		if sound_path:
+			SoundManager.play_sound_from_path(sound_path)
 
-	if typeof(sound_path) == TYPE_STRING and sound_path != "":
-		SoundManager.play_sound_from_path(sound_path)
+func _select_wild_unit(unit: BaseUnit):
+	"""
+	Gère la sélection d'une unité sauvage.
+	"""
+	if ui:
+		ui.update_unit_info(unit)
+		_play_sound(unit)
 
 func clear_selection():
 	"""

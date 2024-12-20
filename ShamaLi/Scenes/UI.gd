@@ -26,28 +26,20 @@ var leader_unit: BaseUnit = null  # Référence au leader
 var group_name: String = "Tribu Shama'Li"
 var group_image_path: String = "res://ShamaLi/Assets/Portraits/group.png"
 
-func print_debug(message: String, category: String = "UI"):
-	"""
-	Utilitaire pour afficher les logs avec une catégorie.
-	"""
-	print("[" + category + "] " + message)
-
 func _ready():
 	"""
 	Initialise l'interface utilisateur.
 	"""
-	reset_ui()  # Réinitialise l'interface complète
-	print_debug("Interface Raciale ShamaLiUI initialisée.")
+	reset_ui()
 	emit_signal("ui_ready")
 
 func reset_ui():
 	"""
-	Remet à zéro l'intégralité de l'interface utilisateur (leader + unités).
+	Remet à zéro l'intégralité de l'interface utilisateur.
 	"""
-	clear_ui()
+	clear_leader_panel()
 	clear_unit_panel()
 	clear_help_panel()
-	print_debug("UI entièrement réinitialisée.")
 
 func update_leader_data(leader: BaseUnit, resource_data: int):
 	"""
@@ -60,17 +52,11 @@ func update_leader_data(leader: BaseUnit, resource_data: int):
 		leader_health_bar.max_value = leader.stats.health_max
 		leader_health_bar.value = leader_health
 		leader_name_label.text = leader_name
-		_play_selection_sound(leader)
 	else:
-		clear_ui()  # Efface les données si aucun leader
+		clear_leader_panel()
 
 	resource_score = resource_data
 	resource_score_label.text = str(resource_score)
-
-	print_debug("Mise à jour des données du leader :")
-	print_debug(" - Nom : " + leader_name)
-	print_debug(" - Santé : " + str(leader_health))
-	print_debug(" - Ressources : " + str(resource_score))
 
 func update_unit_info(unit: BaseUnit):
 	"""
@@ -84,6 +70,7 @@ func update_unit_info(unit: BaseUnit):
 	health_bar.max_value = unit.stats.health_max
 	health_bar.value = unit.stats.health
 	health_bar.visible = true
+
 	mana_bar.max_value = unit.stats.mana_max
 	mana_bar.value = unit.stats.mana
 	mana_bar.visible = unit.stats.mana_max > 0
@@ -95,25 +82,22 @@ func update_unit_info(unit: BaseUnit):
 		unit_image.visible = false
 
 	unit_panel.visible = true
-	_play_selection_sound(unit)
-	print_debug("Panneau mis à jour pour l'unité sélectionnée : " + unit.stats.unit_name)
 
-func update_unit_portrait(portrait_path: String):
+func update_generic_enemy_info(faction: String, portrait_path: String):
 	"""
-	Met à jour le portrait de l'unité affichée.
+	Met à jour le panneau pour une unité ennemie avec portrait générique et nom de faction.
 	"""
-	if typeof(portrait_path) == TYPE_STRING and portrait_path != "":
-		var texture = ResourceLoader.load(portrait_path)
-		if texture and texture is Texture2D:
-			unit_image.texture = texture
-			unit_image.visible = true
-			print_debug("Portrait mis à jour depuis :", portrait_path)
-		else:
-			print_debug("Erreur : Impossible de charger le portrait depuis :", portrait_path)
+	unit_name_label.text = faction
+	var texture = ResourceLoader.load(portrait_path)
+	if texture and texture is Texture2D:
+		unit_image.texture = texture
+		unit_image.visible = true
 	else:
 		unit_image.visible = false
-		print_debug("Aucun portrait disponible pour mise à jour.")
 
+	health_bar.visible = true
+	mana_bar.visible = false
+	unit_panel.visible = true
 
 func update_multiple_units_info(units: Array):
 	"""
@@ -135,31 +119,7 @@ func update_multiple_units_info(units: Array):
 	mana_bar.visible = false
 	unit_panel.visible = true
 
-	# Joue le son de la première unité dans le groupe
-	if units.size() > 0:
-		_play_selection_sound(units[0])
-
-	print_debug("Panneau mis à jour pour plusieurs unités : " + str(units.size()))
-
-func _play_selection_sound(unit: BaseUnit):
-	"""
-	Joue le son de sélection d'une unité si disponible.
-	"""
-	if not unit or not unit.stats:
-		return
-
-	# Vérifie dynamiquement si la propriété existe
-	if unit.stats.has_property("unit_sound_selection_path"):
-		var sound_path = unit.stats.unit_sound_selection_path
-		if sound_path and sound_path.strip_edges() != "":
-			SoundManager.play_sound_from_path(sound_path)  # Utilise le SoundManager autoload
-			print_debug("Son de sélection joué pour :", unit.stats.unit_name)
-		else:
-			print_debug("Aucun chemin valide pour le son :", unit.stats.unit_name)
-	else:
-		print_debug("Aucun son de sélection défini pour l'unité :", unit.stats.unit_name)
-
-func clear_ui():
+func clear_leader_panel():
 	"""
 	Réinitialise les informations du leader.
 	"""
@@ -167,7 +127,6 @@ func clear_ui():
 	leader_health_bar.value = 0
 	leader_health_bar.max_value = 100
 	resource_score_label.text = "0"
-	print_debug("Données du leader réinitialisées.")
 
 func clear_unit_panel():
 	"""
@@ -179,36 +138,16 @@ func clear_unit_panel():
 	mana_bar.visible = false
 	unit_image.texture = null
 	unit_image.visible = false
-	print_debug("Panneau d'unité réinitialisé.")
 
-func update_leader_health(new_health: int):
+func update_unit_health(unit: BaseUnit, new_health: int):
 	"""
-	Met à jour la santé du leader dynamiquement.
+	Met à jour la santé d'une unité sélectionnée.
 	"""
-	if leader_unit:
-		leader_health = new_health
-		leader_health_bar.value = leader_health
-		print_debug("Santé du leader mise à jour : " + str(leader_health))
-
-func update_resource_score(new_score: int):
-	"""
-	Met à jour les ressources dynamiquement.
-	"""
-	resource_score = new_score
-	resource_score_label.text = str(new_score)
-	print_debug("Score de ressources mis à jour : " + str(resource_score))
-
-func update_help_panel(entity_name: String):
-	"""
-	Affiche des informations contextuelles sur une entité.
-	"""
-	if not entity_name:
-		clear_help_panel()
+	if not unit or not unit_panel.visible:
 		return
 
-	help_label.text = "Type: " + entity_name
-	help_panel.visible = true
-	print_debug("Panneau d'aide mis à jour pour l'entité : " + entity_name)
+	if unit.stats and unit.stats.unit_name == unit_name_label.text:
+		health_bar.value = new_health
 
 func clear_help_panel():
 	"""
@@ -216,24 +155,3 @@ func clear_help_panel():
 	"""
 	help_panel.visible = false
 	help_label.text = ""
-	print_debug("Panneau d'aide réinitialisé.")
-
-func update_minimap(data):
-	"""
-	Placeholder pour la gestion de la minimap.
-	"""
-	print_debug("Mise à jour de la minimap avec les données : " + str(data))
-
-func update_unit_health(unit: BaseUnit, new_health: int):
-	"""
-	Met à jour la santé d'une unité sélectionnée.
-	"""
-	if not unit or not unit_panel.visible:
-		print_debug("Aucune unité sélectionnée ou panneau non visible.", "Erreur")
-		return
-
-	if unit.stats and unit.stats.unit_name == unit_name_label.text:
-		health_bar.value = new_health
-		print_debug("Santé mise à jour pour l'unité : " + unit.stats.unit_name + " -> " + str(new_health))
-	else:
-		print_debug("Unité non correspondante pour la mise à jour de la santé.", "Erreur")
