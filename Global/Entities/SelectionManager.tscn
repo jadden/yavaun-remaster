@@ -1,56 +1,13 @@
-[gd_scene load_steps=13 format=3 uid="uid://swnjxqb6jy6v"]
+[gd_scene load_steps=4 format=3 uid="uid://swnjxqb6jy6v"]
 
 [ext_resource type="Script" path="res://Global/Managers/SelectionManager.gd" id="1_og3wa"]
 [ext_resource type="AnimationLibrary" uid="uid://b06lf5rbt3h4d" path="res://Global/Styles/Effects.res" id="2_3vr6o"]
 [ext_resource type="StyleBox" uid="uid://dms08w82u312n" path="res://Global/Styles/RectangleSelection.tres" id="2_ydrxx"]
-[ext_resource type="Texture2D" uid="uid://j625s2uam7b7" path="res://Assets/UI/Cursors/path_1.png" id="4_q45gc"]
-[ext_resource type="Texture2D" uid="uid://b5nml7i2g6co0" path="res://Assets/UI/Cursors/path_2.png" id="5_run18"]
-[ext_resource type="Texture2D" uid="uid://cwl2sfbtp23fp" path="res://Assets/UI/Cursors/path_3.png" id="6_1qg5h"]
-[ext_resource type="Texture2D" uid="uid://bo8blw3b0aa0y" path="res://Assets/UI/Cursors/path_4.png" id="7_deuos"]
-[ext_resource type="Texture2D" uid="uid://dltn6l5b83esh" path="res://Assets/UI/Cursors/path_5.png" id="8_ejbvb"]
-[ext_resource type="Texture2D" uid="uid://by6rd2rsinfrh" path="res://Assets/UI/Cursors/path_6.png" id="9_6bo56"]
-[ext_resource type="Texture2D" uid="uid://b4dvmna1hcclw" path="res://Assets/UI/Cursors/path_7.png" id="10_prshs"]
-[ext_resource type="Texture2D" uid="uid://cfy4l7dvt80hi" path="res://Assets/UI/Cursors/path_8.png" id="11_a4i8s"]
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_iabda"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("4_q45gc")
-}, {
-"duration": 1.0,
-"texture": ExtResource("5_run18")
-}, {
-"duration": 1.0,
-"texture": ExtResource("6_1qg5h")
-}, {
-"duration": 1.0,
-"texture": ExtResource("7_deuos")
-}, {
-"duration": 1.0,
-"texture": ExtResource("8_ejbvb")
-}, {
-"duration": 1.0,
-"texture": ExtResource("9_6bo56")
-}, {
-"duration": 1.0,
-"texture": ExtResource("10_prshs")
-}, {
-"duration": 1.0,
-"texture": ExtResource("11_a4i8s")
-}],
-"loop": true,
-"name": &"default",
-"speed": 8.0
-}]
 
 [node name="SelectionManager" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_og3wa")
-
-[node name="PathAnimation" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_iabda")
 
 [node name="SelectionRectangle" type="Control" parent="."]
 layout_mode = 3

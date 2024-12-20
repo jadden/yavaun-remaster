@@ -7,16 +7,16 @@ const RACE_THEMES = {
 		"cursor": preload("res://ThaRoon/Assets/UI/cursor.png"),
 		"ui": "res://ThaRoon/Scenes/UI.tscn"
 	},
-	"Obblinox": {
-		"theme": preload("res://Obblinox/Assets/UI/Theme.tres"),
-		"cursor": preload("res://Obblinox/Assets/UI/cursor.png"),
-		"ui": "res://Obblinox/Scenes/UI.tscn"
-	},
-	"Eaggra": {
-		"theme": preload("res://Eaggra/Assets/UI/Theme.tres"),
-		"cursor": preload("res://Eaggra/Assets/UI/cursor.png"),
-		"ui": "res://Eaggra/Scenes/UI.tscn"
-	},
+	#"Obblinox": {
+	#	"theme": preload("res://Obblinox/Assets/UI/Theme.tres"),
+	#	"cursor": preload("res://Obblinox/Assets/UI/cursor.png"),
+	#	"ui": "res://Obblinox/Scenes/UI.tscn"
+	#},
+	#"Eaggra": {
+	#	"theme": preload("res://Eaggra/Assets/UI/Theme.tres"),
+	#	"cursor": preload("res://Eaggra/Assets/UI/cursor.png"),
+	#	"ui": "res://Eaggra/Scenes/UI.tscn"
+	#},
 	"Shama'Li": {
 		"theme": preload("res://ShamaLi/Assets/UI/Theme.tres"),
 		"cursor": preload("res://ShamaLi/Assets/UI/cursor.png"),

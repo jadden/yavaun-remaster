@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://bmcknrqc7bteu"]
 
-[ext_resource type="Script" path="res://Global/SplashScreen.gd" id="1_u0gsd"]
+[ext_resource type="Script" path="res://Global/Menus/SplashScreen.gd" id="1_u0gsd"]
 [ext_resource type="Texture2D" uid="uid://dp01n0wayk6u0" path="res://Assets/Logos/logo-appsteroid.png" id="2_r7eo0"]
 
 [sub_resource type="Animation" id="Animation_n6rhe"]

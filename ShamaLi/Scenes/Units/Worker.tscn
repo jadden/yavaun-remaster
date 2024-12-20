@@ -224,4 +224,5 @@ texture = ExtResource("4_r7uj6")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="2"]
 position = Vector2(20, 20)
 sprite_frames = SubResource("SpriteFrames_ckn1e")
-animation = &"idle_left"
+animation = &"walk_leftup"
+frame_progress = 0.935333

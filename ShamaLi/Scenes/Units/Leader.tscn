@@ -218,11 +218,11 @@ target_position = Vector2(0, 0)
 stats = ExtResource("3_kkm1w")
 
 [node name="Sprite2D" parent="." index="1"]
-visible = false
 position = Vector2(20, 20)
 texture = ExtResource("4_74r1v")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="2"]
 position = Vector2(20, 20)
 sprite_frames = SubResource("SpriteFrames_i4mxj")
-animation = &"idle_left"
+animation = &"idle_rightup"
+frame_progress = 0.367438

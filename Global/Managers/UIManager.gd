@@ -11,8 +11,8 @@ var race_uis = {
 
 # Dictionnaire pour stocker les curseurs des races
 var race_cursors = {
-	"Eaggra": preload("res://Eaggra/Assets/UI/cursor.png"),
-	"Obblinox": preload("res://Obblinox/Assets/UI/cursor.png"),
+	#"Eaggra": preload("res://Eaggra/Assets/UI/cursor.png"),
+	#"Obblinox": preload("res://Obblinox/Assets/UI/cursor.png"),
 	"ShamaLi": preload("res://ShamaLi/Assets/UI/cursor.png"),
 	"ThaRoon": preload("res://ThaRoon/Assets/UI/cursor.png")
 }
