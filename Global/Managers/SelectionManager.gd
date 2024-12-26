@@ -5,15 +5,7 @@ class_name SelectionManager
 var player_units: Array = []  # Liste des unités alliées
 var enemy_units: Array = []   # Liste des unités ennemies
 var wild_units: Array = []    # Liste des unités sauvages
-var selected_entities: Array = []  # Liste des entités sélectionnées (alliées uniquement)
-
-# Portraits et sons par faction
-@export var faction_portraits: Dictionary = {
-	"Tha'Roon": "res://ThaRoon/Assets/Portraits/tharoon.png"
-}
-@export var faction_selection_sounds: Dictionary = {
-	"Tha'Roon": "res://ThaRoon/Assets/Sounds/tharoon.wav"
-}
+var selected_entities: Array = []  # Liste des entités sélectionnées
 
 # Gestion de la sélection
 var selection_start: Vector2 = Vector2.ZERO
@@ -24,8 +16,10 @@ var is_selecting: bool = false
 @onready var selection_rectangle: Control = $SelectionRectangle
 @onready var rectangle_panel: Control = $SelectionRectangle/Rectangle
 var camera: Camera2D = null  # Référence à la caméra
-var ui: ShamaLiUI = null  # Référence à l'interface utilisateur
-var player_id: String = "Player1"  # ID du joueur actuel (allié)
+
+# Interfaces utilisateur par faction
+var ui_factions: Dictionary = {}  # Clé : nom de faction, Valeur : référence UI
+var active_ui: ShamaLiUI = null  # Référence à l'interface active
 
 # Couleur de sélection pour unités non contrôlées
 @export var non_controllable_color: Color = Color(1, 0, 0)  # Rouge
@@ -64,11 +58,22 @@ func set_camera(camera_instance: Camera2D):
 	"""
 	camera = camera_instance
 
-func set_ui(ui_instance: ShamaLiUI):
+func set_ui(faction_ui: ShamaLiUI, faction_name: String):
 	"""
-	Définit l'interface utilisateur associée au gestionnaire.
+	Associe une interface utilisateur à une faction.
 	"""
-	ui = ui_instance
+	ui_factions[faction_name] = faction_ui
+	print("UI définie pour la faction :", faction_name)
+
+func switch_ui(faction_name: String):
+	"""
+	Bascule vers l'interface utilisateur correspondant à la faction.
+	"""
+	if ui_factions.has(faction_name):
+		active_ui = ui_factions[faction_name]
+		print("UI active changée pour la faction :", faction_name)
+	else:
+		print("Erreur : UI pour la faction introuvable :", faction_name)
 
 func initialize(player_units_container: Node, enemy_units_container: Node, wild_units_container: Node):
 	"""
@@ -145,7 +150,7 @@ func animate_cursor_for_selection(unit: BaseUnit):
 	"""
 	Lance l'animation du curseur pour indiquer qu'une unité est survolée.
 	"""
-	cursor_animation_index = 0  # Réinitialise l'animation
+	cursor_animation_index = 0
 	cursor_animation_timer.start()
 	print("Unit hovered: " + unit.name)
 
@@ -154,7 +159,7 @@ func _stop_cursor_animation():
 	Arrête l'animation du curseur.
 	"""
 	cursor_animation_timer.stop()
-	Input.set_custom_mouse_cursor(ResourceLoader.load(cursor_images[0]))  # Retour au curseur par défaut
+	Input.set_custom_mouse_cursor(ResourceLoader.load(cursor_images[0]))
 
 func _animate_cursor_frame():
 	"""
@@ -181,6 +186,21 @@ func update_selection(end_pos: Vector2):
 	selection_end = end_pos
 	update_selection_rectangle()
 
+func update_selection_rectangle():
+	"""
+	Met à jour la position et la taille du rectangle de sélection.
+	"""
+	var top_left = Vector2(
+		min(selection_start.x, selection_end.x),
+		min(selection_start.y, selection_end.y)
+	)
+	var rect_size = Vector2(
+		abs(selection_end.x - selection_start.x),
+		abs(selection_end.y - selection_start.y)
+	)
+	rectangle_panel.position = top_left
+	rectangle_panel.size = rect_size
+
 func end_selection(end_pos: Vector2):
 	"""
 	Termine la sélection et sélectionne les entités dans le rectangle.
@@ -203,13 +223,21 @@ func end_selection(end_pos: Vector2):
 
 	update_ui()
 
+func _select_entities_in_rectangle(selection_rect: Rect2):
+	"""
+	Sélectionne uniquement les unités alliées dans un rectangle donné.
+	"""
+	for unit in player_units:
+		var unit_screen_pos = camera.global_to_viewport(unit.global_position)
+		if selection_rect.has_point(unit_screen_pos):
+			_select_unit(unit, true)
+
 func _select_unit_by_click(click_position: Vector2):
 	"""
 	Sélectionne une unité individuellement via un clic unique.
 	"""
-	clear_selection()  # Réinitialise toutes les sélections avant de traiter le clic
+	clear_selection()
 
-	# Priorité : Alliés -> Ennemis -> Sauvages
 	if _check_and_select_individual(click_position, player_units, true):
 		return
 	if _check_and_select_individual(click_position, enemy_units, false, true):
@@ -235,64 +263,44 @@ func _check_and_select_individual(click_position: Vector2, units: Array, is_play
 			return true
 	return false
 
-func _select_entities_in_rectangle(selection_rect: Rect2):
-	"""
-	Sélectionne uniquement les unités contrôlées dans un rectangle donné.
-	"""
-	for unit in player_units:
-		var unit_screen_pos = camera.global_to_viewport(unit.global_position)
-		if selection_rect.has_point(unit_screen_pos):
-			_select_unit(unit, true)
-
 func _select_unit(unit: BaseUnit, is_player_unit: bool):
 	"""
 	Ajoute une unité sélectionnée à la liste et applique les effets visuels/audio.
 	"""
+	print("Sélection d'une unité : " + unit.name + ", contrôlée : " + str(is_player_unit))
 	unit.set_selected(is_player_unit)
 
-	if not is_player_unit:
-		# Applique une bordure rouge pour les unités non contrôlées
-		unit.apply_selection_color(non_controllable_color)
-
-	if is_player_unit:
-		selected_entities.append(unit)
-
-	# Mets à jour l'UI pour les unités non contrôlées
-	if ui and not is_player_unit:
-		ui.update_unit_info(unit)
-		ui.update_unit_health(unit, unit.stats.health)
-
-	if ui and is_player_unit:
-		ui.update_unit_info(unit)
+	var unit_type = "ally" if is_player_unit else ("enemy" if unit in enemy_units else "wild")
+	selected_entities.append({"unit": unit, "type": unit_type})
 
 	_play_sound(unit)
+	update_ui()
+
+func _select_enemy_unit(unit: BaseUnit):
+	"""
+	Gère la sélection d'une unité ennemie.
+	"""
+	print("Sélection d'une unité ennemie: " + unit.name)
+	selected_entities.append({"unit": unit, "type": "enemy"})
+	_play_sound(unit)
+	update_ui()
+
+func _select_wild_unit(unit: BaseUnit):
+	"""
+	Gère la sélection d'une unité sauvage.
+	"""
+	print("Sélection d'une unité sauvage: " + unit.name)
+	selected_entities.append({"unit": unit, "type": "wild"})
+	_play_sound(unit)
+	update_ui()
 
 func _play_sound(unit: BaseUnit):
 	"""
 	Joue le son associé à une unité.
 	"""
 	if unit.stats and unit.stats.unit_sound_selection_path:
+		print("Lecture du son pour l'unité: " + unit.name)
 		SoundManager.play_sound_from_path(unit.stats.unit_sound_selection_path)
-
-func _select_enemy_unit(unit: BaseUnit):
-	"""
-	Gère la sélection d'une unité ennemie.
-	"""
-	if ui:
-		var faction = unit.stats.faction if unit.stats else "Unknown"
-		var portrait_path = faction_portraits.get(faction, "res://DefaultPortrait.png")
-		var sound_path = faction_selection_sounds.get(faction, "res://DefaultSound.wav")
-		ui.update_generic_enemy_info(faction, portrait_path)
-		if sound_path:
-			SoundManager.play_sound_from_path(sound_path)
-
-func _select_wild_unit(unit: BaseUnit):
-	"""
-	Gère la sélection d'une unité sauvage.
-	"""
-	if ui:
-		ui.update_unit_info(unit)
-		_play_sound(unit)
 
 func clear_selection():
 	"""
@@ -302,34 +310,42 @@ func clear_selection():
 		unit.set_selected(false)
 	selected_entities.clear()
 
-	if ui:
-		ui.reset_ui()
+	if active_ui:
+		active_ui.reset_ui()
 
 func update_ui():
 	"""
 	Met à jour l'interface utilisateur avec les informations des entités sélectionnées.
 	"""
-	if not ui:
+	if not active_ui:
+		print("Erreur : UI active non définie.")
 		return
 
+	print("UI active :", active_ui)
 	if selected_entities.size() == 1:
-		ui.update_unit_info(selected_entities[0])
-	elif selected_entities.size() > 1:
-		ui.update_multiple_units_info(selected_entities)
-	else:
-		ui.reset_ui()
+		var selection = selected_entities[0]
+		var unit = selection["unit"]
+		var unit_type = selection["type"]
 
-func update_selection_rectangle():
-	"""
-	Met à jour la position et la taille du rectangle de sélection.
-	"""
-	var top_left = Vector2(
-		min(selection_start.x, selection_end.x),
-		min(selection_start.y, selection_end.y)
-	)
-	var rect_size = Vector2(
-		abs(selection_end.x - selection_start.x),
-		abs(selection_end.y - selection_start.y)
-	)
-	rectangle_panel.position = top_left
-	rectangle_panel.size = rect_size
+		match unit_type:
+			"ally":
+				print("Affichage pour une unité alliée :", unit.name)
+				active_ui.update_unit_info(unit)
+			"enemy":
+				print("Affichage pour une unité ennemie :", unit.name)
+				if unit.stats:
+					var faction = unit.stats.faction if unit.stats else "Unknown"
+					var portrait_path = active_ui.faction_portraits.get(faction, "res://DefaultEnemyPortrait.png")
+					active_ui.update_generic_enemy_info(faction, portrait_path)
+			"wild":
+				print("Affichage pour une unité sauvage :", unit.name)
+				active_ui.update_generic_wild_info(unit)
+	elif selected_entities.size() > 1:
+		print("Affichage pour plusieurs unités sélectionnées.")
+		var units = []
+		for item in selected_entities:
+			units.append(item["unit"])
+		active_ui.update_multiple_units_info(units)
+	else:
+		print("Aucune unité sélectionnée. Réinitialisation.")
+		active_ui.reset_ui()
