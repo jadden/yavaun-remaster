@@ -24,16 +24,32 @@ var active_ui: ShamaLiUI = null  # Référence à l'interface active
 # Couleur de sélection pour unités non contrôlées
 @export var non_controllable_color: Color = Color(1, 0, 0)  # Rouge
 
-# Curseur d'animation
+# Curseur animé - Sélection
 @export var cursor_images: Array = [
 	"res://Assets/UI/Cursors/select_1.png",
 	"res://Assets/UI/Cursors/select_2.png",
 	"res://Assets/UI/Cursors/select_3.png",
 	"res://Assets/UI/Cursors/select_4.png"
 ]
+
+# Curseur animé - Déplacement
+@export var path_images: Array = [
+	"res://Assets/UI/Cursors/path_1.png",
+	"res://Assets/UI/Cursors/path_2.png",
+	"res://Assets/UI/Cursors/path_3.png",
+	"res://Assets/UI/Cursors/path_4.png",
+	"res://Assets/UI/Cursors/path_5.png",
+	"res://Assets/UI/Cursors/path_6.png",
+	"res://Assets/UI/Cursors/path_7.png",
+	"res://Assets/UI/Cursors/path_8.png"
+]
+
 var cursor_animation_index: int = 0
 var cursor_animation_timer: Timer = null
 var hovered_unit: BaseUnit = null
+
+# Référence à l'ActionManager (autoload)
+@onready var action_manager = ActionsManager
 
 func _ready():
 	"""
@@ -112,11 +128,48 @@ func _handle_mouse_button_input(event: InputEventMouseButton):
 	"""
 	if event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
-			start_selection(event.position)
+			if selected_entities.size() > 0:
+				# Si des unités sont sélectionnées, donne un ordre de déplacement
+				_give_move_order(event.position)
+			else:
+				# Démarre une sélection si aucune unité n'est sélectionnée
+				start_selection(event.position)
 		else:
+			# Termine la sélection
 			end_selection(event.position)
 	elif event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
-		clear_selection()
+		# Vérifie si une unité est sélectionnée avant de désélectionner
+		var clicked_unit = _detect_hovered_unit(event.position)
+		if clicked_unit and clicked_unit in player_units:
+			print("Menu circulaire ouvert pour :", clicked_unit.name)
+			clicked_unit.circular_menu.open_menu()
+		else:
+			print("Désélection de toutes les unités.")
+			clear_selection()
+
+func _give_move_order(target_position: Vector2):
+	"""
+	Donne un ordre de déplacement aux unités sélectionnées et déclenche l'animation.
+	"""
+	var order_given = false
+	for item in selected_entities:
+		var unit = item["unit"]
+		if unit.has_method("is_controllable") and unit.is_controllable():
+			action_manager.add_action(unit, "move", {"target_position": target_position})
+			print("Ordre de déplacement donné à l'unité :", unit.name)
+			order_given = true
+
+	# Déclencher l'animation de clic
+	if order_given:
+		_play_path_animation(target_position)
+
+func _play_path_animation(position: Vector2):
+	"""
+	Joue une animation unique au point de clic.
+	"""
+	var animation_node = preload("res://Global/PathAnimation.gd").new()
+	get_tree().root.add_child(animation_node)  # Ajoute à la scène principale
+	animation_node.start_animation(position, path_images)
 
 func _handle_mouse_motion_input(event: InputEventMouseMotion):
 	"""
@@ -143,8 +196,11 @@ func _detect_hovered_unit(mouse_position: Vector2) -> BaseUnit:
 
 		var unit_screen_pos = camera.global_to_viewport(unit.global_position)
 		if unit_screen_pos.distance_to(mouse_position) < 10:
+			print("Unité détectée :", unit.name)
 			return unit
+	print("Aucune unité détectée à la position :", mouse_position)
 	return null
+
 
 func animate_cursor_for_selection(unit: BaseUnit):
 	"""
@@ -236,13 +292,18 @@ func _select_unit_by_click(click_position: Vector2):
 	"""
 	Sélectionne une unité individuellement via un clic unique.
 	"""
-	clear_selection()
+	var unit_selected = false
 
 	if _check_and_select_individual(click_position, player_units, true):
-		return
-	if _check_and_select_individual(click_position, enemy_units, false, true):
-		return
-	_check_and_select_individual(click_position, wild_units, false, false)
+		unit_selected = true
+	elif _check_and_select_individual(click_position, enemy_units, false, true):
+		unit_selected = true
+	elif _check_and_select_individual(click_position, wild_units, false, false):
+		unit_selected = true
+
+	if not unit_selected:
+		# Si aucune unité n'est sélectionnée, initier une sélection rectangulaire
+		start_selection(click_position)
 
 func _check_and_select_individual(click_position: Vector2, units: Array, is_player_unit: bool, is_enemy: bool = false) -> bool:
 	"""

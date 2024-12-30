@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://00ly27nb6r0b"]
+
+[ext_resource type="Script" path="res://Global/Menus/CircularMenu.gd" id="1_4uupt"]
+
+[node name="CircularMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_4uupt")
+
+[node name="OptionContainer" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="SubMenuContainer" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0

@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://887341wdcjj0"]
+[gd_scene load_steps=8 format=3 uid="uid://887341wdcjj0"]
 
 [ext_resource type="Script" path="res://Global/Entities/BaseUnit.gd" id="1_a7myu"]
 [ext_resource type="Script" path="res://Global/Entities/SelectionBox.gd" id="2_6dss8"]
 [ext_resource type="AnimationLibrary" uid="uid://b06lf5rbt3h4d" path="res://Global/Styles/Effects.res" id="2_wci0y"]
+[ext_resource type="PackedScene" uid="uid://00ly27nb6r0b" path="res://Global/Menus/CircularMenu.tscn" id="4_qxfkq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_765k1"]
 size = Vector2(50, 50.5)
@@ -121,6 +122,13 @@ libraries = {
 "": SubResource("AnimationLibrary_o2ruw"),
 "Effects": ExtResource("2_wci0y")
 }
+
+[node name="CircularMenu" parent="." instance=ExtResource("4_qxfkq")]
+visible = false
+offset_left = 22.5
+offset_top = 22.5
+offset_right = 22.5
+offset_bottom = 22.5
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]

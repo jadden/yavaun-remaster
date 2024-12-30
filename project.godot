@@ -18,13 +18,14 @@ config/icon="res://Assets/Logos/icon.svg"
 
 [autoload]
 
-MusicManager="*res://Global/MusicManager.tscn"
-SoundManager="*res://Global/SoundManager.tscn"
+MusicManager="*res://Global/Managers/MusicManager.tscn"
+SoundManager="*res://Global/Managers/SoundManager.tscn"
 PlayerData="*res://Global/PlayerData.gd"
 GameData="*res://Global/GameData.gd"
 ThemeManager="*res://Global/Managers/ThemeManager.gd"
 ClanManager="*res://Global/Clans/ClanManager.gd"
 DebugManager="*res://Global/Managers/DebugManager.gd"
+ActionsManager="*res://Global/Managers/ActionsManager.gd"
 
 [display]
 
