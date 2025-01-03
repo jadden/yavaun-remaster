@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://swnjxqb6jy6v"]
 
-[ext_resource type="Script" path="res://Global/Managers/SelectionManager.gd" id="1_og3wa"]
+[ext_resource type="Script" uid="uid://ja262qvslq7o" path="res://Global/Managers/SelectionManager.gd" id="1_og3wa"]
 [ext_resource type="AnimationLibrary" uid="uid://b06lf5rbt3h4d" path="res://Global/Styles/Effects.res" id="2_3vr6o"]
 [ext_resource type="StyleBox" uid="uid://dms08w82u312n" path="res://Global/Styles/RectangleSelection.tres" id="2_ydrxx"]
 
@@ -18,7 +18,7 @@ offset_bottom = 40.0
 [node name="SelectionAnimationPlayer" type="AnimationPlayer" parent="SelectionRectangle"]
 root_node = NodePath("../Rectangle")
 libraries = {
-"Effects": ExtResource("2_3vr6o")
+&"Effects": ExtResource("2_3vr6o")
 }
 autoplay = "Effects/Pulse"
 

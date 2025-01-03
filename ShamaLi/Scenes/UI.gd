@@ -34,27 +34,21 @@ var group_image_path: String = "res://ShamaLi/Assets/Portraits/group.png"
 	"Tha'Roon": "res://ThaRoon/Assets/Sounds/tharoon.wav"
 }
 
+## Initialise l'interface utilisateur.
 func _ready():
-	"""
-	Initialise l'interface utilisateur.
-	"""
 	print("Initialisation de l'interface utilisateur.")
 	reset_ui()
 	emit_signal("ui_ready")
 
+## Réinitialise l'intégralité de l'interface utilisateur.
 func reset_ui():
-	"""
-	Réinitialise l'intégralité de l'interface utilisateur.
-	"""
 	print("Reset de l'UI.")
 	clear_leader_panel()
 	clear_unit_panel()
 	clear_help_panel()
 
+## Met à jour les informations du leader (nom, santé, ressources).
 func update_leader_data(leader: BaseUnit, resource_data: int):
-	"""
-	Met à jour les informations du leader (nom, santé, ressources).
-	"""
 	if leader:
 		print("Mise à jour des données du leader : " + leader.stats.unit_name)
 		leader_unit = leader
@@ -70,10 +64,8 @@ func update_leader_data(leader: BaseUnit, resource_data: int):
 	resource_score = resource_data
 	resource_score_label.text = str(resource_score)
 
+## Met à jour le panneau d'informations pour une unité sélectionnée.
 func update_unit_info(unit: BaseUnit):
-	"""
-	Met à jour le panneau d'informations pour une unité sélectionnée.
-	"""
 	if not unit:
 		print("Aucune unité à afficher, réinitialisation du panneau des unités.")
 		clear_unit_panel()
@@ -108,10 +100,8 @@ func update_unit_info(unit: BaseUnit):
 
 	unit_panel.visible = true
 
+## Met à jour le panneau pour une unité ennemie avec portrait générique et nom de faction.
 func update_generic_enemy_info(faction: String, portrait_path: String):
-	"""
-	Met à jour le panneau pour une unité ennemie avec portrait générique et nom de faction.
-	"""
 	print("Affichage des informations génériques pour la faction : " + faction)
 	unit_name_label.text = faction
 
@@ -129,10 +119,8 @@ func update_generic_enemy_info(faction: String, portrait_path: String):
 
 	unit_panel.visible = true
 
+## Met à jour le panneau pour une unité sauvage avec portrait générique.
 func update_generic_wild_info(unit: BaseUnit, portrait_path: String = "res://DefaultWildPortrait.png"):
-	"""
-	Met à jour le panneau pour une unité sauvage avec portrait générique.
-	"""
 	print("Affichage des informations génériques pour une unité sauvage : " + unit.stats.unit_name)
 	unit_name_label.text = unit.stats.unit_name
 
@@ -162,10 +150,10 @@ func update_generic_wild_info(unit: BaseUnit, portrait_path: String = "res://Def
 
 	unit_panel.visible = true
 
+####
+## Met à jour le panneau lorsque plusieurs unités sont sélectionnées.
+####
 func update_multiple_units_info(units: Array):
-	"""
-	Met à jour le panneau lorsque plusieurs unités sont sélectionnées.
-	"""
 	if units.is_empty():
 		print("Aucune unité multiple sélectionnée, réinitialisation.")
 		clear_unit_panel()
@@ -186,20 +174,18 @@ func update_multiple_units_info(units: Array):
 	mana_bar.visible = false
 	unit_panel.visible = true
 
+####
+## Réinitialise les informations du leader.
+####
 func clear_leader_panel():
-	"""
-	Réinitialise les informations du leader.
-	"""
 	print("Réinitialisation du panneau du leader.")
 	leader_name_label.text = "Inconnu"
 	leader_health_bar.value = 0
 	leader_health_bar.max_value = 100
 	resource_score_label.text = "0"
 
+## Réinitialise les informations des unités sélectionnées.
 func clear_unit_panel():
-	"""
-	Réinitialise les informations des unités sélectionnées.
-	"""
 	print("Réinitialisation du panneau des unités.")
 	unit_panel.visible = false
 	unit_name_label.text = ""
@@ -208,10 +194,8 @@ func clear_unit_panel():
 	unit_image.texture = null
 	unit_image.visible = false
 
+## Met à jour la santé d'une unité sélectionnée.
 func update_unit_health(unit: BaseUnit, new_health: int):
-	"""
-	Met à jour la santé d'une unité sélectionnée.
-	"""
 	if not unit or not unit_panel.visible:
 		print("Impossible de mettre à jour la santé, unité ou panneau invisible.")
 		return
@@ -220,21 +204,17 @@ func update_unit_health(unit: BaseUnit, new_health: int):
 		print("Mise à jour de la santé pour l'unité : " + unit.stats.unit_name)
 		health_bar.value = new_health
 
+## Réinitialise le panneau d'aide.
 func clear_help_panel():
-	"""
-	Réinitialise le panneau d'aide.
-	"""
 	print("Réinitialisation du panneau d'aide.")
 	help_panel.visible = false
 	help_label.text = ""
 
+## Met à jour l'UI en fonction des unités sélectionnées.
+## Chaque élément de `selected_units` est un dictionnaire avec :
+## - `unit`: Référence à l'unité.
+## - `type`: "ally", "enemy", ou "wild".
 func update_ui(selected_units: Array):
-	"""
-	Met à jour l'UI en fonction des unités sélectionnées.
-	Chaque élément de `selected_units` est un dictionnaire avec :
-	- `unit`: Référence à l'unité.
-	- `type`: "ally", "enemy", ou "wild".
-	"""
 	print("update_ui appelé. Nombre d'unités sélectionnées : " + str(selected_units.size()))
 
 	if selected_units.is_empty():

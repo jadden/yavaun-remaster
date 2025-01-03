@@ -2,16 +2,16 @@ extends Node2D
 
 @onready var entities_container = $EntitiesContainer
 @onready var player_units = $EntitiesContainer/PlayerUnits
-@onready var ai_units = $EntitiesContainer/AIUnits
+@onready var ai_units = $EntitiesContainer/EnemyUnits
 @onready var wild_units = $EntitiesContainer/WildUnits
 
 var racial_ui: Node = null  # Référence à l'interface raciale
 var player_id: String = "Player1"  # ID du joueur actuel
 
+####
+## Initialisation de la carte et des unités.
+####
 func _ready():
-	"""
-	Initialisation de la carte et des unités.
-	"""
 	MusicManager.stop_music()
 	MusicManager.play_music("warrior_of_the_wild")
 
@@ -36,10 +36,10 @@ func _ready():
 	print("Initialisation des unités...")
 	initialize_units()
 
+####
+## Callback appelé lorsque l'UI raciale est prête.
+####
 func _on_ui_ready():
-	"""
-	Callback appelé lorsque l'UI raciale est prête.
-	"""
 	print("Signal reçu : l'UI raciale est prête.")
 	var current_clan = ClanManager.clans.find(func(clan): return clan.uuid == ClanManager.current_clan_id)
 
@@ -55,10 +55,10 @@ func _on_ui_ready():
 	else:
 		print("Erreur : Leader ou clan introuvable.")
 
+####
+## Initialise les unités pour le joueur, l'IA, et les entités sauvages.
+####
 func initialize_units():
-	"""
-	Initialise les unités pour le joueur, l'IA, et les entités sauvages.
-	"""
 	print("Détection des entités...")
 
 	print("PlayerUnits enfants :")

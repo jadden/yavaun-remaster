@@ -1,16 +1,16 @@
 [gd_scene load_steps=12 format=4 uid="uid://cw6tsq1sgb35s"]
 
 [ext_resource type="PackedScene" uid="uid://c15ojisxeonpx" path="res://ShamaLi/Scenes/Units/Leader.tscn" id="1_0a0n6"]
-[ext_resource type="Script" path="res://ShamaLi/Scenes/Campaign1/Scenario1/Map.gd" id="1_k254y"]
-[ext_resource type="Script" path="res://ShamaLi/Scenes/Campaign1/Scenario1/Camera2d.gd" id="2_7v0ow"]
-[ext_resource type="PackedScene" uid="uid://bhlh8x8nd33s8" path="res://Global/UIManager.tscn" id="2_yeavn"]
+[ext_resource type="Script" uid="uid://bktwr6ht4w0bm" path="res://ShamaLi/Scenes/Campaign1/Scenario1/Map.gd" id="1_k254y"]
+[ext_resource type="Script" uid="uid://co3pcp0q56sg8" path="res://ShamaLi/Scenes/Campaign1/Scenario1/Camera2d.gd" id="2_7v0ow"]
+[ext_resource type="PackedScene" uid="uid://bhlh8x8nd33s8" path="res://Global/Managers/UIManager.tscn" id="2_yeavn"]
 [ext_resource type="PackedScene" uid="uid://dkwtihabed1n8" path="res://ShamaLi/Scenes/Units/Worker.tscn" id="4_vhm7l"]
 [ext_resource type="PackedScene" uid="uid://5xpbf2tsl6ro" path="res://Yavaun/Scenes/Units/Bonca.tscn" id="5_qm2c4"]
 [ext_resource type="PackedScene" uid="uid://cswtvf5x1lei8" path="res://ThaRoon/Scenes/Units/Scout.tscn" id="6_582oc"]
 [ext_resource type="Texture2D" uid="uid://c50mdv5rgxjhp" path="res://Yavaun/Assets/Tiles/Atlas-Yavaun.png" id="8_347yp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mn3vf"]
-size = Vector2(7000, 7000)
+size = Vector2(2000, 2000)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fn3n1"]
 texture = ExtResource("8_347yp")
@@ -740,7 +740,6 @@ sources/1062 = SubResource("TileSetAtlasSource_fn3n1")
 script = ExtResource("1_k254y")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(-400, -200)
 anchor_mode = 0
 limit_left = -7000
 limit_top = -7000

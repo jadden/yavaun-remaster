@@ -1,7 +1,7 @@
 [gd_scene load_steps=26 format=3 uid="uid://c15ojisxeonpx"]
 
 [ext_resource type="PackedScene" uid="uid://887341wdcjj0" path="res://Global/Entities/BaseUnit.tscn" id="1_kfgrm"]
-[ext_resource type="Script" path="res://ShamaLi/Scenes/Units/Leader.gd" id="2_f8qk0"]
+[ext_resource type="Script" uid="uid://dtwhfu2b6jgxq" path="res://ShamaLi/Scenes/Units/Leader.gd" id="2_f8qk0"]
 [ext_resource type="Resource" uid="uid://cojssbfq7teeu" path="res://ShamaLi/Datas/LeaderStats.tres" id="3_kkm1w"]
 [ext_resource type="Texture2D" uid="uid://dqpjkfsqgtebc" path="res://ShamaLi/Assets/Actors/Leader1/action_down_1.png" id="4_74r1v"]
 [ext_resource type="Texture2D" uid="uid://d3voaue7m2prg" path="res://ShamaLi/Assets/Actors/Leader1/walk_down_1.png" id="5_5mgnj"]

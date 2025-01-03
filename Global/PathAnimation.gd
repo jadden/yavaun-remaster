@@ -8,10 +8,10 @@ var timer: Timer = null
 # Durée entre les frames
 @export var frame_time: float = 0.1
 
+####
+## Démarre l'animation avec les frames données.
+####
 func start_animation(position: Vector2, frames_to_use: Array):
-	"""
-	Démarre l'animation avec les frames données.
-	"""
 	self.position = position
 	frames = frames_to_use
 	frame_index = 0
@@ -27,10 +27,10 @@ func start_animation(position: Vector2, frames_to_use: Array):
 	timer.start()
 	_show_frame()
 
+####
+## Passer à la frame suivante de l'animation.
+####
 func _next_frame():
-	"""
-	Passer à la frame suivante de l'animation.
-	"""
 	frame_index += 1
 	if frame_index >= frames.size():
 		# Animation terminée
@@ -38,10 +38,10 @@ func _next_frame():
 		return
 	_show_frame()
 
+####
+## Affiche la frame actuelle de l'animation.
+####
 func _show_frame():
-	"""
-	Affiche la frame actuelle de l'animation.
-	"""
 	# Supprimer les anciens enfants
 	for child in get_children():
 		child.queue_free()

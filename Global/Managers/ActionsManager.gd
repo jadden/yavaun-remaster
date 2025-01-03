@@ -5,9 +5,7 @@ var actions: Array = []
 
 # Fonction appelée pour ajouter une action
 func add_action(unit: Node, action_type: String, data: Dictionary) -> void:
-	"""
-	Ajoute une nouvelle action à la liste des actions en cours.
-	"""
+	# Ajoute une nouvelle action à la liste des actions en cours.
 	if not unit:
 		print("Erreur : L'unité est invalide.")
 		return
@@ -21,9 +19,7 @@ func add_action(unit: Node, action_type: String, data: Dictionary) -> void:
 
 # Fonction principale pour traiter les actions
 func process_actions(delta: float) -> void:
-	"""
-	Parcourt toutes les actions en cours et traite celles qui ne sont pas encore terminées.
-	"""
+	# Parcourt toutes les actions en cours et traite celles qui ne sont pas encore terminées.
 	for action in actions:
 		if action["completed"]:
 			continue
@@ -39,20 +35,19 @@ func process_actions(delta: float) -> void:
 
 # Nettoyage des actions terminées
 func _clean_up_completed_actions() -> void:
-	"""
-	Supprime les actions terminées de la liste.
-	"""
+	# Supprime les actions terminées de la liste.
 	var remaining_actions = []
 	for action in actions:
 		if not action["completed"]:
 			remaining_actions.append(action)
 	actions = remaining_actions
 
-# Gestion du déplacement
+
+####
+## Gestion du déplacement
+## Traite une action de type "move" pour déplacer une unité vers une position cible.
+####
 func _process_move_action(action: Dictionary, delta: float) -> void:
-	"""
-	Traite une action de type "move" pour déplacer une unité vers une position cible.
-	"""
 	var unit = action["unit"]
 	var target_position = action["data"].get("target_position")
 	var speed = action["data"].get("speed", 200)

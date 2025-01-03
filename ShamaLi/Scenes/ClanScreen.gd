@@ -17,7 +17,6 @@ func _on_previous_screen_pressed():
 	# Changer de scène pour aller à l'écran de campagne
 	get_tree().change_scene_to_file("res://Global/Menus/MainMenu.tscn")
 
-
 func _on_leader_name_input_focus_exited():
 	var leader_name = $Container/InputsContainer/ClanPanel/LeaderNameInputContainer/LeaderNameInput.text
 	if leader_name.strip_edges() == "":
@@ -26,7 +25,6 @@ func _on_leader_name_input_focus_exited():
 	PlayerData.leader_name = leader_name
 	print("Leader's Name :", PlayerData.leader_name)
 
-
 func _on_line_edit_focus_exited():
 	var clan_name = $Container/InputsContainer/ClanPanel/ClanNameInputContainer/ClanNameInput.text
 	if clan_name.strip_edges() == "":
@@ -34,7 +32,6 @@ func _on_line_edit_focus_exited():
 		$Container/InputsContainer/ClanPanel/ClanNameInputContainer/ClanNameInput.text = "House Mondra"
 	PlayerData.leader_name = clan_name
 	print("Clan's Name :", PlayerData.clan_name)
-
 
 func _on_new_campagn_pressed():
 	# Jouer le son de clic via le SoundManager

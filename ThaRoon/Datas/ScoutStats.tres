@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="UnitStats" load_steps=3 format=3 uid="uid://c8rjkvrmnj1l5"]
 
-[ext_resource type="Script" path="res://Global/Entities/UnitStats.gd" id="1_a0eht"]
+[ext_resource type="Script" uid="uid://brtdwl612es60" path="res://Global/Entities/UnitStats.gd" id="1_a0eht"]
 [ext_resource type="Texture2D" uid="uid://d0dtjxuqr6bas" path="res://ThaRoon/Assets/Portraits/scout.png" id="2_22ft7"]
 
 [resource]

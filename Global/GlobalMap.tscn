@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://df3fhcthjojqe"]
 
-[ext_resource type="Script" path="res://Global/GlobalMap.gd" id="1_syrp0"]
-[ext_resource type="PackedScene" uid="uid://swnjxqb6jy6v" path="res://Global/Entities/SelectionManager.tscn" id="2_d5dnp"]
+[ext_resource type="Script" uid="uid://rcwmt4xqb0k6" path="res://Global/GlobalMap.gd" id="1_syrp0"]
+[ext_resource type="PackedScene" uid="uid://swnjxqb6jy6v" path="res://Global/Managers/SelectionManager.tscn" id="2_d5dnp"]
 
 [node name="GlobalMap" type="Node" node_paths=PackedStringArray("current_map_container", "race_ui_container")]
 script = ExtResource("1_syrp0")

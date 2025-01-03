@@ -6,7 +6,7 @@ class_name BaseUnit
 @export var player_id: String = ""  # Identifiant du joueur ou de l'IA
 @export var is_selected: bool = false  # État de sélection
 @export var base_speed: float = 7.0  # Facteur de base pour calculer la vitesse réelle
-@export var unit_menu_data: Dictionary = {  # Menu par défaut, vide ou basique
+@export var unit_menu_data: Dictionary = {  # Menu par défaut
 	"Move": {},
 	"Cancel": {}
 }
@@ -22,62 +22,31 @@ class_name BaseUnit
 @onready var area2d: Area2D = $Area2D
 @onready var circular_menu = $CircularMenu
 
-# Variables de gestion de mouvement
+# Variables internes
+var move_speed: float = 0.0  # Vitesse réelle calculée
 var current_direction: Vector2 = Vector2.DOWN  # Direction actuelle
-var move_speed: float = 0.0  # Vitesse réelle calculée à partir des stats
-var idle_timer: Timer = null  # Timer pour les animations idle aléatoires
+var idle_timer: Timer = null  # Timer pour les animations idle
 
 func _ready():
-	# Initialisation de l'unité et configuration des composants.
-	move_speed = stats.movement * base_speed  # Calcule la vitesse réelle
+	# Initialisation de l'unité et de ses composants
+	move_speed = stats.movement * base_speed
 	_init_selection_box()
 	_connect_signals()
 	_play_idle_animation(current_direction)
 	_init_idle_timer()
 
-	if circular_menu:
-		print("Menu circulaire attaché à :", name)
-	else:
-		print("Erreur : Aucun menu circulaire pour :", name)
+func set_player_id(player_id_value: String):
+	# Définit l'ID du joueur propriétaire
+	player_id = player_id_value
+	print("BaseUnit - ID du joueur défini :", player_id)
 
 func get_unit_menu_data() -> Dictionary:
 	# Retourne les données de menu spécifiques à l'unité
-	return unit_menu_data if self.has_meta("unit_menu_data") else {}
-	
-func _init_selection_box():
-	# Configure la boîte de sélection.
-	if selection_box:
-		selection_box.visible = false  # Masque la boîte de sélection par défaut
-	else:
-		print("Erreur : SelectionBox introuvable.")
-	
-	if not selection_animation:
-		print("Erreur : AnimationPlayer introuvable.")
-
-func _connect_signals():
-	# Connecte les signaux de l'Area2D pour gérer les interactions.
-	if area2d:
-		area2d.connect("mouse_entered", Callable(self, "_on_mouse_entered"))
-		area2d.connect("mouse_exited", Callable(self, "_on_mouse_exited"))
-		area2d.connect("input_event", Callable(self, "_on_input_event"))
-	else:
-		print("Erreur : Area2D introuvable.")
-
-func _init_idle_timer():
-	# Initialise un timer pour jouer des animations idle aléatoires.
-	idle_timer = Timer.new()
-	idle_timer.wait_time = 30.0  # Toutes les 30 secondes
-	idle_timer.one_shot = false
-	idle_timer.connect("timeout", Callable(self, "_play_random_idle_animation"))
-	add_child(idle_timer)
-	idle_timer.start()
-
-func set_player_id(player_id_value: String):
-	# Définit l'ID du joueur propriétaire de l'unité.
-	player_id = player_id_value
+	print("BaseUnit - Récupération du menu pour :", name, "-", unit_menu_data)
+	return unit_menu_data
 
 func set_selected(selected: bool, is_controllable: bool = true):
-	# Change l'état de sélection de l'unité et applique une couleur spécifique.
+	# Change l'état de sélection de l'unité
 	if circular_menu and circular_menu.is_open and not selected:
 		print("Désélection ignorée car le menu circulaire est ouvert.")
 		return
@@ -86,7 +55,7 @@ func set_selected(selected: bool, is_controllable: bool = true):
 	if selection_box:
 		selection_box.visible = selected
 		if selected:
-			var border_color = Color(0, 1, 0) if is_controllable else Color(1, 0, 0)  # Vert pour alliés, rouge pour ennemis
+			var border_color = Color(0, 1, 0) if is_controllable else Color(1, 0, 0)
 			_set_border_color(border_color)
 			if selection_animation and not selection_animation.is_playing():
 				selection_animation.play("Effects/PulseSelectionBox")
@@ -94,16 +63,20 @@ func set_selected(selected: bool, is_controllable: bool = true):
 			if selection_animation and selection_animation.is_playing():
 				selection_animation.stop()
 
-
-func _set_border_color(color: Color):
-	# Définit la couleur des bordures de la boîte de sélection.
-	for border in [top_border, bottom_border, left_border, right_border]:
-		border.color = color
+func execute_action(action: String):
+	# Exécute une action spécifique à l'unité
+	match action:
+		"Move":
+			print("Déplacer l'unité :", name)
+		"Attack":
+			print("Attaquer avec l'unité :", name)
+		"Cancel":
+			print("Action annulée.")
 
 func move_to(target_position: Vector2):
-	# Déplace l'unité vers une position cible.
+	# Déplace l'unité vers une position cible
 	if not is_selected:
-		return  # Ne permet de déplacer que les unités sélectionnées et contrôlées
+		return
 
 	var direction = (target_position - global_position).normalized()
 	var distance = global_position.distance_to(target_position)
@@ -119,93 +92,77 @@ func move_to(target_position: Vector2):
 	else:
 		_on_movement_finished()
 
+func _on_movement_finished():
+	# Gère la fin du mouvement
+	_play_idle_animation(current_direction)
+
+func _init_selection_box():
+	# Configure la boîte de sélection
+	if selection_box:
+		selection_box.visible = false
+	else:
+		print("Erreur : SelectionBox introuvable.")
+
+func _set_border_color(color: Color):
+	# Définit la couleur des bordures
+	for border in [top_border, bottom_border, left_border, right_border]:
+		border.color = color
+
+func _connect_signals():
+	# Connecte les signaux pour les interactions utilisateur
+	if area2d:
+		area2d.connect("input_event", Callable(self, "_on_input_event"))
+		print("Connecté")
+	else:
+		print("Erreur : Area2D introuvable.")
+
+func _init_idle_timer():
+	# Initialise le timer pour les animations idle
+	idle_timer = Timer.new()
+	idle_timer.wait_time = 30.0
+	idle_timer.one_shot = false
+	idle_timer.connect("timeout", Callable(self, "_play_random_idle_animation"))
+	add_child(idle_timer)
+	idle_timer.start()
+
 func _play_walk_animation(direction: Vector2):
-	# Joue l'animation de marche basée sur la direction.
+	# Joue l'animation de marche
 	var direction_name = _get_direction_name(direction)
 	if direction_name != "":
-		animator.flip_h = direction.x < 0  # Gère le flip horizontal
+		animator.flip_h = direction.x < 0
 		animator.play("walk_" + direction_name)
 
 func _play_idle_animation(direction: Vector2):
-	# Joue l'animation idle pour la direction actuelle.
+	# Joue l'animation idle
 	var direction_name = _get_direction_name(direction)
-	if animator == null:
-		return
-	if direction_name != "":
+	if animator and direction_name != "":
 		animator.play("idle_" + direction_name)
 
 func _play_random_idle_animation():
-	# Joue une animation idle dans une direction aléatoire.
+	# Joue une animation idle aléatoire
 	var random_direction = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized()
 	current_direction = random_direction
 	_play_idle_animation(random_direction)
 
 func _get_direction_name(direction: Vector2) -> String:
-	# Retourne le nom de la direction basé sur le vecteur de direction.
-	if abs(direction.x) > abs(direction.y):  # Prédominance horizontale
+	# Retourne le nom de la direction
+	if abs(direction.x) > abs(direction.y):
 		return "right" if direction.x > 0 else "left"
-	else:  # Prédominance verticale
+	else:
 		return "down" if direction.y > 0 else "up"
 
-func _on_movement_finished():
-	# Gère la logique lorsque le mouvement est terminé.
-	_play_idle_animation(current_direction)
-
-# Gestion des événements de souris
-func _on_mouse_entered():
-	# Gère l'événement lorsque la souris survole l'unité.
-	print("Souris survole :", name)
-
-func _on_mouse_exited():
-	# Gère l'événement lorsque la souris quitte l'unité.
-	print("Souris quitte :", name)
-
-func _on_input_event(viewport: Viewport, event: InputEvent, shape_idx: int):
-	var is_unit_controllable = player_id == "Player1"
-	
-	# Log de l'événement d'entrée
-	print("Input event détecté :", event)
-
-	if event is InputEventMouseButton and event.pressed:
-		print("Mouse button détecté :", event.button_index)
-
-		if event.button_index == MOUSE_BUTTON_LEFT:
-			print("Clic gauche détecté.")
-			# Sélectionne l'unité
-			set_selected(true, is_unit_controllable)
-
-		elif event.button_index == MOUSE_BUTTON_RIGHT:
-			print("Clic droit détecté.")
-
-			if is_unit_controllable:
-				if circular_menu.is_open:
-					print("Menu circulaire déjà ouvert, fermeture.")
-					circular_menu.close_menu()
-				else:
-					print("Ouverture du menu circulaire pour :", name)
-					circular_menu.open_menu(get_unit_menu_data())
-			else:
-				print("Unité non contrôlable, menu non affiché.")
-
-	# Désélection uniquement si clic en dehors d'une unité
-	elif event is InputEventMouseButton and not event.pressed and not circular_menu.is_open:
-		print("Désélection de toutes les unités.")
-		set_selected(false)
-
+#func _on_input_event(viewport: Viewport, event: InputEvent, shape_idx: int):
+	# Gère les événements utilisateur
+#	if event is InputEventMouseButton and event.pressed:
+#		if event.button_index == MOUSE_BUTTON_LEFT:
+#			set_selected(true, player_id == "Player1")
+#		elif event.button_index == MOUSE_BUTTON_RIGHT:
+#			print("Clic droit détecté pour :", name)
+#			var menu_data = get_unit_menu_data()
+#			print("BaseUnit - Menu récupéré :", menu_data)
+#			circular_menu.open_menu(menu_data)
 
 func apply_selection_color(color: Color):
-	# Applique une couleur spécifique aux bordures de sélection.
+	# Applique une couleur spécifique aux bordures
 	for border in [top_border, bottom_border, left_border, right_border]:
 		border.color = color
-
-func execute_action(action: String):
-	# Exécute une action spécifique à l'unité.
-	match action:
-		"Move":
-			print("Déplacer l'unité :", name)
-			# Ajoutez la logique de déplacement ici
-		"Attack":
-			print("Attaquer avec l'unité :", name)
-			# Ajoutez la logique d'attaque ici
-		"Cancel":
-			print("Action annulée.")

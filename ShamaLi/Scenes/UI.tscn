@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://b6uqfi7rkr1c2"]
 
-[ext_resource type="Script" path="res://ShamaLi/Scenes/UI.gd" id="1_5y4jw"]
+[ext_resource type="Script" uid="uid://b1oui72aeyrhg" path="res://ShamaLi/Scenes/UI.gd" id="1_5y4jw"]
 [ext_resource type="Texture2D" uid="uid://d2ppx1hijpq1m" path="res://ShamaLi/Assets/UI/main_ui.png" id="1_n3aid"]
 [ext_resource type="Texture2D" uid="uid://sl1mk1j0nnsf" path="res://ShamaLi/Assets/UI/bottom_bar.png" id="2_eflqi"]
 
