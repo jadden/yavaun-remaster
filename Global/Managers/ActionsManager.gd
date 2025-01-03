@@ -43,10 +43,8 @@ func _clean_up_completed_actions() -> void:
 	actions = remaining_actions
 
 
-####
 ## Gestion du déplacement
 ## Traite une action de type "move" pour déplacer une unité vers une position cible.
-####
 func _process_move_action(action: Dictionary, delta: float) -> void:
 	var unit = action["unit"]
 	var target_position = action["data"].get("target_position")

@@ -36,9 +36,7 @@ func _ready():
 	print("Initialisation des unités...")
 	initialize_units()
 
-####
 ## Callback appelé lorsque l'UI raciale est prête.
-####
 func _on_ui_ready():
 	print("Signal reçu : l'UI raciale est prête.")
 	var current_clan = ClanManager.clans.find(func(clan): return clan.uuid == ClanManager.current_clan_id)
@@ -55,9 +53,7 @@ func _on_ui_ready():
 	else:
 		print("Erreur : Leader ou clan introuvable.")
 
-####
 ## Initialise les unités pour le joueur, l'IA, et les entités sauvages.
-####
 func initialize_units():
 	print("Détection des entités...")
 

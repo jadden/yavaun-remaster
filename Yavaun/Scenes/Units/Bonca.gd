@@ -7,9 +7,7 @@ extends BaseUnit
 # Point de départ
 var start_position: Vector2 = Vector2.ZERO
 
-####
 ## Initialisation de l'entité Bonca.
-####
 func _ready() -> void:
 	super._ready()  # Appelle la méthode `_ready()` de BaseUnit
 	start_position = global_position  # Définit la position de départ

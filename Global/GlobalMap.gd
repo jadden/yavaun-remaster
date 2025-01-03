@@ -8,17 +8,13 @@ extends Node
 @export var current_map_container: Node = null
 @export var race_ui_container: Node = null
 
-####
 ## Prépare les nœuds et configure la scène au démarrage.
-####
 func _ready():
 	ensure_nodes_ready()
 	set_default_cursor()
 	_setup_managers()
 
-####
 ## Vérifie et initialise les nœuds essentiels.
-####
 func ensure_nodes_ready():
 	# Assurez-vous que le conteneur de carte existe
 	if not current_map_container:
@@ -57,9 +53,7 @@ func ensure_nodes_ready():
 	# Retarder l'initialisation des conteneurs d'unités
 	call_deferred("_initialize_units_container")
 
-####
 ## Initialise les références pour les entités sur la carte.
-####
 func _initialize_units_container():
 	if current_map_container:
 		units_container = current_map_container.get_node_or_null("Map/EntitiesContainer")
@@ -89,9 +83,7 @@ func _initialize_units_container():
 	else:
 		print("Erreur : CurrentMap introuvable au moment de l'initialisation.")
 
-####
 ## Configure les connexions entre les gestionnaires.
-####
 func _setup_managers():
 	if unit_selection_manager and ui_manager:
 		# Connecter les signaux entre les gestionnaires
@@ -126,16 +118,12 @@ func load_map(map_path: String, race: String):
 	free_children(race_ui_container)
 	ui_manager.set_race(race)
 
-####
 ## Supprime tous les enfants d'un nœud donné.
-####
 func free_children(node: Node):
 	for child in node.get_children():
 		child.queue_free()
 
-####
 ## Nettoie les éléments non nécessaires de la scène actuelle.
-####
 func clean_previous_scene():
 	var root = get_tree().root
 	var singleton_names = ["MusicManager", "SoundManager", "PlayerData", "GameData", "ThemeManager"]
@@ -144,9 +132,7 @@ func clean_previous_scene():
 			print("Suppression du nœud :", child.name)
 			child.queue_free()
 
-####
 ## Configure le curseur par défaut.
-####
 func set_default_cursor():
 	var default_cursor_path = "res://Assets/UI/Cursors/select_1.png"
 	var default_cursor = load(default_cursor_path)

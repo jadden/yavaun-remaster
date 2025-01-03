@@ -25,10 +25,8 @@ func _ready():
 	# Le menu est caché par défaut au lancement
 	hide()
 
-####
 ## Ouvre le menu circulaire avec des options spécifiques ou par défaut
 ## :param menu_data: Dictionnaire des options à afficher
-####
 func open_menu(menu_data: Dictionary = {}):
 	print("CircularMenu - Ouverture avec les données :", menu_data)
 	_clear_container(option_container)
@@ -84,11 +82,9 @@ func _create_button(option_name: String) -> TextureButton:
 
 	return button
 
-####
 ## Gère la sélection d'une option
 ## :param option_name: Nom de l'option sélectionnée
 ## :param sub_options: Sous-options associées
-####
 func _on_option_pressed(option_name: String, sub_options: Dictionary):
 	print("CircularMenu - Option sélectionnée :", option_name)
 	if sub_options.size() > 0:
