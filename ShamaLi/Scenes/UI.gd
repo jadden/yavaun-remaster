@@ -37,11 +37,11 @@ var group_image_path: String = "res://ShamaLi/Assets/Portraits/group.png"
 ## Initialise l'interface utilisateur.
 func _ready():
 	print("Initialisation de l'interface utilisateur.")
-	reset_ui()
+	clear_ui()
 	emit_signal("ui_ready")
 
 ## Réinitialise l'intégralité de l'interface utilisateur.
-func reset_ui():
+func clear_ui():
 	print("Reset de l'UI.")
 	clear_leader_panel()
 	clear_unit_panel()
@@ -219,7 +219,7 @@ func update_ui(selected_units: Array):
 
 	if selected_units.is_empty():
 		print("Aucune unité sélectionnée. Réinitialisation de l'UI.")
-		reset_ui()
+		clear_ui()
 	elif selected_units.size() == 1:
 		var selection = selected_units[0]
 		var unit = selection["unit"]
