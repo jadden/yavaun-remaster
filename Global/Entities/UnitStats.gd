@@ -4,6 +4,7 @@ class_name UnitStats
 @export_group("General Informations")
 @export var unit_name: String = "" ## Name Unit
 @export var unit_type: String = "" ## Type Unit (leader, worker, mercenary, scout, warrior, mage, ultimate)
+@export var help_text: String = "" ## Petit texte d'aide ou de description à afficher dans HelpPanel
 
 @export_group("Health and Mana")
 @export var health: int = 100 ## Health

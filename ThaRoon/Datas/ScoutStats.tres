@@ -7,6 +7,7 @@
 script = ExtResource("1_a0eht")
 unit_name = "Rogue"
 unit_type = "scout"
+help_text = ""
 health = 40
 health_max = 40
 mana = 0

@@ -7,6 +7,7 @@
 script = ExtResource("1_cclag")
 unit_name = "Initiate"
 unit_type = "worker"
+help_text = "Bâtisseur"
 health = 40
 health_max = 40
 mana = 0

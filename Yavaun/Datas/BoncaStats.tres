@@ -7,6 +7,7 @@
 script = ExtResource("1_t4256")
 unit_name = "Bonca"
 unit_type = "Critter"
+help_text = ""
 health = 90
 health_max = 90
 mana = 0
